@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1726725258 "main.aux" "main.bbl" "main" 1726725260 0
-  "./sources.bib" 1726725257 482 c96d85486a7f89530c1a2ecac63c40f2 ""
+["bibtex main"] 1726727248 "main.aux" "main.bbl" "main" 1726727256 0
+  "./sources.bib" 1726727226 2608 7caeb9484d1aef9738869222415cd169 ""
   "C:/Users/Asad/AppData/Local/Programs/MiKTeX/bibtex/bst/bibtex/ieeetr.bst" 1291864344 18361 1a00e58565e7f19bf2b3e1bfb82254ae ""
-  "main.aux" 1726725259 1171 9f1ae6bb19f970eca0153531b1ade068 "pdflatex"
+  "main.aux" 1726727254 1243 8f12b5cc48211634cff9ea77a651c4cb "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1726725258 "f:/Github/KaavishProposal/ProposalTemplate/main.tex" "main.pdf" "main" 1726725260 0
+["pdflatex"] 1726727254 "f:/Github/KaavishProposal/ProposalTemplate/main.tex" "main.pdf" "main" 1726727256 0
   "C:/Users/Asad/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1726720546 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/Asad/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1676634513 23173875 e5a448f6730aae79973cd56d3c1d99f6 ""
   "C:/Users/Asad/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ectt1000.tfm" 993062340 1348 d70ddf2d5d512b838e50a335e385e919 ""
@@ -25,14 +25,12 @@
   "C:/Users/Asad/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmsy6.tfm" 1136765053 1116 933a60c408fc0a863a92debe84b2d294 ""
   "C:/Users/Asad/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmsy8.tfm" 1136765053 1120 8b7d695260f3cff42e636090a8002094 ""
   "C:/Users/Asad/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmti10.tfm" 1136765053 1480 aa8e34af0eb6a2941b776984cf1dfdc4 ""
-  "C:/Users/Asad/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmtt10.tfm" 1136765053 768 1321e9409b4137d6fb428ac9dc956269 ""
   "C:/Users/Asad/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1247596666 34811 78b52f49e893bcba91bd7581cdc144c0 ""
   "C:/Users/Asad/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1247596666 32080 340ef9bf63678554ee606688e7b5339d ""
   "C:/Users/Asad/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmcsc10.pfb" 1247596667 32001 6aeea3afe875097b1eb0da29acd61e28 ""
   "C:/Users/Asad/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1247596667 35752 024fb6c41858982481f6968b5fc26508 ""
   "C:/Users/Asad/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1247596667 32722 d7379af29a190c3f453aba36302ff5a9 ""
   "C:/Users/Asad/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb" 1247596667 37944 359e864bd06cde3b1cf57bb20757fb06 ""
-  "C:/Users/Asad/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb" 1247596667 31099 342ef5a582aacbd3346f3cf4579679fa ""
   "C:/Users/Asad/AppData/Local/Programs/MiKTeX/tex/context/base/mkii/supp-pdf.mkii" 1580390158 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "C:/Users/Asad/AppData/Local/Programs/MiKTeX/tex/generic/etexcmds/etexcmds.sty" 1576433638 7734 b98cbb34c81f667027c1e3ebdbfce34b ""
   "C:/Users/Asad/AppData/Local/Programs/MiKTeX/tex/generic/iftex/iftex.sty" 1643997108 7237 bdd120a32c8fdb4b433cf9ca2e7cd98a ""
@@ -61,10 +59,10 @@
   "HU_logo.png" 1726720503 54729 da24e642be5d68e70877715257f3bbdf ""
   "cover.tex" 1726720503 1530 fb842194c26f89a195abc0aec2270ccc ""
   "external.tex" 1726720503 1378 2020bbe350a4a31717d69d33631468fc ""
-  "f:/Github/KaavishProposal/ProposalTemplate/main.tex" 1726725176 4064 d6902b024aa80d6382e03b8ffb115bac ""
-  "main.aux" 1726725259 1171 9f1ae6bb19f970eca0153531b1ade068 "pdflatex"
-  "main.bbl" 1726725258 173 4117b80744ec4886babdc291b7d051ae "bibtex main"
-  "main.tex" 1726725176 4064 d6902b024aa80d6382e03b8ffb115bac ""
+  "f:/Github/KaavishProposal/ProposalTemplate/main.tex" 1726727253 4782 52d38280f902010a5771b3d9a8c14cf9 ""
+  "main.aux" 1726727254 1243 8f12b5cc48211634cff9ea77a651c4cb "pdflatex"
+  "main.bbl" 1726727248 348 406ddedf0fa8162824fe937d75a36b5d "bibtex main"
+  "main.tex" 1726727253 4782 52d38280f902010a5771b3d9a8c14cf9 ""
   (generated)
   "main.aux"
   "main.log"
