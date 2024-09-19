@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1726727248 "main.aux" "main.bbl" "main" 1726727256 0
-  "./sources.bib" 1726727226 2608 7caeb9484d1aef9738869222415cd169 ""
+["bibtex main"] 1726728465 "main.aux" "main.bbl" "main" 1726728467 0
+  "./sources.bib" 1726727920 2653 6d450cb22555301aa4ffd909eea659e6 ""
   "C:/Users/Asad/AppData/Local/Programs/MiKTeX/bibtex/bst/bibtex/ieeetr.bst" 1291864344 18361 1a00e58565e7f19bf2b3e1bfb82254ae ""
-  "main.aux" 1726727254 1243 8f12b5cc48211634cff9ea77a651c4cb "pdflatex"
+  "main.aux" 1726728466 1243 847cd76462e6b19db3a1cdf39ecde38b "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1726727254 "f:/Github/KaavishProposal/ProposalTemplate/main.tex" "main.pdf" "main" 1726727256 0
+["pdflatex"] 1726728465 "f:/Github/KaavishProposal/ProposalTemplate/main.tex" "main.pdf" "main" 1726728467 0
   "C:/Users/Asad/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1726720546 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/Asad/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1676634513 23173875 e5a448f6730aae79973cd56d3c1d99f6 ""
   "C:/Users/Asad/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ectt1000.tfm" 993062340 1348 d70ddf2d5d512b838e50a335e385e919 ""
@@ -59,10 +59,10 @@
   "HU_logo.png" 1726720503 54729 da24e642be5d68e70877715257f3bbdf ""
   "cover.tex" 1726720503 1530 fb842194c26f89a195abc0aec2270ccc ""
   "external.tex" 1726720503 1378 2020bbe350a4a31717d69d33631468fc ""
-  "f:/Github/KaavishProposal/ProposalTemplate/main.tex" 1726727253 4782 52d38280f902010a5771b3d9a8c14cf9 ""
-  "main.aux" 1726727254 1243 8f12b5cc48211634cff9ea77a651c4cb "pdflatex"
-  "main.bbl" 1726727248 348 406ddedf0fa8162824fe937d75a36b5d "bibtex main"
-  "main.tex" 1726727253 4782 52d38280f902010a5771b3d9a8c14cf9 ""
+  "f:/Github/KaavishProposal/ProposalTemplate/main.tex" 1726728462 5426 14a6adc101dffc1e12a0e37f999650c9 ""
+  "main.aux" 1726728466 1243 847cd76462e6b19db3a1cdf39ecde38b "pdflatex"
+  "main.bbl" 1726728465 348 406ddedf0fa8162824fe937d75a36b5d "bibtex main"
+  "main.tex" 1726728462 5426 14a6adc101dffc1e12a0e37f999650c9 ""
   (generated)
   "main.aux"
   "main.log"
