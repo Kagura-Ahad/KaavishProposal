@@ -1,14 +1,14 @@
 # Fdb version 3
-["bibtex main"] 1727371839 "main.aux" "main.bbl" "main" 1727371841
+["bibtex main"] 1727373466 "main.aux" "main.bbl" "main" 1727373537
   "/usr/local/texlive/2021/texmf-dist/bibtex/bst/base/ieeetr.bst" 1292289607 18361 1a00e58565e7f19bf2b3e1bfb82254ae ""
-  "main.aux" 1727371840 1612 edbaa96de5c7205074ef7a8b88e6951f "pdflatex"
+  "main.aux" 1727373537 1612 edbaa96de5c7205074ef7a8b88e6951f "pdflatex"
   "sources.bib" 1726765528 2939 ba68bc0294054589934f8d5d58d5d90b ""
   (generated)
-  "main.blg"
   "main.bbl"
-["pdflatex"] 1727371840 "/Users/asadullahchaudhry/Github HU/KaavishProposal/ProposalTemplate/main.tex" "/Users/asadullahchaudhry/Github HU/KaavishProposal/ProposalTemplate/main.pdf" "main" 1727371841
-  "/Users/asadullahchaudhry/Github HU/KaavishProposal/ProposalTemplate/main.aux" 1727371840 1612 edbaa96de5c7205074ef7a8b88e6951f ""
-  "/Users/asadullahchaudhry/Github HU/KaavishProposal/ProposalTemplate/main.tex" 1727371838 21101 5c15e4d8efd0a3389e23d5118249c7b7 ""
+  "main.blg"
+["pdflatex"] 1727373536 "/Users/asadullahchaudhry/Github HU/KaavishProposal/ProposalTemplate/main.tex" "/Users/asadullahchaudhry/Github HU/KaavishProposal/ProposalTemplate/main.pdf" "main" 1727373537
+  "/Users/asadullahchaudhry/Github HU/KaavishProposal/ProposalTemplate/main.aux" 1727373537 1612 edbaa96de5c7205074ef7a8b88e6951f ""
+  "/Users/asadullahchaudhry/Github HU/KaavishProposal/ProposalTemplate/main.tex" 1727373529 22436 de9d248c533739457435c40deec12ec0 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ectt1000.tfm" 1136768653 1536 06717a2b50de47d4087ac0e6cd759455 ""
@@ -60,14 +60,14 @@
   "/usr/local/texlive/2021/texmf-var/web2c/pdftex/pdflatex.fmt" 1642568486 2724743 ed749c10cfd55ac9f9c574a9fd296da6 ""
   "/usr/local/texlive/2021/texmf.cnf" 1616695596 577 4c1911a7228e554c6032256d3cf5567d ""
   "HU_logo.png" 1726567415 54729 00be3f913c951774a345b541b4a4b7dd ""
-  "cover.tex" 1726567415 1479 fb842194c26f89a195abc0aec2270ccc ""
+  "cover.tex" 1727373393 1479 e904371e3b3e6331769670c8311ec4ce ""
   "external.tex" 1726567415 1351 2020bbe350a4a31717d69d33631468fc ""
-  "main.aux" 1727371840 1612 edbaa96de5c7205074ef7a8b88e6951f "pdflatex"
-  "main.bbl" 1727371840 259 a0a44b24b7318a799e2846697730a96d "bibtex main"
-  "main.tex" 1727371838 21101 5c15e4d8efd0a3389e23d5118249c7b7 ""
+  "main.aux" 1727373537 1612 edbaa96de5c7205074ef7a8b88e6951f "pdflatex"
+  "main.bbl" 1727373466 259 a0a44b24b7318a799e2846697730a96d "bibtex main"
+  "main.tex" 1727373529 22436 de9d248c533739457435c40deec12ec0 ""
   (generated)
-  "main.pdf"
-  "main.log"
   "/Users/asadullahchaudhry/Github HU/KaavishProposal/ProposalTemplate/main.pdf"
-  "/Users/asadullahchaudhry/Github HU/KaavishProposal/ProposalTemplate/main.log"
   "main.aux"
+  "main.log"
+  "main.pdf"
+  "/Users/asadullahchaudhry/Github HU/KaavishProposal/ProposalTemplate/main.log"

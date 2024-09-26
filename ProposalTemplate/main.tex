@@ -13,17 +13,19 @@
 % BEGIN METADATA: Edit the following as appropriate
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{Project Title}  % the title of your project
+\title{Real-Time Safety Monitoring System for Industrial Workplaces Using AI and Computer Visionr}  % the title of your project
 \newcommand\shorttitle{\thetitle}  % if needed: a shorter title for the document header
 % Team members.
-\newcommand\firstname{Syed Ahad Ali}  % full name
-\newcommand\firstid{sa07753}         % ID, e.g. xy01234
 \newcommand\secondname{Asad Ullah Chaudhry} % full name
 \newcommand\secondid{ac07408}        % ID, e.g. xy01234
 \newcommand\thirdname{Muhammad Arsalan Hussain}  % full name
 \newcommand\thirdid{mh07607}         % ID, e.g. xy01234
 \newcommand\fourthname{Muzzammil Kamran Sattar}  % full name
-\newcommand\fourthid{ms07164}         % ID, e.g. xy01234
+\newcommand\fourthid{ms07164}  
+\newcommand\firstname{Syed Ahad Ali}  % full name
+\newcommand\firstid{sa07753}         % ID, e.g. xy01234
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % END METADATA: Do not edit the preamble any further.
@@ -31,7 +33,6 @@
 
 \pagestyle{fancy}
 \lhead{Kaavish Proposal}
-\chead{\shorttitle}
 \rhead{Fall 2024}
 \cfoot{Page \thepage}
 \renewcommand{\footrulewidth}{0.4pt}
@@ -47,7 +48,14 @@
 % DATA: Populate the rest of the document as instructed.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Abstract}
-\instruction{Please write a 500–600 word abstract on the project idea. It should not be very technically written but should be understandable by anyone.}
+Pakistan's industrial sector, employing millions in manufacturing and construction, faces significant safety challenges, with 1.9 million workers reporting injuries in 2020-2021 alone.
+These incidents often result in severe financial strain for low-wage workers, particularly in a country with limited labor regulations and safety oversight. 
+This project aims to improve workplace safety by developing a real-time monitoring system utilizing computer vision and deep learning for Dawlence's sheet metal plant in Karachi. 
+The system will analyze video footage from factory CCTV cameras to detect unsafe behaviors, such as failure to wear protective gear or operating machinery unsafely in real-time.  
+By providing real-time alerts, this system will help prevent accidents, ensuring both employee safety and operational compliance for Dawlence. 
+It will also provide statistics and insights to help companies improve Dawlance's safety protocols and reduce the risk of accidents.  
+With a scalable design, the system can be adapted to various industrial settings, making it a valuable tool for reducing workplace injuries and promoting a safer working environment.
+
 
 \section{Problem definition}
 
@@ -59,9 +67,9 @@ Out of the total workforce population, 1.9 million (2.7\% of total) people faced
 sectors to work in, accounting for 20\% of all workplace injuries in 2020-2021 \cite{governmentofpakistan2021PakistanLabourForce2021}.
 With the monthly average income in the manufacturing sector being 22,000 PKR \cite{governmentofpakistan2021PakistanLabourForce2021}, 
 such injuries can have a significant impact on the financial stability of the workers and their families with many not being able to afford healthcare services at all. 
-Formal sector employers usually hestitate to provide insurance for their workers, and the government does not have a comprehensive social security system in place to support these injured workers.
-The informal sector workers are left to fend for themselves, as informal sector jobs don't involve formal work agreements and thus are deprived of their labour rights entirely. The data on the number of injuries 
-or deaths that occur in the informal sector can also be inaccurate due to it's unregulated nature. 
+% Formal sector employers usually hestitate to provide insurance for their workers, and the government does not have a comprehensive social security system in place to support these injured workers.
+% The informal sector workers are left to fend for themselves, as informal sector jobs don't involve formal work agreements and thus are deprived of their labour rights entirely. The data on the number of injuries 
+% or deaths that occur in the informal sector can also be inaccurate due to it's unregulated nature. 
 It should also be noted that Pakistan stands as one of the countries with the least amount of regulation and protection when it comes to labor rights. For a labor force of 10.63 million (that is part of the formal sector),
 Pakistan has nearly 517 labour inspectors which means one inspector for more than 20,560 workers\cite{Whistlers} contributing to the neglect of Labour rights, safety protocols and education of the workers into safe practices.
 \\ \\
@@ -71,8 +79,8 @@ The system will use computer vision and deep learning techniques to analyze vide
 Our system goals include the following:
 \begin{itemize}
     \item Ensuring safety equipment is being worn, including gloves and hard tipped shoes
-    \item Ensuring workers aren’t accessing barricaded equipment when it’s operational. 
-    \item Ensuring the factory pathway (denoted by yellow lines on the floor) isn’t blocked by bins or other items that shouldn’t be there
+    \item Ensuring workers aren't accessing barricaded equipment when it's operational. 
+    \item Ensuring the factory pathway (denoted by yellow lines on the floor) isn't blocked by bins or other items that shouldn't be there
     \item Ensuring forklift operations are safe to prevent accidents
     \item Ensuring prompt medical response if someone falls over on the factory floor 
     \item Ensuring correct usage of the Hydraulic Presses by the workers to prevent accidents
@@ -93,16 +101,17 @@ train that often follows workplace injuries.
 For manufacturers, implementing a real-time safety monitoring system can ensure compliance with safety regulations and significantly reduce workplace injuries. 
 By continuously monitoring unsafe conditions and behaviors, companies can take preemptive actions to prevent accidents, thus minimizing the financial risks and
 legal consequences associated with workplace injuries. This system could also help companies like Dawlence identify recurring safety issues through
-insights and analytics, enabling continuous improvement in workplace safety protocols for the long term.
+insights and analytics, enabling continuous improvement in workplace safety protocols for the long term. As per our industry visit, Dawlence is committed to worker safety and has a lot of protections already in place. 
+This system would be the last line of defense in their arsenal, to stand true to their motto of `An employee shouldn't be able to hurt themself even if deliberately try`'. 
 \\ \\
 From the government's perspective, such a system can help bridge the gap in workplace safety oversight. Given the shortage of labor inspectors—only
 517 inspectors for over 10 million formal sector workers—this automated system can monitor compliance with safety regulations, reducing the reliance on manual
 inspections. With the government ill-equipped to handle the large number of workers in the country, scaling this system across different industries could provide a much-needed solution to ensure worker safety nationwide.
 Moreover,the system can contribute to public health by reducing the need for emergency medical care due to preventable workplace accidents, 
 thus alleviating the burden on the healthcare system.
-\\ \\
-Such automation can help supliment periodic manual inspections by 24/7 safety monitoring, and it's scalibility means it can be applied to multiple 
-plants and factories with small changes. This approach not only promotes a safer work environment but also encourages a cultural shift towards prioritizing worker safety in Pakistan's industrial sector.
+% \\ \\
+% Such automation can help supliment periodic manual inspections by 24/7 safety monitoring, and it's scalibility means it can be applied to multiple 
+% plants and factories with small changes. This approach not only promotes a safer work environment but also encourages a cultural shift towards prioritizing worker safety in Pakistan's industrial sector.
 
 
 \section{Originality/Novelty}
