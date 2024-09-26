@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1726806400 "main.aux" "main.bbl" "main" 1726806402 0
+["bibtex main"] 1726816420 "main.aux" "main.bbl" "main" 1726816459 0
   "./sources.bib" 1726745226 2939 ba68bc0294054589934f8d5d58d5d90b ""
   "C:/Users/Asad/AppData/Local/Programs/MiKTeX/bibtex/bst/bibtex/ieeetr.bst" 1291864344 18361 1a00e58565e7f19bf2b3e1bfb82254ae ""
-  "main.aux" 1726806401 1495 e90decc35e2f925dedc15b23e9b42955 "pdflatex"
+  "main.aux" 1726816458 1495 3f54782bedc6d20d675b1c1f84a97165 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1726806401 "f:/Github/KaavishProposal/ProposalTemplate/main.tex" "main.pdf" "main" 1726806402 0
+["pdflatex"] 1726816457 "f:/Github/KaavishProposal/ProposalTemplate/main.tex" "main.pdf" "main" 1726816459 0
   "C:/Users/Asad/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1726749713 82039 32c00b46ec68f3ddea0147d75839907f ""
   "C:/Users/Asad/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1676634513 23173875 e5a448f6730aae79973cd56d3c1d99f6 ""
   "C:/Users/Asad/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ectt1000.tfm" 993062340 1348 d70ddf2d5d512b838e50a335e385e919 ""
@@ -59,10 +59,10 @@
   "HU_logo.png" 1726720503 54729 da24e642be5d68e70877715257f3bbdf ""
   "cover.tex" 1726720503 1530 fb842194c26f89a195abc0aec2270ccc ""
   "external.tex" 1726720503 1378 2020bbe350a4a31717d69d33631468fc ""
-  "f:/Github/KaavishProposal/ProposalTemplate/main.tex" 1726806398 7642 3653348351a06ef85bd5a1bb44b10946 ""
-  "main.aux" 1726806401 1495 e90decc35e2f925dedc15b23e9b42955 "pdflatex"
-  "main.bbl" 1726806401 269 a0a44b24b7318a799e2846697730a96d "bibtex main"
-  "main.tex" 1726806398 7642 3653348351a06ef85bd5a1bb44b10946 ""
+  "f:/Github/KaavishProposal/ProposalTemplate/main.tex" 1726816456 7577 dfb31647fa4f3071d1894e60bb6271df ""
+  "main.aux" 1726816458 1495 3f54782bedc6d20d675b1c1f84a97165 "pdflatex"
+  "main.bbl" 1726816420 269 a0a44b24b7318a799e2846697730a96d "bibtex main"
+  "main.tex" 1726816456 7577 dfb31647fa4f3071d1894e60bb6271df ""
   (generated)
   "main.aux"
   "main.log"
