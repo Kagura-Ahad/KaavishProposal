@@ -86,22 +86,107 @@ The proposed system will also provide insights and analytics, which could help D
 \instruction{Describe the value of solving the problem. Compare and contrast with any existing solutions.}
 
 \section{CS contribution}
-\instruction{Describe the CS component of the project, e.g.\ the higher level CS courses that contribute to it.}
+This project draws heavily on advanced concepts from computer science and intermediate concepts from computer engineering as it demonstrably incorporates elements from deep learning, computer vision, data communication, integrated systems and software engineering:
+
+\begin{enumerate}
+    \item \textbf{Introduction to Deep Learning}: The heart of the project is fine-tuning AI models to make them capable of identifying safety hazards in real time through image and video data. The core concepts from deep learning, including Convolutional Neural Networks (CNNs), object detection, and transfer learning, will be used to create a highly accurate detection system. The project's main code will be leveraging frameworks such as TensorFlow, PyTorch and Ultralytics for fine-tuning and inference.
+    \item \textbf{Computer Vision}: The AI models' functionality revolves around recognizing and classifying images, including detecting protective equipment (like hard hats and vests), state of machines (like ON or OFF) and identifying hazardous zones. The project will employ techniques such as image segmentation, object detection and classification, distance calculation etc. Furthermore, OpenCV, Ultralytics and other image processing libraries will be used to extract pre-process visual data captured by CCTV cameras and perhaps even for inference.
+    \item \textbf{Data Communication and Networking}: Real-time data will need to be transmitted across different parts of the system, i.e. from cameras to servers and alerting systems. Thus, it is essential to establish a robust link between CCTV video footage and our backend server. This link will handle all the preprocessing (i.e. video to frames conversion) and send data to our backend for model inference whilst ensuring low latency transmission. Furthermore, our model may be hosted on the cloud via AWS or Google cloud services which would require further data transmission from our backend server. Understanding data communication protocols, cloud computing integration, and latency minimization will be crucial. Secure and efficient data transmission using networking protocols ensures that safety alerts can be sent out without delay and without corruption.
+    \item \textbf{Embedded Systems}: The project integrates with CCTV camera systems, and part of the implementation may involve working with embedded systems to ensure efficient data capture. For example, rotating cameras may be required to zoom in and focus on a workplace hazard or incident (Note that the zoom will not be digital but via camera lens). Static cameras may need to follow a variable routine of zooming in on different machines; perhaps machines whose current state is ON. This component's requirement is inversely proportional to the number of cameras that Dawlance installs in their warehouses for our project.    
+    \item \textbf{Data annotation and preparation}:  This includes cleaning video footage, annotating safety-relevant scenes (e.g., workers without protective gear) and safety irrelevant scenes. These tasks will ensure that the AI models have relevant high quality data to work with. This is the most straightforward part of the project but also the most laborious.
+    \item \textbf{Web Development}: The project will involve developing a user-friendly web-based dashboard to display real-time data and analytics regarding workplace safety compliance. This web app will allow users to monitor safety alerts and trends.
+    \item \textbf{Software Engineering}: The overall architecture of the project will follow best practices in software engineering, including modular design, agile development, continuous integration, and deployment (CI/CD). Due to the large scope of the project, it would be best to deliver modest features in multiple sprints starting with easier functionality like PPE detection.
+\end{enumerate}
 
 \section{Scope and Deliverables}
-\instruction{Justify the scope of the project with respect to the size of the team and the year long duration. List the foreseeable deliverables.}
+The scope of this project is designed to align with the expertise of the team and the year-long timeline. It encompasses various interdisciplinary tasks that will be discussed after the scope is justified:
+\begin{enumerate}
+    \item \textbf{Dataset creation from scratch}: The critical part of this project will be the creation and preparation of a custom dataset that includes annotated video footage of industrial environments. This dataset will be used for training and fine-tuning deep learning models. The dataset will include safety-relevant scenes (e.g., workers not wearing protective gear) and irrelevant scenes to ensure high-quality training data for the AI models. This step, though straightforward, will be labor-intensive as not only will good annotation of data be required but careful designing of minimum amount of scenes (i.e. video clips) whilst ensuring enough diversity in data to represent various safety hazards. All four team members will have to be effective, efficient and quick in their annotations/creations.
+    \item \textbf{Integration of various technologies}: The project requires the integration of several technologies, including deep learning, computer vision, real-time data communication, cloud computing, and embedded systems. Each of these components must seamlessly work together to detect safety hazards and trigger appropriate actions, such as sending alerts or adjusting camera focus. The system must also ensure very low latency in real time detection. The scope of this integration is well-suited to a year-long project, where each phase will be tackled in sprints.
+    \item \textbf{Interdiscplinary Nature}: As written in the previous section, this project involves software development, deep learning, computer vision, hardware setup (camera systems), and safety protocol knowledge. The interdisciplinary nature underscores the need for expertise across domains, such as AI model fine-tuning, computer networking for real-time data transmission, and embedded systems for camera control. The scope justifies a year-long duration, as it requires collaboration across multiple fields to ensure the system not only detects hazards but operates efficiently within a real-world industrial setting. This complexity allows each team member to contribute their specialized skills.
+\end{enumerate}
+
+\subsection{Foreseeable Deliverables}
+\begin{enumerate}
+    \item \textbf{S.R.S Document}: A comprehensive document outlining all the functional and non-functional requirements, serving as the foundation for the project's development. 
+    \item \textbf{Deployed dashboard web application}: A web-based dashboard that allows monitoring of safety compliance in real time. This application will feature widget(s) for data-driven insights, enabling safety officers to track incidents, visualize trends, and find the gaps in current safety measures taken. The dashboard will also be integrated with our hazard detection system, allowing safety officers to view detected hazards and their status.
+    % this will contain a widget for data driven insights
+    \item \textbf{Notification system}: A multi-channel notification system that triggers alerts when safety violations are detected. This system could include a range of alert types, such as web app notifications, email alerts, voice alarms, or even SMS notifications. It will ensure that safety concerns are flagged immediately, so that there is rapid intervention in hazardous situations.
+    % might include an alarm system, voice alert, web app notifications, email
+    \item \textbf{The hazard detection AI model}: The core deliverable of the project, this AI model will be capable of identifying safety violations in real-time video footage. It will be fine-tuned to detect personal protective equipment (PPE), hazardous zones, and machine states. The model will be integrated into the larger system for seamless operation with real-time data from CCTV cameras.
+    \item \textbf{Post processing algorithm}: This algorithm will, of course, handle logic after the AI model detects objects or hazards. It will determine if the detected situation meets predefined safety requirements. If violations are found, appropriate actions will be triggered for each hazard, such as sending alerts or activating a voice alarm. However, it may also contain a component to be used for further detection; it is possible that image processing or traditional CV techniques will be required after a pass through YOLOV8 for distance calculation, relevancy of hazard (e.g. worker may be too close to machinery which would typically be a hazard but it may not be considered one if the machine's state is OFF) etc.
+    % this will include logic to check if the requirements are met based on the objects detected from AI model. If not, required action will be taken i.e. email notification, voice alarm etc.
+    \item \textbf{Documentation}: Full technical documentation covering all aspects of the system's development, including setup instructions, user guides, and maintenance procedures. 
+\end{enumerate}
 
 \section{Feasibility}
 \instruction{List the resources, e.g.\ datasets, compute resources, software libraries, hardware, required for the project. Mention how you expect to access and utilize them for the project.}
 
+Datasets:
+    We will be using data from Dawlences CCTV cameras to test and train our models. Furthermore we will also use the 
+    following Datasets:
+
+    1.
+
+    2.
+
+    3.
+
+Software Libraries:
+    Deep Learning Models: We anticipate that this project will extensively require the use of Deep Learning models 
+    including Yolov8. Yolov8 will be used for Object Detection for instance detecting the absence of safety equipment
+    and enterance into restrcited zones: 
+    
+    PyTorch and Tensor Flow: We plan on using these libaries for 
+
+    OpenCV:
+
+Hardware:
+
 \section{Team dynamics}
 \instruction{Justify the suitability of the team members to the project. For example, their relevant courses, projects, internships, or research.}
+
+Muhammad Arsalan Hussain possesses a broad knowledge base across multiple domains
+within computer science, with a core focus on deep learning. His expertise includes extensive
+work in dataset creation, augmentation, and fine-tuning large sequence-to-sequence models,
+which he applied to achieve high accuracy in his Automated Urdu Grammar Correction project
+for his Deep Learning Course. Beyond technical skills, Arsalan has consistently demonstrated
+strong leadership capabilities in his projects and is currently the lead developer for an employee
+management software at Nasfia Pvt Ltd. His experience in creating datasets, optimizing AI
+models and leading development teams will be undoubtedly a great asset to your project.
+
+Syed Ahad Ali specializes in training LLMs, machine learning models, and computer vision. He
+has worked on several freelance projects which have required these skills such that he was able
+to polish them quite well. Apart from that he has significant experience in developing 3D models
+in Unity and have created web pages which use webGL library to display the models, giving him
+insight into how to handle MERN stack.
+
+Asad Ullah Chaudhry brings a robust background in Data Science, Artificial Neural Networks
+and Reinforcement Learning. His familiarity with Deep Learning and Reinforcement Learning
+would play a key role in this project, helping finetune and deploy the YOLOV8 model for
+compliance monitoring. He has a robust amount of experience in Data Science and Network
+Analysis and is currently in the process of publishing his own Research Paper. This experience
+will be vital in creating a custom dataset and acquiring data-driven insights for the intenseye
+project.
+
+Muzzammil Sattar, has extensive experience in Software Engineering, Human-Computer
+Interaction, and Computer Graphics. Their work in Computer Graphics includes developing
+efficient algorithms and data structures for managing large datasets, which will be valuable in
+optimizing real-time data processing for this project. Additionally, their knowledge in Software
+Engineering will assist the team effectively manage requirements, changes, and
+constraints. Their expertise in Human-Computer Interaction will also contribute to creating a
+user-friendly, easy-to-understand system for managers at Dawlance to use. Lastly being well
+versed in Database Systems, they will be able to support with Backend Development and Design. 
+
+
+
 
 \section{Tech stack}
 \instruction{Write details of the tech stack you will use for this project for e.g.\ if you are using MERN stack, you can write MongoDB, Express, React and NodeJS etc.}
 
 \section{References}
 \instruction{List your references.}
+
 
 % External advisor undertaking.
 \input{external}
