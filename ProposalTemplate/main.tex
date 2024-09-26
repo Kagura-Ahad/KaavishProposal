@@ -53,34 +53,68 @@
 
 Pakistan has an employed population of 71.76 million \cite{governmentofpakistan2021PakistanLabourForce2021} with a significant portion of the workforce
 employed in the manufacturing (14.9\%) and construction (14.4\%) sectors \cite{governmentofpakistan2021PakistanLabourForce2021}. 
-Out of the total workforce population, 1.9 million (2.7\% of Total) people faced a work related injury in 2020-2021. Of these injured people,
+Out of the total workforce population, 1.9 million (2.7\% of total) people faced a work related injury in 2020-2021. Of these injured people,
 40.5\% of workers had to consult a medical professional, 11.7\% had to get hospitalized and 31.6\% were forced to take took time off work becuase of their injury
 \cite{governmentofpakistan2021PakistanLabourForce2021}. The labour workforce in the industrial sector (engaged in assembly and manufacturing) is one of the most dangerous 
 sectors to work in, accounting for 20\% of all workplace injuries in 2020-2021 \cite{governmentofpakistan2021PakistanLabourForce2021}.
 With the monthly average income in the manufacturing sector being 22,000 PKR \cite{governmentofpakistan2021PakistanLabourForce2021}, 
 such injuries can have a significant impact on the financial stability of the workers and their families with many not being able to afford healthcare services at all. 
 Formal sector employers usually hestitate to provide insurance for their workers, and the government does not have a comprehensive social security system in place to support these injured workers.
-The informal sector workers are left to fend for themselves entirely, as Informal sector jobs don't involve formal work agreements, leading to the workers
-being deprived of their labour rights entirely. The data on the number of injuries or deaths that occur in the informal sector can also be inaccurate due to it's unregulated nature. 
-It should also be noted that Pakistan stands as one of the countries with the least amount of regulation and ;protection when it comes to labor rights. For a labor force of 10.63 million (that is part of the formal sector),
+The informal sector workers are left to fend for themselves, as informal sector jobs don't involve formal work agreements and thus are deprived of their labour rights entirely. The data on the number of injuries 
+or deaths that occur in the informal sector can also be inaccurate due to it's unregulated nature. 
+It should also be noted that Pakistan stands as one of the countries with the least amount of regulation and protection when it comes to labor rights. For a labor force of 10.63 million (that is part of the formal sector),
 Pakistan has nearly 517 labour inspectors which means one inspector for more than 20,560 workers\cite{Whistlers} contributing to the neglect of Labour rights, safety protocols and education of the workers into safe practices.
 \\ \\
 This project aims to address the issue of workplace safety in the industrial sector by developing a real-time safety monitoring system that can detect unsafe behaviors and conditions in the workplace. 
 Such a system can help prevent accidents and injuries by alerting workers and supervisors when unsafe conditions are detected, allowing them to take corrective action \textbf{before} an accident occurs.
-Such a system should also be able to detect if an accident has occured and alert the relevant authorities so that immediate action can be taken to help the injured worker. For the manufacturers, such a system can help 
-them comply with safety regulations and reduce workplace injuries. For the workers, such a system can help them stay safe and avoid accidents, reducing the financial burden of healthcare costs
-and lost wages. 
-
+The system will use computer vision and deep learning techniques to analyze video footage from CCTV cameras installed in the factory and identify safety hazards in real time.
+Our system goals include the following:
+\begin{itemize}
+    \item Ensuring safety equipment is being worn, including gloves and hard tipped shoes
+    \item Ensuring workers aren’t accessing barricaded equipment when it’s operational. 
+    \item Ensuring the factory pathway (denoted by yellow lines on the floor) isn’t blocked by bins or other items that shouldn’t be there
+    \item Ensuring forklift operations are safe to prevent accidents
+    \item Ensuring prompt medical response if someone falls over on the factory floor 
+    \item Ensuring correct usage of the Hydraulic Presses by the workers to prevent accidents
+\end{itemize}
+Through notifications and alerts, the system will provide real-time feedback to workers and supervisors, enabling them to take immediate action to prevent accidents and injuries
+Through reports of unsafe behavior, the system will also help identify trends and patterns in workplace safety, allowing companies to take proactive measures to improve safety protocols and reduce the risk of accidents.
+The system will be designed to be scalable and adaptable to different types of industrial environments, making it suitable for a wide range of applications in the manufacturing and construction sectors.
 
 \section{Social relevance}
 
+For manufacturers, implementing a real-time safety monitoring system can ensure compliance with safety regulations and significantly reduce workplace injuries. 
+By continuously monitoring unsafe conditions and behaviors, companies can take preemptive actions to prevent accidents, thus minimizing the financial risks and
+legal consequences associated with workplace injuries. Reducing such incidents also leads to lower healthcare costs and less production downtime, 
+allowing manufacturers to operate more efficiently. This system could also help companies like Dawlence identify recurring safety issues through
+insights and analytics, enabling continuous improvement in workplace safety protocols.
 
-By detecting unsafe behaviors and conditions in real-time, this project aims to reduce workplace injuries in industrial enviroments, addressing a critical societal issue related to the safety and health of workers. 
-Fewer workplace accidents also lead to reduced healthcare costs and less downtime due to injuries, lowering the economic burden on both companies and workers (who already have limited funds to spend on healthcare).
+For workers, the system offers a tangible means of improving personal safety on the job. 
+It not only reduces the likelihood of injuries but also helps workers avoid the financial burden associated with medical costs and loss of income due to missing work.
+In a country like Pakistan, where many industrial workers earn relatively low wages and lack comprehensive insurance coverage, the financial impact of a workplace injury 
+can be devastating. By preventing accidents, this system ensures that workers can maintain their financial stability, protecting both them and their families from the financial
+train that often follows workplace injuries.
 
-Given the small number of labour inspectors for the millions of workers in Pakistan, automating safety monitoring safety monitoring ensures better compliance with safety regulations,
-reducing the need for a large fleet of human inspectors which suits the current socio-economic conditions of Pakistan's government. 
-The proposed system will also provide insights and analytics, which could help Dawlence identify trends and continuously improve workplace safety. This approach encourages a shift towards more proactive safety management, benefiting both employees and employers. 
+From the government’s perspective, a real-time safety monitoring system can help bridge the gap in workplace safety oversight. Given the shortage of labor inspectors—only
+517 inspectors for over 10 million formal sector workers—this automated system can effectively monitor compliance with safety regulations, reducing the reliance on manual
+inspections. Moreover, by decreasing workplace injuries, the system can alleviate some of the pressure on Pakistan’s healthcare system, which is already burdened by a high
+number of work-related injuries. In this way, the system can contribute to public health by reducing the need for emergency medical care due to preventable workplace accidents.
+
+The project also holds broader societal relevance by addressing a critical issue related to the safety and health of workers in Pakistan’s industrial sector. Pakistan has one
+of the least regulated and least protected labor forces, especially in dangerous sectors like manufacturing and construction. By detecting unsafe behaviors and conditions in real time,
+this project seeks to reduce workplace injuries in industrial environments, contributing to a safer and more productive workforce. With the government ill-equipped to handle the large 
+number of workers in the country, scaling this system across different industries could provide a much-needed solution to ensure worker safety nationwide.
+
+Furthermore, fewer workplace accidents would translate to reduced healthcare costs and less downtime due to injuries, benefiting both companies and workers
+who are already financially constrained. For employers, this could mean lower operational costs related to accidents, including insurance claims and legal fees,
+while workers would have peace of mind knowing that their safety is being actively monitored.
+
+Automating safety monitoring ensures better compliance with safety regulations and helps mitigate the limitations of Pakistan’s socio-economic conditions,
+where manual inspections are insufficient. The scalability of this system means that it could be adapted for use across different industries, from manufacturing
+to construction, ensuring that a wider portion of the workforce benefits from improved safety measures. In addition to real-time feedback, the system would provide
+valuable insights into long-term safety trends, allowing companies to adopt proactive safety management practices. 
+This approach not only promotes a safer work environment but also encourages a cultural shift towards prioritizing worker safety in Pakistan's industrial sector.
+
 
 \section{Originality/Novelty}
 \instruction{Describe the value of solving the problem. Compare and contrast with any existing solutions.}
