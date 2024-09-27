@@ -92,23 +92,17 @@ Finally, the system will be designed to be scalable and adaptable to different t
 \section{Social relevance}
 
 
-For workers, the system offers a means of improving personal safety on the job. 
-It not only reduces the likelihood of injuries but also helps workers avoid the financial burden associated with medical costs and loss of income due to missing work.
-In a country like Pakistan, where many industrial workers earn relatively low wages and lack comprehensive insurance coverage, the financial impact of a workplace injury 
-can be devastating. By helping prevent accidents, this system ensures that workers can maintain their financial stability, protecting both them and their families from the financial
-train that often follows workplace injuries.
+For \textbf{workers}, in Pakistan, the system offers a means of improving personal safety on the job and 
+avoid the financial burden assosicated with injury. Many industrial workers earn relatively low wages and lack comprehensive insurance coverage, the financial impact of a workplace injury 
+can be devastating. This system protects workers from such life-altering events by altering on-site staff that an intervention may be needed.
 \\ \\
-For manufacturers, implementing a real-time safety monitoring system can ensure compliance with safety regulations and significantly reduce workplace injuries. 
-By continuously monitoring unsafe conditions and behaviors, companies can not only take reactive actions but preemptive actions as well to prevent accidents, thus minimizing the financial risks and
-legal consequences associated with workplace injuries. This system could also help companies like Dawlence identify recurring safety issues through
-insights and analytics, enabling continuous improvement in workplace safety protocols for the long term. As per our industry visit, Dawlence is committed to worker safety and has a lot of protections already in place. 
+By continuously monitoring unsafe conditions and behaviors and providing analytics, our system will enable \textbf{Manufactures} to take both reactive actions and preemptive actions to prevent accidents, hence ensure compliance with safety regulations.
+This minimizes the financial risks and legal consequences associated with workplace injuries. As per our industry visit, Dawlence is committed to worker safety and has a lot of protections already in place. 
 This system would be the last line of defense in their arsenal, to stand true to their motto of `An employee shouldn't be able to hurt themself even if they deliberately try`'. 
 \\ \\
-From the government's perspective, such a system can help bridge the gap in workplace safety oversight. Given the shortage of labor inspectors—only
-517 inspectors for over 10 million formal sector workers—this automated system can monitor compliance with safety regulations, reducing the reliance on manual
-inspections. Furthermore, it can even render the inspector system obsolete. With the government ill-equipped to handle the large number of workers in the country, scaling this system across different industries could provide a much-needed solution to ensure worker safety nationwide.
-Lastly, the system can contribute to public health by reducing the need for emergency medical care due to preventable workplace accidents, 
-thus alleviating the burden on the healthcare system.
+Given the shortage of labor inspectors—only 517 inspectors for over 10 million formal sector workers—this automated system can significantly reduce the reliance on manual inspections. 
+Furthermore, it can even render the inspector system obsolete. With the government ill-equipped to handle the large number of workers in the country, scaling this system across different industries could provide a much-needed solution to ensure worker safety nationwide.
+
 % \\ \\
 % Such automation can help supliment periodic manual inspections by 24/7 safety monitoring, and it's scalibility means it can be applied to multiple 
 % plants and factories with small changes. This approach not only promotes a safer work environment but also encourages a cultural shift towards prioritizing worker safety in Pakistan's industrial sector.
@@ -160,65 +154,40 @@ The scope of this project is designed to align with the expertise of the team an
 \end{enumerate}
 
 \section{Feasibility}
-\instruction{List the resources, e.g.\ datasets, compute resources, software libraries, hardware, required for the project. Mention how you expect to access and utilize them for the project.}
 
-Datasets:
-    We will be using data from Dawlences CCTV cameras to test and train our models. Furthermore we will also use the 
-    following Datasets:
+\subsection{Datasets}
+We will be using data from Dawlence's CCTV cameras to test and train our models.
 
-    1.
+\subsection{Computer Resources and Hardware}
+\begin{enumerate}
+    \item GPU computing power to fine-tune the computer vision model.
+    \item An online server for real-time analysis: currently expected to be done in collaboration with Dawlence.
+    \item Additional CCTV cameras: currently expected to be installed in collaboration with Dawlence.
+\end{enumerate}
 
-    2.
-
-    3.
-
-Software Libraries:
-    Deep Learning Models: We anticipate that this project will extensively require the use of Deep Learning models 
-    including Yolov8. Yolov8 will be used for Object Detection for instance detecting the absence of safety equipment
-    and enterance into restrcited zones: 
+\subsection{Software Libraries}
+\begin{enumerate}
+    \item Deep Learning Models: We will use Yolov8 for object detection, such as detecting the absence of safety equipment and entrance into restricted zones. The following projects will be used as references:
+    \begin{itemize}
+        \item \textit{Construction-PPE-Detection}: \url{https://github.com/Ansarimajid/Construction-PPE-Detection}
+        \item \textit{Fall Detection}: \url{https://github.com/andmydignity/fall_detection_yolov8s}
+        \item \textit{Safety Vest}: \url{https://github.com/biswadeep-roy/Safety-Detection-YOLOv8}
+    \end{itemize}
     
-    PyTorch and Tensor Flow: We plan on using these libaries for 
+    \item PyTorch and TensorFlow may be used in this project to fine-tune Yolov8 models on video footage recorded by Dawlence.
+    
+    \item OpenCV.
+\end{enumerate}
 
-    OpenCV:
+\section{Team Dynamics}
 
-Hardware:
-
-\section{Team dynamics}
-\instruction{Justify the suitability of the team members to the project. For example, their relevant courses, projects, internships, or research.}
-
-Muhammad Arsalan Hussain possesses a broad knowledge base across multiple domains
-within computer science, with a core focus on deep learning. His expertise includes extensive
-work in dataset creation, augmentation, and fine-tuning large sequence-to-sequence models,
-which he applied to achieve high accuracy in his Automated Urdu Grammar Correction project
-for his Deep Learning Course. Beyond technical skills, Arsalan has consistently demonstrated
-strong leadership capabilities in his projects and is currently the lead developer for an employee
-management software at Nasfia Pvt Ltd. His experience in creating datasets, optimizing AI
-models and leading development teams will be undoubtedly a great asset to your project.
-
-Syed Ahad Ali specializes in training LLMs, machine learning models, and computer vision. He
-has worked on several freelance projects which have required these skills such that he was able
-to polish them quite well. Apart from that he has significant experience in developing 3D models
-in Unity and have created web pages which use webGL library to display the models, giving him
-insight into how to handle MERN stack.
-
-Asad Ullah Chaudhry brings a robust background in Data Science, Artificial Neural Networks
-and Reinforcement Learning. His familiarity with Deep Learning and Reinforcement Learning
-would play a key role in this project, helping finetune and deploy the YOLOV8 model for
-compliance monitoring. He has a robust amount of experience in Data Science and Network
-Analysis and is currently in the process of publishing his own Research Paper. This experience
-will be vital in creating a custom dataset and acquiring data-driven insights for the intenseye
-project.
-
-Muzzammil Sattar, has extensive experience in Software Engineering, Human-Computer
-Interaction, and Computer Graphics. Their work in Computer Graphics includes developing
-efficient algorithms and data structures for managing large datasets, which will be valuable in
-optimizing real-time data processing for this project. Additionally, their knowledge in Software
-Engineering will assist the team effectively manage requirements, changes, and
-constraints. Their expertise in Human-Computer Interaction will also contribute to creating a
-user-friendly, easy-to-understand system for managers at Dawlance to use. Lastly being well
-versed in Database Systems, they will be able to support with Backend Development and Design. 
-
-
+\textbf{Muhammad Arsalan Hussain} possesses a broad knowledge base across multiple domains within computer science, with a core focus on deep learning. His expertise includes extensive work in dataset creation, augmentation, and fine-tuning large sequence-to-sequence models, which he applied to achieve high accuracy in his Automated Urdu Grammar Correction project for his Deep Learning Course. Beyond technical skills, Arsalan has consistently demonstrated strong leadership capabilities in his projects and is currently the lead developer for an employee management software at Nasfia Pvt. Ltd. His experience in creating datasets, optimizing AI models, and leading development teams will undoubtedly be a great asset to this project.
+\\
+\textbf{Syed Ahad Ali} specializes in training LLMs, machine learning models, and computer vision. He has worked on several freelance projects that required these skills, allowing him to polish them effectively. Additionally, he has significant experience in developing 3D models in Unity and has created web pages using the WebGL library to display models, giving him insight into managing the MERN stack.
+\\
+\textbf{Asad Ullah Chaudhry} brings a robust background in Data Science, Artificial Neural Networks, and Reinforcement Learning. His familiarity with deep learning and reinforcement learning will play a key role in this project, helping fine-tune and deploy the Yolov8 model for compliance monitoring. He has extensive experience in data science and network analysis and is currently in the process of publishing his own research paper. This experience will be vital in creating a custom dataset and acquiring data-driven insights for the project.
+\\
+\textbf{Muzzammil Sattar} has extensive experience in software engineering, human-computer interaction, and computer graphics. His work in computer graphics includes developing efficient algorithms and data structures for managing large datasets, which will be valuable in optimizing real-time data processing for this project. Additionally, his knowledge of software engineering will assist the team in effectively managing requirements, changes, and constraints. His expertise in human-computer interaction will also contribute to creating a user-friendly, easy-to-understand system for managers at Dawlence to use. Lastly, being well-versed in database systems, he will support backend development and design.
 
 
 \section{Tech stack}
