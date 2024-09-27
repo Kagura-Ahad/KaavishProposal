@@ -224,10 +224,14 @@ versed in Database Systems, they will be able to support with Backend Developmen
 
 \section{Tech stack}
 % \instruction{Write details of the tech stack you will use for this project for e.g.\ if you are using MERN stack, you can write MongoDB, Express, React and NodeJS etc.}
-The recent conversation with the Dawlance team had them mention that they prefer us integrating this solution into their existing system. This means that we will have to use whichever technology they are using. However, they also mentioned that since the system is uniform till their parent company, we might get some hiccups in getting access rights while integrating our system. so, as a backup plan, we have decided to use the following tech stack:
+Our recent meeting with the team at Dawlance clarified that a stand-alone solution is expected.
+The reason being that the current IT system is centralized with its center being in
+its parent company, Arcelik, in Turkey. Thus, any modifications in that current system goes through a very long process
+of approval, verification and validation which will not be possible in the limited time period of this project. Thus, a standalone local system
+that uses footage from local CCTV is required. The following is the techstack for the system:
 \begin{itemize}
     \item \textbf{Frontend}: ReactJS
-    \item \textbf{Backend}: Django
+    \item \textbf{Backend}: Django (Python backend will make it easier to interface with Model inference script as that will, of course, be in Python)
     \item \textbf{Database}: MSSQL
     \item \textbf{Deep learning model}: YOLOV8
     \item \textbf{Deep Learning Framework}: PyTorch
