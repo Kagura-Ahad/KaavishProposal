@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1727423212 "main.aux" "main.bbl" "main" 1727423268 0
+["bibtex main"] 1727423212 "main.aux" "main.bbl" "main" 1727423442 0
   "./sources.bib" 1726809851 2973 ba68bc0294054589934f8d5d58d5d90b ""
   "C:/Users/Arsalan/AppData/Local/Programs/MiKTeX/bibtex/bst/bibtex/ieeetr.bst" 1291864344 18361 1a00e58565e7f19bf2b3e1bfb82254ae ""
-  "main.aux" 1727423265 1860 54556402be9d3a754df56cc5d00b25ac "pdflatex"
+  "main.aux" 1727423440 1860 54556402be9d3a754df56cc5d00b25ac "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1727423264 "d:/repos/KaavishProposal/ProposalTemplate/main.tex" "main.pdf" "main" 1727423268 0
+["pdflatex"] 1727423439 "d:/repos/KaavishProposal/ProposalTemplate/main.tex" "main.pdf" "main" 1727423442 0
   "C:/Users/Arsalan/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1726808651 82507 a9eef8696c92627b87e9975edea03b2a ""
   "C:/Users/Arsalan/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1000.pk" 1673526209 11548 e1dbeea485cd98fdc96ea628c49d647c ""
   "C:/Users/Arsalan/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1692358514 24119856 04530129f55ff13dd83a4c558ae2cfde ""
@@ -60,11 +60,11 @@
   "C:/Users/Arsalan/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "HU_logo.png" 1726645342 54729 da24e642be5d68e70877715257f3bbdf ""
   "cover.tex" 1727413390 1530 e904371e3b3e6331769670c8311ec4ce ""
-  "d:/repos/KaavishProposal/ProposalTemplate/main.tex" 1727423264 25104 5945be57a6451b7eaf456a580e213999 ""
+  "d:/repos/KaavishProposal/ProposalTemplate/main.tex" 1727423438 25115 b6d9ae7fc868d3891fb9de53a6e7a446 ""
   "external.tex" 1726645342 1378 2020bbe350a4a31717d69d33631468fc ""
-  "main.aux" 1727423265 1860 54556402be9d3a754df56cc5d00b25ac "pdflatex"
+  "main.aux" 1727423440 1860 54556402be9d3a754df56cc5d00b25ac "pdflatex"
   "main.bbl" 1727423213 269 a0a44b24b7318a799e2846697730a96d "bibtex main"
-  "main.tex" 1727423264 25104 5945be57a6451b7eaf456a580e213999 ""
+  "main.tex" 1727423438 25115 b6d9ae7fc868d3891fb9de53a6e7a446 ""
   (generated)
   "main.aux"
   "main.log"
