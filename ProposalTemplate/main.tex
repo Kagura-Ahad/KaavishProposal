@@ -25,6 +25,11 @@
 \newcommand\firstname{Syed Ahad Ali}  % full name
 \newcommand\firstid{sa07753}         % ID, e.g. xy01234
 
+\newenvironment{tight_enumerate}{
+\begin{enumerate}
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{0pt}
+}{\end{enumerate}}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -166,18 +171,22 @@ The scope of this project is designed to align with the expertise of the team an
 \section{Feasibility}
 
 \subsection{Datasets}
-We will be using data from Dawlence's CCTV cameras to test and train our models.
 
-\subsection{Computer Resources and Hardware}
-\begin{enumerate}
+\textbf{1. Datasets}:\\
+We will be using data from Dawlence's CCTV cameras to test and train our models.\\
+\textbf{2. Data Annotation}:\\
+The data will be annotated by the team members themselves. This will be a laborious task but will ensure that the data is annotated correctly and is of high quality.\\
+\textbf{3. Computer Resources and Hardware}
+\begin{tight_enumerate}
     \item GPU computing power to fine-tune the computer vision model.
     \item An online server for real-time analysis: currently expected to be done in collaboration with Dawlence.
     \item Additional CCTV cameras: currently expected to be installed in collaboration with Dawlence.
-\end{enumerate}
+\end{tight_enumerate}
 
+\textbf{4. Software Resources}\\
 We have had a look at projects that are similar to ours in other enviroments and countries and will be refrencing them for our project.
 
-{CITE} use Yolov8 for detecting safety helmets and vests. This model reduces stands out as the smallest and fastest model, with a size of 21 MB and a single epoch runtime of only 11 seconds.
+{CITE} uses Yolov8 for detecting safety helmets and vests. This model reduces stands out as the smallest and fastest model, with a size of 21 MB and a single epoch runtime of only 11 seconds.
 In their study, the YOLOv8-s model achieved an impressive 99.5\% mean average precision (mAP) accuracy rate in real time. By implementing this system, the construction industry can significantly enhance safety practices through efficient and reliable monitoring of personal protective equipment usage at construction sites.
 To Cite: https://ieeexplore.ieee.org/document/10275958
 
@@ -190,7 +199,7 @@ To Cite: https://ieeexplore.ieee.org/document/10275958
         % \item \textit{Deep learning for site safety: Real-time detection of personal protective equipment}: \url{https://www.sciencedirect.com/science/article/abs/pii/S0926580519308325}
 
     
-PyTorch and TensorFlow may be used in this project to fine-tune Yolov8 models on video footage recorded by Dawlence. OpenCV will be used in object detection as well. 
+
     
 
 
