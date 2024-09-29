@@ -175,25 +175,25 @@ We will be using data from Dawlence's CCTV cameras to test and train our models.
     \item Additional CCTV cameras: currently expected to be installed in collaboration with Dawlence.
 \end{enumerate}
 
-\subsection{Software Libraries}
-\begin{enumerate}
-    \item Deep Learning Models: We will use Yolov8 for object detection, such as detecting the absence of safety equipment and entrance into restricted zones. The following projects will be used as references:
-    \begin{itemize}
-        \item \textit{Construction-PPE-Detection}: \url{https://github.com/Ansarimajid/Construction-PPE-Detection}
-        \item \textit{Fall Detection}: \url{https://github.com/andmydignity/fall_detection_yolov8s}
-        \item \textit{Safety Vest}: \url{https://github.com/biswadeep-roy/Safety-Detection-YOLOv8}
-    \end{itemize}
-    \item Furthermore we shall be referncing the following papers that have achieved implemented object recognition through deep learning using Yolov8 and other Models:
-    \begin{itemize}
-        \item \textit{YOLOv8- Based Helmet and Vest Detection System for Safety Assessment}: \url{https://ieeexplore.ieee.org/document/10275958}
-        \item \textit{Computer vision technologies for safety science and management in construction}: \url{https://www.sciencedirect.com/science/article/abs/pii/S0925753520305270}
-        \item \textit{Deep learning for site safety: Real-time detection of personal protective equipment}: \url{https://www.sciencedirect.com/science/article/abs/pii/S0926580519308325}
-    \end{itemize}
+We have had a look at projects that are similar to ours in other enviroments and countries and will be refrencing them for our project.
+
+{CITE} use Yolov8 for detecting safety helmets and vests. This model reduces stands out as the smallest and fastest model, with a size of 21 MB and a single epoch runtime of only 11 seconds.
+In their study, the YOLOv8-s model achieved an impressive 99.5\% mean average precision (mAP) accuracy rate in real time. By implementing this system, the construction industry can significantly enhance safety practices through efficient and reliable monitoring of personal protective equipment usage at construction sites.
+To Cite: https://ieeexplore.ieee.org/document/10275958
+
+        % \item \textit{Construction-PPE-Detection}: \url{https://github.com/Ansarimajid/Construction-PPE-Detection}
+        % \item \textit{Fall Detection}: \url{https://github.com/andmydignity/fall_detection_yolov8s}
+        % \item \textit{Safety Vest}: \url{https://github.com/biswadeep-roy/Safety-Detection-YOLOv8}
+
+        % \item \textit{YOLOv8- Based Helmet and Vest Detection System for Safety Assessment}: \url{https://ieeexplore.ieee.org/document/10275958}
+        % \item \textit{Computer vision technologies for safety science and management in construction}: \url{https://www.sciencedirect.com/science/article/abs/pii/S0925753520305270}
+        % \item \textit{Deep learning for site safety: Real-time detection of personal protective equipment}: \url{https://www.sciencedirect.com/science/article/abs/pii/S0926580519308325}
+
     
-    \item PyTorch and TensorFlow may be used in this project to fine-tune Yolov8 models on video footage recorded by Dawlence.
+PyTorch and TensorFlow may be used in this project to fine-tune Yolov8 models on video footage recorded by Dawlence. OpenCV will be used in object detection as well. 
     
-    \item OpenCV.
-\end{enumerate}
+
+
 
 \section{Team Dynamics}
 
