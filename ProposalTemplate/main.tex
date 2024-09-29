@@ -25,6 +25,11 @@
 \newcommand\firstname{Syed Ahad Ali}  % full name
 \newcommand\firstid{sa07753}         % ID, e.g. xy01234
 
+\newenvironment{tight_enumerate}{
+\begin{enumerate}
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{0pt}
+}{\end{enumerate}}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -76,18 +81,28 @@ Pakistan has nearly 517 labour inspectors which means one inspector for more tha
 This project aims to address the issue of workplace safety in the industrial sector by developing a real-time safety monitoring system that can detect unsafe behaviors and conditions in the workplace. 
 Such a system can help prevent accidents and injuries by alerting workers and supervisors when unsafe conditions are detected, allowing them to take corrective action \textbf{before} an accident occurs.
 The system will use computer vision and deep learning techniques to analyze video footage from CCTV cameras installed in the factory and identify safety hazards in real time.
+
+%add some space
+\vspace{3.5cm}
 Our system goals include the following:
 \begin{itemize}
     \item Ensuring safety equipment is being worn, including gloves and hard tipped shoes
     \item Ensuring workers aren't accessing barricaded equipment when it's operational. 
     \item Ensuring the plant pathway (denoted by yellow lines on the floor) remains obstacle free
     \item Ensuring forklift operators are practicing safe usage
-    \item Ensuring prompt medical response if someone falls
+    \item Ensuring prompt response if a worker falls
     \item Ensuring correct and safe usage of the hydraulic presses by the workers
 \end{itemize}
 Through notifications and alerts, the system will provide real-time feedback to workers and supervisors, enabling them to take immediate action to prevent accidents and injuries
 The system will also identify trends and patterns in workplace safety through saving incident data and generating reports based on that data. These reports can then allow Dawlance to take proactive measures to improve safety protocols and reduce the risk of accidents.
 Finally, the system will be designed to be scalable and adaptable to different types of industrial environments, making it suitable for a wide range of applications in the manufacturing and construction sectors.
+
+\begin{figure}[h]
+    
+    \centering
+    \includegraphics[height = 9cm]{overview.png}
+    \caption{High Level Overview of the System}
+\end{figure}
 
 \section{Social relevance}
 
@@ -99,7 +114,7 @@ By continuously monitoring unsafe conditions and behaviors and providing analyti
 This minimizes the financial risks and legal consequences associated with workplace injuries. As per our industry visit, Dawlence is committed to worker safety and has a lot of protections already in place. 
 This system would be the last line of defense in their arsenal, to stand true to their motto of `An employee shouldn't be able to hurt themself even if they deliberately try`'. 
 \\ \\
-Given the shortage of labor inspector, this automated system can significantly reduce the reliance on manual inspections. 
+Given the shortage of labor inspector,this automated system can significantly reduce the reliance on manual inspections. 
 Furthermore, it can even render the inspector system obsolete. With the government ill-equipped to handle the large number of workers in the country, scaling this system across different industries could provide a much-needed solution to ensure worker safety nationwide.
 
 % \\ \\
@@ -156,37 +171,46 @@ The scope of this project is designed to align with the expertise of the team an
 \section{Feasibility}
 
 \subsection{Datasets}
-We will be using data from Dawlence's CCTV cameras to test and train our models.
-
-\subsection{Computer Resources and Hardware}
 \begin{enumerate}
-    \item GPU computing power to fine-tune the computer vision model.
-    \item An online server for real-time analysis: currently expected to be done in collaboration with Dawlence.
-    \item Additional CCTV cameras: currently expected to be installed in collaboration with Dawlence.
+    \item \textbf{Datasets}: We will be using data from Dawlence's CCTV cameras to test and train our models. We will also be creating our own dataset to fine-tune the model. We will also use publicly available datasets for training and testing purposes.
+    \item \textbf{Data Annotation}: The data will be annotated by the team members themselves. This will be a laborious task but will ensure that the data is annotated correctly and is of high quality.
+    \item \textbf{Computer Resources and Hardware}
+        \begin{enumerate}
+        \item GPU computing power to fine-tune the computer vision model.
+        \item An online server for real-time analysis: currently expected to be done in collaboration with Dawlence.
+        \item Additional CCTV cameras: currently expected to be installed in collaboration with Dawlence.
+        \end{enumerate}
+
+    \item \textbf{Software Resources}We have had a look at projects that are similar to ours in other enviroments and countries and will be refrencing them for our project.
+        \begin{enumerate}
+            \item {CITE} uses Yolov8 for detecting safety helmets and vests. This model reduces stands out as the smallest and fastest model, with a size of 21 MB and a single epoch runtime of only 11 seconds.
+            In their study, the YOLOv8-s model achieved an impressive 99.5\% mean average precision (mAP) accuracy rate in real time. By implementing this system, the construction industry can significantly enhance safety practices through efficient and reliable monitoring of personal protective equipment usage at construction sites.
+            To Cite: https://ieeexplore.ieee.org/document/10275958
+        \end{enumerate}
+    
+
+        % \item \textit{Construction-PPE-Detection}: \url{https://github.com/Ansarimajid/Construction-PPE-Detection}
+        % \item \textit{Fall Detection}: \url{https://github.com/andmydignity/fall_detection_yolov8s}
+        % \item \textit{Safety Vest}: \url{https://github.com/biswadeep-roy/Safety-Detection-YOLOv8}
+
+        % \item \textit{YOLOv8- Based Helmet and Vest Detection System for Safety Assessment}: \url{https://ieeexplore.ieee.org/document/10275958}
+        % \item \textit{Computer vision technologies for safety science and management in construction}: \url{https://www.sciencedirect.com/science/article/abs/pii/S0925753520305270}
+        % \item \textit{Deep learning for site safety: Real-time detection of personal protective equipment}: \url{https://www.sciencedirect.com/science/article/abs/pii/S0926580519308325}
+
 \end{enumerate}
 
-\subsection{Software Libraries}
-\begin{enumerate}
-    \item Deep Learning Models: We will use Yolov8 for object detection, such as detecting the absence of safety equipment and entrance into restricted zones. The following projects will be used as references:
-    \begin{itemize}
-        \item \textit{Construction-PPE-Detection}: \\ \url{https://github.com/Ansarimajid/Construction-PPE-Detection}
-        \item \textit{Fall Detection}: \\ \url{https://github.com/andmydignity/fall_detection_yolov8s}
-        \item \textit{Safety Vest}: \\ \url{https://github.com/biswadeep-roy/Safety-Detection-YOLOv8}
-    \end{itemize}
     
-    \item PyTorch and TensorFlow may be used in this project to fine-tune Yolov8 models on video footage recorded by Dawlence.
-    
-    \item OpenCV.
-\end{enumerate}
+
+
 
 \section{Team Dynamics}
 
 \textbf{Muhammad Arsalan Hussain} possesses a broad knowledge base across multiple domains within computer science, with a core focus on deep learning. His expertise includes extensive work in dataset creation, augmentation, and fine-tuning large sequence-to-sequence models, which he applied to achieve high accuracy in his Automated Urdu Grammar Correction project for his Deep Learning Course. Beyond technical skills, Arsalan has consistently demonstrated strong leadership capabilities in his projects and is currently the lead developer for an employee management software at Nasfia Pvt. Ltd. His experience in creating datasets, optimizing AI models, and leading development teams will undoubtedly be a great asset to this project.
-\\
+\\ \\
 \textbf{Syed Ahad Ali} specializes in training LLMs, machine learning models, and computer vision. He has worked on several freelance projects that required these skills, allowing him to polish them effectively. Additionally, he has significant experience in developing 3D models in Unity and has created web pages using the WebGL library to display models, giving him insight into managing the MERN stack.
-\\
+\\ \\
 \textbf{Asad Ullah Chaudhry} brings a robust background in Data Science, Artificial Neural Networks, and Reinforcement Learning. His familiarity with deep learning and reinforcement learning will play a key role in this project, helping fine-tune and deploy the Yolov8 model for compliance monitoring. He has extensive experience in data science and network analysis and is currently in the process of publishing his own research paper. This experience will be vital in creating a custom dataset and acquiring data-driven insights for the project.
-\\
+\\ \\
 \textbf{Muzzammil Sattar} has extensive experience in software engineering, human-computer interaction, and computer graphics. His work in computer graphics includes developing efficient algorithms and data structures for managing large datasets, which will be valuable in optimizing real-time data processing for this project. Additionally, his knowledge of software engineering will assist the team in effectively managing requirements, changes, and constraints. His expertise in human-computer interaction will also contribute to creating a user-friendly, easy-to-understand system for managers at Dawlence to use. Lastly, being well-versed in database systems, he will support backend development and design.
 
 
@@ -210,7 +234,7 @@ that uses footage from local CCTV is required. The following is the techstack fo
 
 \section{References}
 \renewcommand{\refname}{\vspace{-1cm}}
-\bibliographystyle{ieeetr}
+\bibliographystyle{abbrv}
 \bibliography{sources.bib}
 
 
