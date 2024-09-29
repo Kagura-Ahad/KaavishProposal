@@ -32,30 +32,39 @@
   langid = {american},
   file = {C:\Users\Asad\Zotero\storage\2MV8QKMI\the-whistlers.html}
 }
-
-@misc{YOLOv8BasedHelmet,
-  title = {YOLOv8- Based Helmet and Vest Detection System for Safety Assessment}
-  journal = {IEEE}
-  urldate = {2024-09-24}
-  abstract = {This model eliminates anchors, reducing box predictions and speeding up post-processing phases, hence stands out as the smallest and fastest model, with a size of 21 MB and a single epoch runtime of only 11 seconds. In this study, the YOLOv8-s model achieved an impressive 99.5% mean average precision (mAP) accuracy rate in real time}
-  langid = {american}
-  file = {https://ieeexplore.ieee.org/document/10275958}
-}
-
-@misc{ComputerVisionTechnologiesForSafety
-  title = {Computer vision technologies for safety science and management in construction: A critical review and future research directions}
-  journal = {Safety Science}
-  urldate = {2024-09-24}
-  abstract = {the objectives of this paper are to: (1) investigate the current status of applying computer vision technology to construction safety, (2) examine the links between computer vision applications and key research themes of construction safety, (3) discuss the theoretical challenges of applying computer vision to construction safety, and (4) recommend future research directions}
-  langid = {american}
-  file = {https://www.sciencedirect.com/science/article/abs/pii/S0925753520305270}
-}
-
-@misc{DeepLearningForSiteSafety
-  title = {Deep learning for site safety: Real-time detection of personal protective equipment}
-  journal = {Automation in Construction}
-  urldate = {2024-09-24}
-  abstract = {This paper presents three deep learning (DL) models built on You-Only-Look-Once (YOLO) architecture to verify PPE compliance of workers; i.e., if a worker is wearing hard hat, vest, or both, from image/video in real-time}
-  langid = {american}
-  file = {https://www.sciencedirect.com/science/article/abs/pii/S0926580519308325}
-}
+@INPROCEEDINGS{YOLOv8BasedHelmet,
+  author={Thakur, Divyanka and Pal, Priya and Jadhav, Amogh and Kable, Numaira and V, Bhagyalakshmi and Deshpande, Sonali},
+  booktitle={2023 International Conference on Network, Multimedia and Information Technology (NMITCON)}, 
+  title={YOLOv8- Based Helmet and Vest Detection System for Safety Assessment}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={1-10},
+  keywords={Personal protective equipment;Head;Runtime;Multimedia systems;Predictive models;Real-time systems;Safety;YOLOv8;helmet detection;vest detection;computer vision;deep learning;annotated images;NVIDIA DeepStream},
+  doi={10.1109/NMITCON58196.2023.10275958}}
+  @article{ComputerVisionTechnologiesForSafety,
+  title = {Computer vision technologies for safety science and management in construction: A critical review and future research directions},
+  journal = {Safety Science},
+  volume = {135},
+  pages = {105130},
+  year = {2021},
+  issn = {0925-7535},
+  doi = {https://doi.org/10.1016/j.ssci.2020.105130},
+  url = {https://www.sciencedirect.com/science/article/pii/S0925753520305270},
+  author = {Brian H.W. Guo and Yang Zou and Yihai Fang and Yang Miang Goh and Patrick X.W. Zou},
+  keywords = {Computer vision, Construction health and safety, Safety science, Safety culture, Safety Climate, Hazard, Safety management system, Digital technologies, Automation},
+  abstract = {Recent years have seen growing interests in developing and applying computer vision technologies to solve safety problems in the construction industry. Despite the technological advancements, there is no research that exams the theoretical links between computer vision technology and safety science and management. Thus, the objectives of this paper are to: (1) investigate the current status of applying computer vision technology to construction safety, (2) examine the links between computer vision applications and key research themes of construction safety, (3) discuss the theoretical challenges of applying computer vision to construction safety, and (4) recommend future research directions. A five-step review approach was adopted to search and analyze peer-reviewed academic journal articles. A three-level computer vision development framework was proposed to categorized computer vision applications in the construction industry. The links between computer vision and three main safety research traditions: safety management system, behavior-based safety program, and safety culture, were discussed. The results suggest that the majority of past efforts were focused on object recognition, object tracking, and action recognition, with limited research focused on recognizing unsafe behavior. There are even fewer studies aimed at developing vision-based safety assessment and prediction systems. Based on the review findings, four future research directions are suggested: (1) develop and test a behavioral-cues-based safety climate measure, (2) develop safety behavior datasets, (3) develop a formal hazard identification and assessment model, and (4) develop criteria to evaluate the real impacts of vision-based technologies on safety performance.}
+  }
+  @article{DeepLearningForSiteSafety,
+  title = {Deep learning for site safety: Real-time detection of personal protective equipment},
+  journal = {Automation in Construction},
+  volume = {112},
+  pages = {103085},
+  year = {2020},
+  issn = {0926-5805},
+  doi = {https://doi.org/10.1016/j.autcon.2020.103085},
+  url = {https://www.sciencedirect.com/science/article/pii/S0926580519308325},
+  author = {Nipun D. Nath and Amir H. Behzadan and Stephanie G. Paal},
+  keywords = {Personal protective equipment (PPE), Construction safety, Deep learning, Transfer learning, Image dataset, Real-time object detection},
+  abstract = {The leading causes of construction fatalities include traumatic brain injuries (resulted from fall and electrocution) and collisions (resulted from struck by objects). As a preventive step, the U.S. Occupational Safety and Health Administration (OSHA) requires that contractors enforce and monitor appropriate usage of personal protective equipment (PPE) of workers (e.g., hard hat and vest) at all times. This paper presents three deep learning (DL) models built on You-Only-Look-Once (YOLO) architecture to verify PPE compliance of workers; i.e., if a worker is wearing hard hat, vest, or both, from image/video in real-time. In the first approach, the algorithm detects workers, hats, and vests and then, a machine learning model (e.g., neural network and decision tree) verifies if each detected worker is properly wearing hat or vest. In the second approach, the algorithm simultaneously detects individual workers and verifies PPE compliance with a single convolutional neural network (CNN) framework. In the third approach, the algorithm first detects only the workers in the input image which are then cropped and classified by CNN-based classifiers (i.e., VGG-16, ResNet-50, and Xception) according to the presence of PPE attire. All models are trained on an in-house image dataset that is created using crowd-sourcing and web-mining. The dataset, named Pictor-v3, contains ~1,500 annotated images and ~4,700 instances of workers wearing various combinations of PPE components. It is found that the second approach achieves the best performance, i.e., 72.3% mean average precision (mAP), in real-world settings, and can process 11 frames per second (FPS) on a laptop computer which makes it suitable for real-time detection, as well as a good candidate for running on light-weight mobile devices. The closest alternative in terms of performance (67.93% mAP) is the third approach where VGG-16, ResNet-50, and Xception classifiers are assembled in a Bayesian framework. However, the first approach is the fastest among all and can process 13 FPS with 63.1% mAP. The crowed-sourced Pictor-v3 dataset and all trained models are publicly available to support the design and testing of other innovative applications for monitoring safety compliance, and advancing future research in automation in construction.}
+  }
