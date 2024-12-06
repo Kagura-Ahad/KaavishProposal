@@ -110,7 +110,7 @@ indicate organizations should regularly collect and analyze data related to inci
 
 \subsection{General Framework for Safety Detection}
 
-When evaluating safety hazards observers must rely on their perceptual abilities, including object and scene recognition, as well as processing spatial and temporal relationships. They then use this information to make decisions based on rules, guidelines and experience. JoonOh, therefore proposes that a Computer Vision framework should not only extract information but also, “compare the information with existing knowledge on potential risks or hazards.” \textbf{\cite{muzz6}}
+When evaluating safety hazards observers must rely on their perceptual abilities, including object and scene recognition, as well as processing spatial and temporal relationships. They then use this information to make decisions based on rules, guidelines and experience. JoonOh, therefore proposes that a Computer Vision framework should not only extract information but also, “compare the information with existing knowledge on potential risks or hazards.” \cite{muzz6}
 
 To achieve this, JoonOh’s framework includes a two-fold approach. First, using various imagery data on scene using various image sensing devices to extract useful information which can be categorized into three categories, (1) object detection; (2) object tracking; and (3) action recognition. 
 
@@ -127,7 +127,7 @@ Divyanka Thakur and Qi Fang directly use annotated samples to train the model wh
 Nipun D, creates a larger augmented dataset by generating noise, in the saturation, hue of the images and flipping the images in the x-axis. 
 In the case of small datasets, dataset augmentation is almost essential to prevent the model from overfitting and remain generalizable \cite{h1} \cite{h2} \cite{h3}.
 
-Kim et al. (2023) \textbf{CITE[9]}, likewise created a dataset of 18000 images of PPE, heavy construction equipment and workers at construction sites and use Google Colab+ to fine tune YOLO on these images with the primary goal of training these models to improve the accuracy of object recognition and classification in real-time detection of safety hazards at construction sites.
+Kim et al. (2023) \cite{9}, likewise created a dataset of 18000 images of PPE, heavy construction equipment and workers at construction sites and use Google Colab+ to fine tune YOLO on these images with the primary goal of training these models to improve the accuracy of object recognition and classification in real-time detection of safety hazards at construction sites.
 
 \subsection{Frameworks for Person and Object Detection}
 
@@ -153,12 +153,12 @@ Once the bounding boxes were applied to the transformation Matrix M, the bottom 
 
 \subsection{You Only Look Once (YOLO) Based Approaches}
 
-Kim et al. (2023) \textbf{CITE[9]}details their research on the application of YOLO v5 and v8 for Workplace Safety at construction sites. They note that in the construction industry, safety management is crucial to mitigate accidents that lead to financial, reputational, and human losses and 
+Kim et al. (2023) \cite{a9} details their research on the application of YOLO v5 and v8 for Workplace Safety at construction sites. They note that in the construction industry, safety management is crucial to mitigate accidents that lead to financial, reputational, and human losses and 
 that Computer Vision (CV) techniques are becoming essential in improving safety measures in construction sites. 
 
 Using mAP50 (mean average precision at 50\% IoU threshold) and mAP50-95 to evaluate results, they found YOLO v8 outperformed YOLO v5 with highest mAP50: 95.4\%. They also reported the reasonable finding of larger YOLO models achieving higher accuracy but requiring more computational resources. 
 
-Barlybayev, A. et al. (2024) \textbf{CITE[10]} in their study use the YOLOc8 architecture to do object detection of PPE. They also note that despite significant growth in industrial and construction sectors, accidents remain a critical concern due to safety lapses, 
+Barlybayev, A. et al. (2024) \cite{a10} in their study use the YOLOc8 architecture to do object detection of PPE. They also note that despite significant growth in industrial and construction sectors, accidents remain a critical concern due to safety lapses, 
 including improper use of PPE. Traditional safety management methods, including manual supervision and sensor-based systems, are costly, inefficient, and fail to adapt to dynamic environments while CV techniques provide an economical and scalable alternative for real-time PPE detection, 
 reducing risks and improving workplace safety. They develop and evaluate a PPE detection system, using 1330 images of Color Helmets and Vest as well as the SHEL5K dataset consisting of 5000 images of workers wearing helmets. YOLOv8 models were trained and tested with parameters tailored to optimize detection of PPE, 
 including class-specific bounding boxes.YOLOv8x (extra-large) achieved the highest metrics: precision (94.5\%), recall (86.9\%), and mAP50 (92.9\%) while YOLOv8l (large) and YOLOv8m (medium) models provided a balance between accuracy and computational use. YOLOv8n and YOLOV8s (nano and small) are incredibly efficient but less accurate, 
@@ -186,6 +186,7 @@ Detection of hazardous behavior such as climbing, restricted zone entry, forklif
 
 Finally, \cite{h3} mentions the need for a ‘formal hazard model’ as a future direction in research. This means that there is a need for coalescing all the different vision based safety models into a standard framework for hazard detection and prevention. This is exactly what we plan to do in building Intenseye.
 
+\vspace{5cm}
 
 \begin{thebibliography}{ieetr}
 
@@ -194,12 +195,12 @@ Finally, \cite{h3} mentions the need for a ‘formal hazard model’ as a future
     \bibitem{muzz8} W. Fang et al., “Computer vision applications in construction safety assurance,” Automation in Construction, vol. 110, p. 103013, Feb. 2020, doi: 10.1016/j.autcon.2019.103013.
     \bibitem{muzz7} P. Khandelwal, A. Khandelwal, and S. Agarwal, Using Computer Vision to Enhance Safety of Workforce in Manufacturing in a Post COVID World, May 2020. DOI: 10.48550/arXiv.2005.05287
     \bibitem{muzz6} J. Seo, S. Han, S. Lee, and H. Kim, "Computer vision techniques for construction safety and health monitoring," Advanced Engineering Informatics, vol. 29, no. 2, pp. 239–251, 2015. DOI: 10.1016/j.aei.2015.02.001. [Online]. Available: https://www.sciencedirect.com/science/article/pii/S1474034615000269. 
-
     \bibitem{a1} S. G et al., “Measuring Best Practices for Workplace Safety, Health, and Well-Being: The Workplace Integrated Safety and Health Assessment,” Journal of occupational and environmental medicine, vol. 60, no. 5, May 2018, doi: 10.1097/JOM.0000000000001286.
     \bibitem{a3} T. M. Mutegi, P. M. Joshua, and J. M. Kinyua, “Workplace Safety and Employee Productivity of Manufacturing Firms in Kenya,” Cogent Business \& Management, vol. 10, no. 2, p. 2215569, Dec. 2023, doi: 10.1080/23311975.2023.2215569.
     \bibitem{a5}J. C. Wallace, J. B. Paul, R. S. Landis, and S. J. Vodanovich, "Occupational safety," in The Oxford Handbook of Personnel Assessment and Selection, N. Schmitt, Ed. New York, NY: Oxford University Press, 2012, pp. 614–628.
-
     \bibitem{a4} J. M. Beus, M. A. McCord, and D. Zohar, “Workplace safety: A review and research synthesis,” Organizational Psychology Review, vol. 6, no. 4, pp. 352–381, Nov. 2016, doi: 10.1177/2041386615626243.
+    \bibitem{a9} K. Kim, K. Kim, and S. Jeong, “Application of YOLO v5 and v8 for Recognition of Safety Risk Factors at Construction Sites,” Sustainability, vol. 15, no. 20, Art. no. 20, Jan. 2023, doi: 10.3390/su152015179.
+    \bibitem{a10} A. Barlybayev et al., “Personal protective equipment detection using YOLOv8 architecture on object detection benchmark datasets: a comparative study,” Cogent Engineering, vol. 11, no. 1, p. 2333209, Dec. 2024, doi: 10.1080/23311916.2024.2333209.
     \bibitem{h1} D. Thakur, P. Pal, A. Jadhav, N. Kable, B. V. Bhagyalakshmi, and S. Deshpande, ``YOLOv8-Based Helmet and Vest Detection System for Safety Assessment,'' in \textit{2023 International Conference on Network, Multimedia and Information Technology (NMITCON)}, Navi Mumbai, India, 2023, pp. 1-6. [Online]. Available: \url{https://ieeexplore.ieee.org/document/10275958/} % Replace with actual DOI or URL.
     \bibitem{h2} N. D. Nath, A. H. Behzadan, and S. G. Paal, ``Deep learning for site safety: Real-time detection of personal protective equipment,'' \textit{Automation in Construction}, Texas A\&M University, College Station, TX, USA. [Online]. Available: \url{https://www.sciencedirect.com/science/article/pii/S0926580519308325} % Replace with the actual DOI or link.
     \bibitem{h3} Q. Fang, H. Li, X. Luo, L. Ding, H. Luo, T. M. Rose, and W. An, ``Detecting non-hardhat-use by a deep learning method from far-field surveillance videos,'' \textit{Automation in Construction}, vol. 85, pp. 1-9, 2018. [Online]. Available: \url{https://www.elsevier.com/locate/autcon}
