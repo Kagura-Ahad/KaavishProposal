@@ -140,7 +140,7 @@ In hazard detection, the first step involves identifying hazard-relevant objects
 However, the next stage—determining hazardous relationships between these objects—is, in our view, the more challenging task. This ranges from straightforward techniques, such as verifying if the midpoint of a worker’s bounding box lies within a restricted zone 
 (defined by a polygon of coordinates), to more complex tasks like confirming whether a detected hard hat is actually being worn by a person rather than simply being held.
 
-
+\cite{h3} is an older paper (2017)  yet the approach taken is novel. The problem of PPE is reversed: the detection model does not detect hazard-relevant objects like \cite{h1} and neither does it detect the possible states of workers like \cite{h2} but rather it detects PPE non-compliance directly via the model. The paper only focuses on Hard Hat detection but the approach is generalizable for other forms of PPE. The researchers annotate only 1 class in the data called ‘No Hat’ in which they only tag persons that are not wearing hats in the dataset. As the paper is an older one, it uses Precision and Recall as primary metrics for the results. Regardless, the results are quite impressive with both Precision and Recall being 95\%.
 \subsection{Distance Calculation Between People and Objects}
 
 The main challenge that Prateek Khandelwal faced was with measuring distances as the camera-plane is a 2D projection of 3D world coordinates, therefore spatial relationships change due to the camera’s perspective.
@@ -164,6 +164,12 @@ reducing risks and improving workplace safety. They develop and evaluate a PPE d
 including class-specific bounding boxes.YOLOv8x (extra-large) achieved the highest metrics: precision (94.5\%), recall (86.9\%), and mAP50 (92.9\%) while YOLOv8l (large) and YOLOv8m (medium) models provided a balance between accuracy and computational use. YOLOv8n and YOLOV8s (nano and small) are incredibly efficient but less accurate, 
 making them more suitable for resource-constrained environments. They recommend (large, extra-large) for where accuracy is essential. YOLOv8 demonstrated superior performance over earlier YOLO versions, with the larger models excelling in accuracy and reliability for PPE detection.
 
+\cite{h2} is a paper from 2020 that uses the cutting edge model of that time which is YOLOv3 on an in-house construction work dataset called PictorV2. This paper experimented with two particularly different object annotations in the data. The first mode of annotations was exactly like \cite{1}: helmets, vests and persons were annotated. The second and more interesting mode of annotations consisted of 4 classes representing all the possible states a worker could be in. The 4 annotation classes were [W, WH, WV, WHV] where W means Worker, H means Hat and V means Vest. It is easy to infer what the classes represent. The paper overall reported much lower scores compared to \cite{h1} (99.5\%), perhaps because the images are much more dynamic and are captured in varying complex environments. The maximum mAP score for detections is 85\% which is for the class of worker/person despite the fact that YOLO models are very proficient at detecting persons compared to any other object as its pretrained on COCO dataset \cite{h2}. The mAP score for the second mode of annotations was expectedly lower i.e. 72.3\%.
+
+\subsubsection{Determining Hazardous Relationships of Detections via YOLO}
+\cite{h2} uses three methods to identify hazardous relationships. The simplest and most effective method being to detect PPE non-compliance directly with a forward pass of the YOLO model with 72.3\% mAP score. \cite{h3} takes essentially the same approach i.e. the detection of non-hat-wearing-workers and reports both precision and recall around 95\%; the scores being the same as mentioned in the previous section. The other approaches in \cite{h2} include one which uses heuristic algorithms after model inference. This is approach retains fast speed but the mAP loss is quite significant at 63.1\% whereas the second approach with Bayesian network post-processing reduces the loss at 67.9\%.
+
+
 \section{Challenges}
 
 As mentioned before, the main challenges highlighted mainly include how high quality and extensive image databases are a central requirement for a Convolutional Neural Networks (CNN’s) ability to learn accurately and effectively. Previous implementations for a fully automated and comprehensive safety monitoring system have failed because publicly available image datasets do not possess unique characteristics required to identify objects in construction or factory settings. \textbf{CITE 8}
@@ -172,6 +178,13 @@ Likewise, hazards being out of sight or obstructed by other objects are not as e
 
 Another limitation is that deep learning models can learn correlations between inputs and output features but cannot define causality. Understanding casualty is important in regards to construction and factory safety as it contextualizes interaction between people’s behaviours, 
 their environment and working situations which lead to the hazard occurring.  \textbf{CITE 8}
+
+\section{Verdict and Conclusion}
+Based on the results from \cite{h2} and \cite{h3}, it seems the least amount of post processing is ideal. In case of PPE detection, the best approach seems to be to annotate whole classes of non-compliance that YOLO can then identify on its own. The downside is that this may require fresh annotation and reannotation of data. If we are short on time or resources, we can try a heuristic approach for some class detections as done in the first and third approaches in \cite{h2} because the loss in speed is not worth the gain in accuracy for our real time application.
+
+Detection of hazardous behavior such as climbing, restricted zone entry, forklift speed estimation etc will however have to be done using rule heuristic algorithms and YOLO’s inbuilt object tracking. \cite{h5} states that object tracking and object detection are Level 1 problems which have been tried and tested and solved using YOLO and other deep learning detection models. For the cases of distance and speed computations, we will use the approach outlined in the distance calculation section.
+
+Finally, \cite{h3} mentions the need for a ‘formal hazard model’ as a future direction in research. This means that there is a need for coalescing all the different vision based safety models into a standard framework for hazard detection and prevention. This is exactly what we plan to do in building Intenseye.
 
 
 \begin{thebibliography}{00}
@@ -183,7 +196,12 @@ their environment and working situations which lead to the hazard occurring.  \t
     \bibitem{a4} J. M. Beus, M. A. McCord, and D. Zohar, “Workplace safety: A review and research synthesis,” Organizational Psychology Review, vol. 6, no. 4, pp. 352–381, Nov. 2016, doi: 10.1177/2041386615626243.
     \bibitem{a5}J. C. Wallace, J. B. Paul, R. S. Landis, and S. J. Vodanovich, "Occupational safety," in The Oxford Handbook of Personnel Assessment and Selection, N. Schmitt, Ed. New York, NY: Oxford University Press, 2012, pp. 614–628.
     \bibitem{muzz8} W. Fang et al., “Computer vision applications in construction safety assurance,” Automation in Construction, vol. 110, p. 103013, Feb. 2020, doi: 10.1016/j.autcon.2019.103013.
-
+    \bibitem{h1} D. Thakur, P. Pal, A. Jadhav, N. Kable, B. V. Bhagyalakshmi, and S. Deshpande, ``YOLOv8-Based Helmet and Vest Detection System for Safety Assessment,'' in \textit{2023 International Conference on Network, Multimedia and Information Technology (NMITCON)}, Navi Mumbai, India, 2023, pp. 1-6. [Online]. Available: \url{https://ieeexplore.ieee.org/document/10275958/} % Replace with actual DOI or URL.
+    \bibitem{h2} N. D. Nath, A. H. Behzadan, and S. G. Paal, ``Deep learning for site safety: Real-time detection of personal protective equipment,'' \textit{Automation in Construction}, Texas A\&M University, College Station, TX, USA. [Online]. Available: \url{https://www.sciencedirect.com/science/article/pii/S0926580519308325} % Replace with the actual DOI or link.
+    \bibitem{h3} Q. Fang, H. Li, X. Luo, L. Ding, H. Luo, T. M. Rose, and W. An, ``Detecting non-hardhat-use by a deep learning method from far-field surveillance videos,'' \textit{Automation in Construction}, vol. 85, pp. 1-9, 2018. [Online]. Available: \url{https://www.elsevier.com/locate/autcon}
+    \bibitem{h4} ``Faster R-CNN vs YOLOv5,'' \textit{Roboflow}, [Online]. Available: \url{https://roboflow.com/compare/faster-r-cnn-vs-yolov5}.
+    \bibitem{h5} B. H. W. Guo, Y. Zou, Y. Fang, Y. M. Goh, P. X. W. Zou, ``Computer vision technologies for safety science and management in construction: A critical review and future research directions,'' \textit{Safety Science}, vol. 112, p. 103085, 2020. [Online]. Available: \url{https://www.elsevier.com/locate/safety}
+    \bibitem{h6} A. Redmon, S. Divvala, R. Girshick, and D. Farhadi, ``You Only Look Once: Unified, Real-Time Object Detection,'' \textit{arXiv}, 2015. [Online]. Available: \url{https://arxiv.org/abs/1506.02640}
 
 \end{thebibliography}
     
