@@ -125,7 +125,7 @@ Divyanka Thakur’s paper, “YOLOv8- Based Helmet and Vest Detection System for
 On the other hand, Qi Fang’s paper, “Detecting non-hard hat-use by a deep learning method from far-field surveillance videos,” has a staggering 100000 samples pooled from 25 separate construction projects to be trained on a Faster R-CNN Model. 
 Divyanka Thakur and Qi Fang directly use annotated samples to train the model which only makes sense for the latter considering its large size. 
 Nipun D, creates a larger augmented dataset by generating noise, in the saturation, hue of the images and flipping the images in the x-axis. 
-In the case of small datasets, dataset augmentation is almost essential to prevent the model from overfitting and remain generalizable \textbf{CITE{11, 12, 13}}.
+In the case of small datasets, dataset augmentation is almost essential to prevent the model from overfitting and remain generalizable \cite{h1} \cite{h2} \cite{h3}.
 
 Kim et al. (2023) \textbf{CITE[9]}, likewise created a dataset of 18000 images of PPE, heavy construction equipment and workers at construction sites and use Google Colab+ to fine tune YOLO on these images with the primary goal of training these models to improve the accuracy of object recognition and classification in real-time detection of safety hazards at construction sites.
 
@@ -143,8 +143,8 @@ However, the next stage—determining hazardous relationships between these obje
 \cite{h3} is an older paper (2017)  yet the approach taken is novel. The problem of PPE is reversed: the detection model does not detect hazard-relevant objects like \cite{h1} and neither does it detect the possible states of workers like \cite{h2} but rather it detects PPE non-compliance directly via the model. The paper only focuses on Hard Hat detection but the approach is generalizable for other forms of PPE. The researchers annotate only 1 class in the data called ‘No Hat’ in which they only tag persons that are not wearing hats in the dataset. As the paper is an older one, it uses Precision and Recall as primary metrics for the results. Regardless, the results are quite impressive with both Precision and Recall being 95\%.
 \subsection{Distance Calculation Between People and Objects}
 
-The main challenge that Prateek Khandelwal faced was with measuring distances as the camera-plane is a 2D projection of 3D world coordinates, therefore spatial relationships change due to the camera’s perspective.
-Furthermore objects closer to the camera appear larger than those further away. As a result, while MobileNetV2 provided a bounding box with [xmin, ymin, width, height] values, simply calculating the distance between the rectangles in this perspective would give an incorrect estimate of the actual distance.\\
+The main challenge that Prateek Khandelwal faced was with measuring distances as the camera-plane is a 2D projection of 3D world coordinates
+so objects closer to the camera appear larger than those further away. As a result, while MobileNetV2 provided a bounding box with [xmin, ymin, width, height] values, simply calculating the distance between the rectangles in this perspective would give an incorrect estimate of the actual distance.\\
 
 To get a more accurate distance, they transformed the image into a top-down-view by applying an Inverse Perspective Transform through a Homography Matrix, M. M’s calculation required a translation to make the image zero centered, followed by Rotation and Scaling along Rx and Rz 
 using the angle between camera plane and perspective view plane and finally a projection step. The computation was done using OpenCV. For the construction of M, four points were selected which defined a region where actual distance was known and did not form a co-linear set.  
@@ -180,7 +180,7 @@ Another limitation is that deep learning models can learn correlations between i
 their environment and working situations which lead to the hazard occurring. \cite{muzz8}
 
 \section{Verdict and Conclusion}
-Based on the results from \cite{h2} and \cite{h3}, it seems the least amount of post processing is ideal. In case of PPE detection, the best approach seems to be to annotate whole classes of non-compliance that YOLO can then identify on its own. The downside is that this may require fresh annotation and reannotation of data. If we are short on time or resources, we can try a heuristic approach for some class detections as done in the first and third approaches in \cite{h2} because the loss in speed is not worth the gain in accuracy for our real time application.
+Based on the results from \cite{h2} and \cite{h3}, it seems the least amount of post processing is ideal. In case of PPE detection, the best approach seems to be to annotate whole classes of non-compliance that YOLO can then identify on its own. The downside is that this may require fresh annotation and reannotation of data. If we are short on time or resources, we can try a heuristic approach for some class detections as done in the first approaches in \cite{h2} because the loss in speed is not worth the gain in accuracy for our real time application.
 
 Detection of hazardous behavior such as climbing, restricted zone entry, forklift speed estimation etc will however have to be done using rule heuristic algorithms and YOLO’s inbuilt object tracking. \cite{h5} states that object tracking and object detection are Level 1 problems which have been tried and tested and solved using YOLO and other deep learning detection models. For the cases of distance and speed computations, we will use the approach outlined in the distance calculation section.
 
