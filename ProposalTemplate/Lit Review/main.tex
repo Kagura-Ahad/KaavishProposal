@@ -134,7 +134,7 @@ Kim et al. (2023) \textbf{CITE[9]}, likewise created a dataset of 18000 images o
 Prateek Khandelwal’s paper, “Using Computer Vision to Enhance Safety of Workforce in Manufacturing in a Post COVID World” provides a framework for both person detection and distance calculation using MobileNetV2. This model was trained using TensorFlow Object Detections API and was trained for 500,000 steps with rmsprop optimizer. 
 
 YOLO, however, can provide a better framework for object and person detection. YOLO’s single-stage object detection framework that treats detection as a regression problem. Instead of generating region proposals and classifying them in separate steps like two-stage detectors, YOLO predicts bounding boxes and class probabilities directly from the entire image in a single forward pass. 
-This end-to-end architecture makes YOLO exceptionally fast and suitable for real-time applications, without compromising on accuracy. Its successive versions have incorporated advancements like anchor-free detection, feature pyramid networks, and efficient backbones, further enhancing its capabilities across diverse object detection scenarios \cite{h6}.
+This end-to-end architecture makes YOLO exceptionally fast and suitable for real-time applications, without compromising on accuracy. Its successive versions have incorporated advancements like anchor-free detection, feature pyramid networks, and efficient backbones, further enhancing its capabilities across diverse object detection scenarios \cite{h6}. 
 
 In hazard detection, the first step involves identifying hazard-relevant objects such as workers, PPE equipment, restricted zones, and machinery. Most methodologies rely on YOLO for this stage, and we found a saturation research addressing this aspect \cite{h5}. 
 However, the next stage—determining hazardous relationships between these objects—is, in our view, the more challenging task. This ranges from straightforward techniques, such as verifying if the midpoint of a worker’s bounding box lies within a restricted zone 
@@ -172,12 +172,12 @@ making them more suitable for resource-constrained environments. They recommend 
 
 \section{Challenges}
 
-As mentioned before, the main challenges highlighted mainly include how high quality and extensive image databases are a central requirement for a Convolutional Neural Networks (CNN’s) ability to learn accurately and effectively. Previous implementations for a fully automated and comprehensive safety monitoring system have failed because publicly available image datasets do not possess unique characteristics required to identify objects in construction or factory settings. \textbf{CITE 8}
+As mentioned before, the main challenges highlighted mainly include how high quality and extensive image databases are a central requirement for a Convolutional Neural Networks (CNN’s) ability to learn accurately and effectively. Previous implementations for a fully automated and comprehensive safety monitoring system have failed because publicly available image datasets do not possess unique characteristics required to identify objects in construction or factory settings.  \cite{muzz8}
 
-Likewise, hazards being out of sight or obstructed by other objects are not as easy to identify  due to the limitations of deep learning models in being able to predict previously unobservable objects and extract concealed information using computer vision. \textbf{CITE 8}
+Likewise, hazards being out of sight or obstructed by other objects are not as easy to identify  due to the limitations of deep learning models in being able to predict previously unobservable objects and extract concealed information using computer vision.  \cite{muzz8}
 
 Another limitation is that deep learning models can learn correlations between inputs and output features but cannot define causality. Understanding casualty is important in regards to construction and factory safety as it contextualizes interaction between people’s behaviours, 
-their environment and working situations which lead to the hazard occurring.  \textbf{CITE 8}
+their environment and working situations which lead to the hazard occurring. \cite{muzz8}
 
 \section{Verdict and Conclusion}
 Based on the results from \cite{h2} and \cite{h3}, it seems the least amount of post processing is ideal. In case of PPE detection, the best approach seems to be to annotate whole classes of non-compliance that YOLO can then identify on its own. The downside is that this may require fresh annotation and reannotation of data. If we are short on time or resources, we can try a heuristic approach for some class detections as done in the first and third approaches in \cite{h2} because the loss in speed is not worth the gain in accuracy for our real time application.
@@ -187,15 +187,17 @@ Detection of hazardous behavior such as climbing, restricted zone entry, forklif
 Finally, \cite{h3} mentions the need for a ‘formal hazard model’ as a future direction in research. This means that there is a need for coalescing all the different vision based safety models into a standard framework for hazard detection and prevention. This is exactly what we plan to do in building Intenseye.
 
 
-\begin{thebibliography}{00}
+\begin{thebibliography}{ieetr}
 
     \bibitem{b1} Government Of Pakistan, ``Pakistan Labour Force Survey 20-21,'' \textit{Pakistan Bureau of Statistics}, 2021. [Online]. Available: \url{https://www.pbs.gov.pk/sites/default/files/labour_force/publications/lfs2020_21/LFS_2020-21_Report.pdf}.
     \bibitem{b3} Center for Labour Research, ``The Whistlers: Do you want to report a rights violation?,'' \textit{CLR}, [Online]. Available: \url{https://clr.org.pk/}. [Accessed: Sep. 19, 2024].
+    \bibitem{muzz8} W. Fang et al., “Computer vision applications in construction safety assurance,” Automation in Construction, vol. 110, p. 103013, Feb. 2020, doi: 10.1016/j.autcon.2019.103013.
+
     \bibitem{a1} S. G et al., “Measuring Best Practices for Workplace Safety, Health, and Well-Being: The Workplace Integrated Safety and Health Assessment,” Journal of occupational and environmental medicine, vol. 60, no. 5, May 2018, doi: 10.1097/JOM.0000000000001286.
     \bibitem{a3} T. M. Mutegi, P. M. Joshua, and J. M. Kinyua, “Workplace Safety and Employee Productivity of Manufacturing Firms in Kenya,” Cogent Business \& Management, vol. 10, no. 2, p. 2215569, Dec. 2023, doi: 10.1080/23311975.2023.2215569.
-    \bibitem{a4} J. M. Beus, M. A. McCord, and D. Zohar, “Workplace safety: A review and research synthesis,” Organizational Psychology Review, vol. 6, no. 4, pp. 352–381, Nov. 2016, doi: 10.1177/2041386615626243.
     \bibitem{a5}J. C. Wallace, J. B. Paul, R. S. Landis, and S. J. Vodanovich, "Occupational safety," in The Oxford Handbook of Personnel Assessment and Selection, N. Schmitt, Ed. New York, NY: Oxford University Press, 2012, pp. 614–628.
-    \bibitem{muzz8} W. Fang et al., “Computer vision applications in construction safety assurance,” Automation in Construction, vol. 110, p. 103013, Feb. 2020, doi: 10.1016/j.autcon.2019.103013.
+
+    \bibitem{a4} J. M. Beus, M. A. McCord, and D. Zohar, “Workplace safety: A review and research synthesis,” Organizational Psychology Review, vol. 6, no. 4, pp. 352–381, Nov. 2016, doi: 10.1177/2041386615626243.
     \bibitem{h1} D. Thakur, P. Pal, A. Jadhav, N. Kable, B. V. Bhagyalakshmi, and S. Deshpande, ``YOLOv8-Based Helmet and Vest Detection System for Safety Assessment,'' in \textit{2023 International Conference on Network, Multimedia and Information Technology (NMITCON)}, Navi Mumbai, India, 2023, pp. 1-6. [Online]. Available: \url{https://ieeexplore.ieee.org/document/10275958/} % Replace with actual DOI or URL.
     \bibitem{h2} N. D. Nath, A. H. Behzadan, and S. G. Paal, ``Deep learning for site safety: Real-time detection of personal protective equipment,'' \textit{Automation in Construction}, Texas A\&M University, College Station, TX, USA. [Online]. Available: \url{https://www.sciencedirect.com/science/article/pii/S0926580519308325} % Replace with the actual DOI or link.
     \bibitem{h3} Q. Fang, H. Li, X. Luo, L. Ding, H. Luo, T. M. Rose, and W. An, ``Detecting non-hardhat-use by a deep learning method from far-field surveillance videos,'' \textit{Automation in Construction}, vol. 85, pp. 1-9, 2018. [Online]. Available: \url{https://www.elsevier.com/locate/autcon}
