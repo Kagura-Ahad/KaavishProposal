@@ -75,12 +75,14 @@ Pakistan has nearly 517 labour inspectors which means one inspector for more tha
 This project aims to address the issue of workplace safety in the industrial sector by developing a real-time safety monitoring system that can detect unsafe behaviors and conditions in the workplace. 
 Such a system can help prevent accidents and injuries by alerting workers and supervisors when unsafe conditions are detected, allowing them to take corrective action \textbf{before} an accident occurs.
 The system will use computer vision and deep learning techniques to analyze video footage from CCTV cameras installed in the factory and identify safety hazards in real time.
-\\ \\
+\\ 
 Globally, a closely related industry, the construction industry, can be just as unsafe and dangerous.
-Although the construction industry accounts for 7\% of all workers, people are employed in the construction industry worldwide. However, 30-40\% of workplace fatalities happen in this Industry. Occupational Safety and Health Administration (OSHA) in the United States has reported 991 loss of levis in the construction industry since 2006 \textbf{CITE[8]}. Another statistic claims that even though the industrial sector constitutes about 5% of the workforce in the U.S., fatal injuries in construction accounts for about 18% of all occupational deaths, with the incident rate for nonfatal occupational injuries and illness in construction is 30% higher than average industries. \textbf{CITE[8]} 
-
+Although the construction industry accounts for 7\% of all workers, people are employed in the construction industry worldwide. However, 30-40\% of workplace fatalities happen in this Industry. Occupational Safety and Health Administration (OSHA)
+in the United States has reported 991 loss of levis in the construction industry since 2006 \cite{muzz8}. Another statistic claims that even though the industrial sector constitutes about 5\% of the workforce in the U.S., fatal injuries in construction 
+accounts for about 18\% of all occupational deaths, with the incident rate for nonfatal occupational injuries and illness in construction is 30\% higher than average industries. \cite{muzz8}
+\\ 
 Similarly, in China 3843 fatal injuries were recorded in 2017 making the construction industry one of the most fatal. Whereas in the United Kingdom, fatalities are also a problem in construction accounting for a total of 29.86\% of all workplace accidents. 
-This increasing trend in more frequent exposure to workplace safety hazards is also likely to continue as the dynamic and complex nature of construction projects increase. \textbf{CITE[8]} 
+This increasing trend in more frequent exposure to workplace safety hazards is also likely to continue as the dynamic and complex nature of construction projects increase. \cite{muzz8}
 
 \section{The Need for a Solution}
 From the number of injuries reported to the worker to inspector ratio, it is clear that workplace 
@@ -102,6 +104,74 @@ behaviour as they are more informative and can be used to measure for the absenc
 \cite{a4}. \\ \\  The industry can also utilize the data gathered by a monitoring system to inform decisions about workplace safety, which can lead to more effective interventions. Studies 
 indicate organizations should regularly collect and analyze data related to incidents, near misses, and employee feedback to identify areas for improvement \cite{a1} 
 
+
+
+\section{Proposed Frameworks for Automated Safety Hazard Detection System}
+
+\subsection{General Framework for Safety Detection}
+
+When evaluating safety hazards observers must rely on their perceptual abilities, including object and scene recognition, as well as processing spatial and temporal relationships. They then use this information to make decisions based on rules, guidelines and experience. JoonOh, therefore proposes that a Computer Vision framework should not only extract information but also, “compare the information with existing knowledge on potential risks or hazards.” \textbf{CITE[6]}
+
+To achieve this, JoonOh’s framework includes a two-fold approach. First, using various imagery data on scene using various image sensing devices to extract useful information which can be categorized into three categories, (1) object detection; (2) object tracking; and (3) action recognition. 
+
+Weiling Fang, also notes that current deep learning and computer vision frameworks focus on three key areas of constriction safety being; failure of personal protective equipment, exposure to hazardous areas and failure to follow safety procedures. As a result, research has relied upon object detection algorithms, object tracking, image classification and activity recognition algorithms. Information extracted by these algorithms have been successful in identifying unsafe behaviours when paired with rules, guidelines, and expert experiences to make decisions.
+
+\subsection{Image and Data Collection and Annotation}
+
+Weiling Fang, notes that as a result of technological advancements, “a rich collection of images of people's actions and the work conditions that contribute to unsafe events have been accumulated.” However he also highlights that previous implementations for a fully automated and comprehensive safety monitoring system have failed because publicly available image datasets do not possess unique characteristics which include; spatial conflicts, cluttered backgrounds, occlusions, various poses and scales that account for the dynamic and changing nature of a construction environment. \textbf{CITE 8} Therefore data collection becomes a cornerstone of a safety hazard monitoring system. 
+
+Divyanka Thakur’s paper, “YOLOv8- Based Helmet and Vest Detection System for Safety Assessment,” had only 700 samples from a single webcam in the dataset. However, Nipun D. Natha’s paper, “Deep learning for site safety,” had twice the amount: 1472 samples obtained in equal parts from Web Mined (698 samples) and Crowd Sourced (774 samples) from three different construction projects. Both authors trained their models on Yolo, 
+
+On the other hand, Qi Fang’s paper, “Detecting non-hard hat-use by a deep learning method from far-field surveillance videos,” has a staggering 100000 samples pooled from 25 separate construction projects to be trained on a Faster R-CNN Model. 
+Divyanka Thakur and Qi Fang directly use annotated samples to train the model which only makes sense for the latter considering its large size. 
+Nipun D, creates a larger augmented dataset by generating noise, in the saturation, hue of the images and flipping the images in the x-axis. 
+In the case of small datasets, dataset augmentation is almost essential to prevent the model from overfitting and remain generalizable \textbf{CITE{11, 12, 13}}.
+
+Kim et al. (2023) \textbf{CITE[9]}, likewise created a dataset of 18000 images of PPE, heavy construction equipment and workers at construction sites and use Google Colab+ to fine tune YOLO on these images with the primary goal of training these models to improve the accuracy of object recognition and classification in real-time detection of safety hazards at construction sites.
+
+\subsection{Frameworks for Person and Object Detection}
+
+Prateek Khandelwal’s paper, “Using Computer Vision to Enhance Safety of Workforce in Manufacturing in a Post COVID World” provides a framework for both person detection and distance calculation using MobileNetV2. This model was trained using TensorFlow Object Detections API and was trained for 500,000 steps with rmsprop optimizer. 
+
+YOLO, however, can provide a better framework for object and person detection. YOLO’s single-stage object detection framework that treats detection as a regression problem. Instead of generating region proposals and classifying them in separate steps like two-stage detectors, YOLO predicts bounding boxes and class probabilities directly from the entire image in a single forward pass. 
+This end-to-end architecture makes YOLO exceptionally fast and suitable for real-time applications, without compromising on accuracy. Its successive versions have incorporated advancements like anchor-free detection, feature pyramid networks, and efficient backbones, further enhancing its capabilities across diverse object detection scenarios \cite{h6}.
+
+In hazard detection, the first step involves identifying hazard-relevant objects such as workers, PPE equipment, restricted zones, and machinery. Most methodologies rely on YOLO for this stage, and we found a saturation research addressing this aspect \cite{h5}. 
+However, the next stage—determining hazardous relationships between these objects—is, in our view, the more challenging task. This ranges from straightforward techniques, such as verifying if the midpoint of a worker’s bounding box lies within a restricted zone 
+(defined by a polygon of coordinates), to more complex tasks like confirming whether a detected hard hat is actually being worn by a person rather than simply being held.
+
+
+\subsection{Distance Calculation Between People and Objects}
+
+The main challenge that Prateek Khandelwal faced was with measuring distances as the camera-plane is a 2D projection of 3D world coordinates, therefore spatial relationships change due to the camera’s perspective.
+Furthermore objects closer to the camera appear larger than those further away. As a result, while MobileNetV2 provided a bounding box with [xmin, ymin, width, height] values, simply calculating the distance between the rectangles in this perspective would give an incorrect estimate of the actual distance.\\
+
+To get a more accurate distance, they transformed the image into a top-down-view by applying an Inverse Perspective Transform through a Homography Matrix, M. M’s calculation required a translation to make the image zero centered, followed by Rotation and Scaling along Rx and Rz 
+using the angle between camera plane and perspective view plane and finally a projection step. The computation was done using OpenCV. For the construction of M, four points were selected which defined a region where actual distance was known and did not form a co-linear set.  
+Once the bounding boxes were applied to the transformation Matrix M, the bottom coordinates of the rectangles were used to compute the Euclidean distance between them. Additional testing showcased that this methodology provided a 90\% accuracy.
+
+
+\subsection{You Only Look Once (YOLO) Based Approaches}
+
+Kim et al. (2023) \textbf{CITE[9]}details their research on the application of YOLO v5 and v8 for Workplace Safety at construction sites. They note that in the construction industry, safety management is crucial to mitigate accidents that lead to financial, reputational, and human losses and 
+that Computer Vision (CV) techniques are becoming essential in improving safety measures in construction sites. 
+
+Using mAP50 (mean average precision at 50\% IoU threshold) and mAP50-95 to evaluate results, they found YOLO v8 outperformed YOLO v5 with highest mAP50: 95.4\%. They also reported the reasonable finding of larger YOLO models achieving higher accuracy but requiring more computational resources. 
+
+Barlybayev, A. et al. (2024) \textbf{CITE[10]} in their study use the YOLOc8 architecture to do object detection of PPE. They also note that despite significant growth in industrial and construction sectors, accidents remain a critical concern due to safety lapses, 
+including improper use of PPE. Traditional safety management methods, including manual supervision and sensor-based systems, are costly, inefficient, and fail to adapt to dynamic environments while CV techniques provide an economical and scalable alternative for real-time PPE detection, 
+reducing risks and improving workplace safety. They develop and evaluate a PPE detection system, using 1330 images of Color Helmets and Vest as well as the SHEL5K dataset consisting of 5000 images of workers wearing helmets. YOLOv8 models were trained and tested with parameters tailored to optimize detection of PPE, 
+including class-specific bounding boxes.YOLOv8x (extra-large) achieved the highest metrics: precision (94.5\%), recall (86.9\%), and mAP50 (92.9\%) while YOLOv8l (large) and YOLOv8m (medium) models provided a balance between accuracy and computational use. YOLOv8n and YOLOV8s (nano and small) are incredibly efficient but less accurate, 
+making them more suitable for resource-constrained environments. They recommend (large, extra-large) for where accuracy is essential. YOLOv8 demonstrated superior performance over earlier YOLO versions, with the larger models excelling in accuracy and reliability for PPE detection.
+
+\section{Challenges}
+
+As mentioned before, the main challenges highlighted mainly include how high quality and extensive image databases are a central requirement for a Convolutional Neural Networks (CNN’s) ability to learn accurately and effectively. Previous implementations for a fully automated and comprehensive safety monitoring system have failed because publicly available image datasets do not possess unique characteristics required to identify objects in construction or factory settings. \textbf{CITE 8}
+
+Likewise, hazards being out of sight or obstructed by other objects are not as easy to identify  due to the limitations of deep learning models in being able to predict previously unobservable objects and extract concealed information using computer vision. \textbf{CITE 8}
+
+Another limitation is that deep learning models can learn correlations between inputs and output features but cannot define causality. Understanding casualty is important in regards to construction and factory safety as it contextualizes interaction between people’s behaviours, 
+their environment and working situations which lead to the hazard occurring.  \textbf{CITE 8}
 
 
 \begin{thebibliography}{00}
