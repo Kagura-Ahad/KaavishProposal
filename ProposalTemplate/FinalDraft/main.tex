@@ -1,0 +1,185 @@
+\documentclass{article}
+\usepackage{array}
+\usepackage{etoolbox}
+\usepackage{fancyhdr}
+\usepackage{geometry} 
+\usepackage{graphicx}
+\usepackage{soul}
+\usepackage{titling}
+\usepackage{url}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BEGIN METADATA: Edit the following as appropriate
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Real-Time Safety Monitoring System for Industrial Workplaces Using Deep Learning and Computer Vision}  % the title of your project
+\newcommand\shorttitle{\thetitle}  % if needed: a shorter title for the document header
+% Team members.
+\newcommand\firstname{Asad Ullah Chaudhry} % full name
+\newcommand\firstid{ac07408}        % ID, e.g. xy01234
+\newcommand\secondname{Muhammad Arsalan Hussain}  % full name
+\newcommand\secondid{mh07607}         % ID, e.g. xy01234
+\newcommand\thirdname{Muzzammil Kamran Sattar}  % full name
+\newcommand\thirdid{ms07164}  
+\newcommand\fourthname{Syed Ahad Ali}  % full name
+\newcommand\fourthid{sa07753}         % ID, e.g. xy01234
+
+\newenvironment{tight_enumerate}{
+\begin{enumerate}
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{0pt}
+}{\end{enumerate}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% END METADATA: Do not edit the preamble any further.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{fancy}
+\lhead{Kaavish Literature Review}
+\rhead{Fall 2024}
+\cfoot{Page \thepage}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\newcommand\instruction[1]{\textit{#1}}
+
+\begin{document}
+
+% Cover page.
+\input{cover}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DATA: Populate the rest of the document as instructed.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Abstract}
+
+\section{Introduction}
+
+Pakistan has an employed population of 71.76 million \cite{b1} with a significant portion of the workforce employed in the manufacturing (14.9\%) and construction (14.4\%) sectors \cite{b1}. 
+Out of the total workforce population, 1.9 million (2.7\% of total) people faced a work related injury in 2020-2021. Of these injured people, 40.5\% of workers had to consult a medical professional, 11.7\% had to get hospitalized and 31.6\% were forced to take took time off work because of their injury
+\cite{b1}. The labour workforce in the industrial sector (engaged in assembly and manufacturing) is one of the most dangerous 
+sectors to work in, accounting for 20\% of all workplace injuries in 2020-2021 \cite{b1}.
+With the monthly average income in the manufacturing sector being 22,000 PKR \cite{b1}, 
+Such injuries can have a significant impact on the financial stability of the workers and their families with many not being able to afford healthcare services at all 
+Pakistan stands as one of the countries with the least amount of regulation and protection when it comes to labor rights. For a labor force of 10.63 million (that is part of the formal sector),
+Pakistan has nearly 517 labour inspectors which means one inspector for more than 20,560 workers\cite{b3} highlighting the neglect of Labour rights, safety protocols and education of the workers into safe practices.
+\\ \\
+This project aims to address the issue of workplace safety in the industrial sector by developing a real-time safety monitoring system that can detect unsafe behaviors and conditions in the workplace. 
+Such a system can help prevent accidents and injuries by alerting workers and supervisors when unsafe conditions are detected, allowing them to take corrective action \textbf{before} an accident occurs.
+The system will use computer vision and deep learning techniques to analyze video footage from CCTV cameras installed in the factory and identify safety hazards in real time.
+\\ 
+Globally, a closely related industry, the construction industry, can be just as unsafe and dangerous.
+Although the construction industry accounts for 7\% of all workers, people are employed in the construction industry worldwide. However, 30-40\% of workplace fatalities happen in this Industry. Occupational Safety and Health Administration (OSHA)
+in the United States has reported 991 loss of levis in the construction industry since 2006 \cite{muzz8}. Another statistic claims that even though the industrial sector constitutes about 5\% of the workforce in the U.S., fatal injuries in construction 
+accounts for about 18\% of all occupational deaths, with the incident rate for nonfatal occupational injuries and illness in construction is 30\% higher than average industries. \cite{muzz8}
+\\ 
+Similarly, in China 3843 fatal injuries were recorded in 2017 making the construction industry one of the most fatal. Whereas in the United Kingdom, fatalities are also a problem in construction accounting for a total of 29.86\% of all workplace accidents. 
+This increasing trend in more frequent exposure to workplace safety hazards is also likely to continue as the dynamic and complex nature of construction projects increase. \cite{muzz8}
+
+\section{Literature Review}
+
+\section{Software Requirements}
+
+  \subsection{Problem Statement and User Requirements}
+  This project tackles two main questions:
+  \begin{itemize}
+    \item How might we assist Dawlence make factories safer?
+    \item How might we help safety managers manage and identify frequent safety hazards?
+  \end{itemize}
+  
+  To do so we needed to design a system that fulfills the following User Requirements:
+  \begin{itemize}
+    \item Detection and Identification: The system should Continuously Detect, Identify and Record Safety Hadzards
+    \item Real Time Alerts: The system should analysis real time CCTV footage and provide real time notifications
+    \item Analysis and Insights: The system should be capable of generating reports detailing the frequency of incidents, time, location and type
+  \end{itemize}
+
+  \subsection{Functional Requirements}
+
+  \subsection{Use Case Diagram}
+
+  \subsection{Data Flow Diagram}
+
+\section{Methodology}
+
+\subsection{Software Solution Design}
+
+  \subsubsection{Database Strcuture}
+
+  \subsubsection{}
+
+  \subsubsection{UML: Class Diagram}
+    To be made
+
+\subsection{Data Annotations}
+
+\subsection{Model Training}
+
+  \subsubsection{Hyperparitamization: Overcoming Overfitting}
+
+\subsection{Hadzard Logic and Function Implementation}
+
+  \subsubsection{Hadzard Zone Implementation}
+
+  \subsubsection{PPE Implementation}
+
+  \subsubsection{Forklift Safety}
+
+  \subsubsection{Fall Detection}
+
+\subsection{Web Application}
+
+  \subsubsection{User Interface}
+  Include Protyping and Iterative Design Methology for example consulting Sabhi about things like being able to toggle hazards on and off
+
+  \subsection{Analytics and Reports}
+
+  \subsection{Broadcasting of Notifications}
+
+\subsection{Parrallel CCTV Camera Processing}
+  Discuss about the Race Condition. About the limitations of Python's Threads. How we finally implemented it using
+  multiple processes instead of multiple threads, to ensure better FPS.
+
+\subsection{On-Site Deployment}
+
+  \subsubsection{Hardware Requirements}
+
+  \subsubsection{CPU and GPU Useage}
+
+\section{Testing}
+
+  \subsection{Model Testing Comparision}
+
+  Compare YOLO Base Model with our Model. Highlight how base YOLO wasn't suited to the Dawlance environment because it couldn't 
+  pick up on Women Worker espically those wearing a Red Hijab. Include Testing Results of YOLO Base Model and 
+
+  \subsection{Creation of Hazard Testing Dataset}
+
+\section{Conclusion and Discussion}
+
+\vspace{5cm}
+
+\begin{thebibliography}{ieetr}
+
+    \bibitem{b1} Government Of Pakistan, ``Pakistan Labour Force Survey 20-21,'' \textit{Pakistan Bureau of Statistics}, 2021. [Online]. Available: \url{https://www.pbs.gov.pk/sites/default/files/labour_force/publications/lfs2020_21/LFS_2020-21_Report.pdf}.
+    \bibitem{b3} Center for Labour Research, ``The Whistlers: Do you want to report a rights violation?,'' \textit{CLR}, [Online]. Available: \url{https://clr.org.pk/}. [Accessed: Sep. 19, 2024].
+    \bibitem{muzz8} W. Fang et al., “Computer vision applications in construction safety assurance,” Automation in Construction, vol. 110, p. 103013, Feb. 2020, doi: 10.1016/j.autcon.2019.103013.
+    \bibitem{muzz7} P. Khandelwal, A. Khandelwal, and S. Agarwal, Using Computer Vision to Enhance Safety of Workforce in Manufacturing in a Post COVID World, May 2020. DOI: 10.48550/arXiv.2005.05287
+    \bibitem{muzz6} J. Seo, S. Han, S. Lee, and H. Kim, "Computer vision techniques for construction safety and health monitoring," Advanced Engineering Informatics, vol. 29, no. 2, pp. 239–251, 2015. DOI: 10.1016/j.aei.2015.02.001. [Online]. Available: https://www.sciencedirect.com/science/article/pii/S1474034615000269. 
+    \bibitem{a1} S. G et al., “Measuring Best Practices for Workplace Safety, Health, and Well-Being: The Workplace Integrated Safety and Health Assessment,” Journal of occupational and environmental medicine, vol. 60, no. 5, May 2018, doi: 10.1097/JOM.0000000000001286.
+    \bibitem{a3} T. M. Mutegi, P. M. Joshua, and J. M. Kinyua, “Workplace Safety and Employee Productivity of Manufacturing Firms in Kenya,” Cogent Business \& Management, vol. 10, no. 2, p. 2215569, Dec. 2023, doi: 10.1080/23311975.2023.2215569.
+    \bibitem{a5}J. C. Wallace, J. B. Paul, R. S. Landis, and S. J. Vodanovich, "Occupational safety," in The Oxford Handbook of Personnel Assessment and Selection, N. Schmitt, Ed. New York, NY: Oxford University Press, 2012, pp. 614–628.
+    \bibitem{a4} J. M. Beus, M. A. McCord, and D. Zohar, “Workplace safety: A review and research synthesis,” Organizational Psychology Review, vol. 6, no. 4, pp. 352–381, Nov. 2016, doi: 10.1177/2041386615626243.
+    \bibitem{a9} K. Kim, K. Kim, and S. Jeong, “Application of YOLO v5 and v8 for Recognition of Safety Risk Factors at Construction Sites,” Sustainability, vol. 15, no. 20, Art. no. 20, Jan. 2023, doi: 10.3390/su152015179.
+    \bibitem{a10} A. Barlybayev et al., “Personal protective equipment detection using YOLOv8 architecture on object detection benchmark datasets: a comparative study,” Cogent Engineering, vol. 11, no. 1, p. 2333209, Dec. 2024, doi: 10.1080/23311916.2024.2333209.
+    \bibitem{h1} D. Thakur, P. Pal, A. Jadhav, N. Kable, B. V. Bhagyalakshmi, and S. Deshpande, ``YOLOv8-Based Helmet and Vest Detection System for Safety Assessment,'' in \textit{2023 International Conference on Network, Multimedia and Information Technology (NMITCON)}, Navi Mumbai, India, 2023, pp. 1-6. [Online]. Available: \url{https://ieeexplore.ieee.org/document/10275958/} % Replace with actual DOI or URL.
+    \bibitem{h2} N. D. Nath, A. H. Behzadan, and S. G. Paal, ``Deep learning for site safety: Real-time detection of personal protective equipment,'' \textit{Automation in Construction}, Texas A\&M University, College Station, TX, USA. [Online]. Available: \url{https://www.sciencedirect.com/science/article/pii/S0926580519308325} % Replace with the actual DOI or link.
+    \bibitem{h3} Q. Fang, H. Li, X. Luo, L. Ding, H. Luo, T. M. Rose, and W. An, ``Detecting non-hardhat-use by a deep learning method from far-field surveillance videos,'' \textit{Automation in Construction}, vol. 85, pp. 1-9, 2018. [Online]. Available: \url{https://www.elsevier.com/locate/autcon}
+    \bibitem{h4} ``Faster R-CNN vs YOLOv5,'' \textit{Roboflow}, [Online]. Available: \url{https://roboflow.com/compare/faster-r-cnn-vs-yolov5}.
+    \bibitem{h5} B. H. W. Guo, Y. Zou, Y. Fang, Y. M. Goh, P. X. W. Zou, ``Computer vision technologies for safety science and management in construction: A critical review and future research directions,'' \textit{Safety Science}, vol. 112, p. 103085, 2020. [Online]. Available: \url{https://www.elsevier.com/locate/safety}
+    \bibitem{h6} A. Redmon, S. Divvala, R. Girshick, and D. Farhadi, ``You Only Look Once: Unified, Real-Time Object Detection,'' \textit{arXiv}, 2015. [Online]. Available: \url{https://arxiv.org/abs/1506.02640}
+
+\end{thebibliography}
+    
+\end{document}
