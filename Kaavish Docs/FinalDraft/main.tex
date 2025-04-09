@@ -37,7 +37,7 @@
 
 \pagestyle{fancy}
 \lhead{Kaavish Literature Review}
-\rhead{Fall 2024}
+\rhead{Spring 2025}
 \cfoot{Page \thepage}
 \renewcommand{\footrulewidth}{0.4pt}
 
@@ -64,40 +64,204 @@ With the monthly average income in the manufacturing sector being 22,000 PKR \ci
 Such injuries can have a significant impact on the financial stability of the workers and their families with many not being able to afford healthcare services at all 
 Pakistan stands as one of the countries with the least amount of regulation and protection when it comes to labor rights. For a labor force of 10.63 million (that is part of the formal sector),
 Pakistan has nearly 517 labour inspectors which means one inspector for more than 20,560 workers\cite{b3} highlighting the neglect of Labour rights, safety protocols and education of the workers into safe practices.
-\\ \\
-This project aims to address the issue of workplace safety in the industrial sector by developing a real-time safety monitoring system that can detect unsafe behaviors and conditions in the workplace. 
-Such a system can help prevent accidents and injuries by alerting workers and supervisors when unsafe conditions are detected, allowing them to take corrective action \textbf{before} an accident occurs.
-The system will use computer vision and deep learning techniques to analyze video footage from CCTV cameras installed in the factory and identify safety hazards in real time.
-\\ 
-Globally, a closely related industry, the construction industry, can be just as unsafe and dangerous.
+
+Furthermore, given these stats, it is not surprising that the construction industry is one of the most dangerous industries to work in.
 Although the construction industry accounts for 7\% of all workers, people are employed in the construction industry worldwide. However, 30-40\% of workplace fatalities happen in this Industry. Occupational Safety and Health Administration (OSHA)
 in the United States has reported 991 loss of levis in the construction industry since 2006 \cite{muzz8}. Another statistic claims that even though the industrial sector constitutes about 5\% of the workforce in the U.S., fatal injuries in construction 
 accounts for about 18\% of all occupational deaths, with the incident rate for nonfatal occupational injuries and illness in construction is 30\% higher than average industries. \cite{muzz8}
 \\ 
 Similarly, in China 3843 fatal injuries were recorded in 2017 making the construction industry one of the most fatal. Whereas in the United Kingdom, fatalities are also a problem in construction accounting for a total of 29.86\% of all workplace accidents. 
 This increasing trend in more frequent exposure to workplace safety hazards is also likely to continue as the dynamic and complex nature of construction projects increase. \cite{muzz8}
+\\ \\
 
-\section{Literature Review}
 
-\section{Software Requirements}
+\section{The Need for a Solution}
+From the number of injuries reported to the worker to inspector ratio, it is clear that workplace 
+safety needs to be revamped in Pakistan. Answering how to improve workplace safety (and thus minimize risk and injuries) in an industrial setting, 
+we see a multi-prong approach many of which Dawlence (our industrial partner) implements already. \\
+Research has found that industries should implement policies and practices that create a supportive environment for safety. This includes proper training, access to personal protective equipment (PPE), 
+and clear communication of safety protocols \cite{a1} and collaboration between departments ensures that health promotion and injury prevention efforts are aligned, maximizing their effectiveness \cite{a1}. \\
 
-  \subsection{Problem Statement and User Requirements}
-  This project tackles two main questions:
+The specific problems this project intends to target are related to adherence to regulations and supporting data-driven change. Studies found that compliance to local and state workplace regulations as well as 
+industry-specific regulations is fundamental to maintaining workplace safety \cite{a1} Safe workplaces are more productive as well. A study found that improved workplace safety directly correlates with increased employee productivity. 
+Specifically, firms that implemented comprehensive safety monitoring reported an average productivity increase of 15\% due to reduced absenteeism and fewer disruptions caused by accidents \cite{a3}. 
+Enhanced safety measures not only protect workers but also contribute to a more efficient workflow. \\
+
+One way of ensuring workplace safety is through monitoring systems. Monitoring systems can help identify unsafe behaviors and conditions in real-time, allowing for immediate intervention to prevent accidents. 
+The frequency of the occurrence of accidents is perhaps the most common indicator of workplace safety and how safe a manufacturing environment 
+is \cite{a5} but it should be noted that workplace accidents can only provide an indicator for the absence of safety rather than the presence of it. \cite{a4}
+points out that workers who routinely ignore certain safety protocols will often do so precisely because it has yet to result in an accident. Safety related behaviours are a better indicator of safe and unsafe 
+behaviour as they are more informative and can be used to measure for the absence of safety as well as the presence of it (unlike the occurrence of accidents as they are the consequences of unsafe behaviour)  
+\cite{a4}.  \ The industry can also utilize the data gathered by a monitoring system to inform decisions about workplace safety, which can lead to more effective interventions. Studies 
+indicate organizations should regularly collect and analyze data related to incidents, near misses, and employee feedback to identify areas for improvement \cite{a1}  \\ 
+
+This project hence aims to address the issue of workplace safety in the industrial sector by developing a real-time safety monitoring system that can detect unsafe behaviors and conditions in the workplace. 
+Such a system can help prevent accidents and injuries by alerting workers and supervisors when unsafe conditions are detected, allowing them to take corrective action \textbf{before} an accident occurs.
+The system will use computer vision and deep learning techniques to analyze video footage from CCTV cameras installed in the factory and identify safety hazards in real time.
+\\ 
+ 
+
+
+  \section{Literature Review on Automated Safety Hazard Detection Systems}
+
+  \subsection{Foundational Frameworks for Safety Hazard Analysis}
+  Contemporary automated safety hazard detection systems leverage computer vision to replicate human observers' perceptual capabilities through integrated object detection, tracking, and action recognition. As emphasized by \cite{muzz6}, effective frameworks must not only extract visual information but also contextualize it against predefined safety knowledge. This aligns with \cite{muzz8}'s assertion that successful implementations combine deep learning algorithms with rule-based decision-making, particularly for monitoring personal protective equipment (PPE) compliance, hazardous zone exposure, and procedural violations. The field converges on three critical computational tasks: (1) detecting hazard-relevant objects (workers, PPE, machinery), (2) tracking spatial-temporal relationships, and (3) recognizing unsafe actions or procedural deviations.
+  
+  \subsection{Data Challenges in Construction Safety Monitoring}
+  A persistent challenge lies in the scarcity of suitable training data for dynamic construction environments. While advanced implementations like \cite{muzz8} utilize over 100,000 images from 25 construction projects, typical datasets remain limited in scale and diversity. For instance, \cite{h1} uses only 700 samples from a single webcam, and \cite{h3} employs 1,472 crowd-sourced images. These datasets often lack critical characteristics of construction sites, including spatial conflicts, occlusions, multi-scale objects in cluttered backgrounds, and diverse worker poses. To address data scarcity, researchers employ augmentation strategies such as geometric transformations (flips, rotations), photometric variations (hue/saturation adjustments), and synthetic data generation \cite{h2}. Larger datasets like the SHEL5K (5,000 helmet images) and proprietary collections from \cite{a10} (13,300 PPE images) demonstrate improved model generalization.
+  
+  \subsection{Evolution of Object Detection Architectures}
+  YOLO (You Only Look Once) variants have emerged as the dominant architecture for real-time safety monitoring. Comparative studies reveal progressive performance improvements across versions:
+  
+
+  \begin{table}[h]
+    \centering
+    \caption{Performance comparison of YOLO variants in safety applications}
+    \begin{tabular}{|l|c|c|c|}
+    \hline
+    Model & mAP50 & Precision & Recall \\ \hline
+    YOLOv8x & 92.9\% & 94.5\% & 86.9\% \\ \hline
+    YOLOv5 & 89.1\% & 91.2\% & 83.4\% \\ \hline
+    YOLOv3 & 85.0\% & 88.7\% & 79.1\% \\ \hline
+    \end{tabular}
+    \end{table}
+
+  Key architectural advancements include anchor-free detection in YOLOv8 \cite{h6} and multi-class state detection (e.g., classifying workers as [W, WH, WV, WHV] in \cite{h2}). Notably, \cite{h3} achieves 95\% precision/recall in direct non-compliance detection by training models exclusively on "No Hat" annotations, bypassing traditional multi-object detection pipelines.
+  
+  \subsection{Spatial Analysis and Hazard Relationship Modeling}
+  Accurate spatial reasoning in 2D projections remains a critical challenge. \cite{h1} addresses this through inverse perspective mapping (IPM) with homography matrices, achieving 90\% accuracy in distance estimation. The methodology involves three steps: (1) perspective transformation using known reference points, (2) bounding box coordinate conversion, and (3) Euclidean distance computation in transformed space. For contextual hazard analysis, research diverges into three approaches: heuristic geometric checks (e.g., midpoint-in-polygon tests), probabilistic models like Bayesian networks (67.9\% mAP in \cite{h2}), and end-to-end non-compliance detection (95\% precision in \cite{h3}).
+  
+
+  % Now start talking about the system
+
+
+  \section{Project Description}
+
+  \subsection*{Project Objectives}
+
+  The primary aim of this project is to develop and deploy a real-time monitoring system at Dawlence's sheet metal plant in Karachi.
+   Our main objectives are:
+  
   \begin{itemize}
-    \item How might we assist Dawlence make factories safer?
-    \item How might we help safety managers manage and identify frequent safety hazards?
+      \item \textbf{Safety Hazard Detection:} 
+      \begin{itemize}
+          \item The system should continuously analyse CCTV footage, identifying unsafe behaviours which include ensuring that:
+          \begin{itemize}
+              \item Workers wear mandatory PPE, including gloves and protective shoes.
+              \item Workers avoid active machinery or other restricted areas by monitoring restricted zones.
+              \item Workers are not in close proximity to moving machinery, such as forklifts.
+              \item Forklifts are not being operated unsafely or in an unapproved manner, which may result in harm.
+              \item Machinery is not being operated unsafely or in an unapproved manner, which may result in harm.
+              \item Safe distance is present between forklifts and workers.
+          \end{itemize}
+      \end{itemize}
+  
+      \item \textbf{Alert System for Quick Intervention:} 
+      \begin{itemize}
+          \item The system should feature an immediate alert/notification system that will inform on-site supervisors of any safety violations. Alerts will be delivered through multiple channels (dashboard, email, SMS).
+      \end{itemize}
+      
+      \item \textbf{Data-Driven Safety Analysis:}
+      \begin{itemize}
+          \item The system must include a dashboard displaying analytics of safety protocols and their breaches, which Dawlance can later use to identify trends and improve safety protocols and training over time.
+          \item Relevant key data must be extracted from Dawlence's CCTV systems for the purpose of fine-tuning the model based on the hazard list provided by Dawlance.
+      \end{itemize}
   \end{itemize}
   
-  To do so we needed to design a system that fulfills the following User Requirements:
+
+  \section{Functional Requirements}
+
+  \subsection*{List of Functional Requirements}
+  \begin{enumerate}
+      \item \textbf{Forklift Proximity Detection:} Relevant manager(s) should be notified via email and on web application if any worker is standing too close to a forklift.
+      \item \textbf{Forklift Speed Estimation:} Relevant manager(s) should be notified via email and on web application if speed of any forklift goes above the company limit.
+      \item \textbf{PPE Detection:} Relevant manager(s) should be notified via email and on web application if any worker is not wearing the appropriate safety equipment. Currently, the equipment is limited to gloves and shoes.
+      \begin{enumerate}
+          \item \textbf{Hazardous Area Entry Detection:} Relevant manager(s) should be notified via email and on web application if any worker is entering a hazardous area.
+          \item Some areas are only considered hazardous if a certain machine in that area is operating. Thus, notifying should only take place if all the conditions are met including the operation of a machine.
+      \end{enumerate}
+      \item \textbf{Fall Detection:} Relevant manager(s) should be notified via email and on web application if any worker has fallen.
+     
+      \item \textbf{Statistics:} The dashboard of the web application should include data visualization of hazard detections made by the system:
+      \begin{enumerate}
+          \item Total detections made today and total detections made over the course of the month must be displayed.
+          \item A pie chart must be displayed to illustrate the distribution of detected hazard types by percentage.
+      \end{enumerate}
+      \item \textbf{Video Feed:} The real-time annotated footage resulted from the hazard detection model(s) must be viewable for both cameras in the web application.
+      \item \textbf{Notification System} The system will send real-time alerts through the dashboard to the supervisor about detected hazard and a textual description. The notification system shall support alerts via email, and web app notifications.
+      \item \textbf{User Management:} The web application should include a user management system with the following features:
+      \begin{itemize}
+          \item \textbf{User Roles and Permissions:} Different levels of access for managers, supervisors, and regular users.
+          \item \textbf{User Authentication:} Secure login process with multi-factor authentication.
+      \end{itemize}
+  \end{enumerate}
+
+  \section{Non-Functional Requirements}
+
+  \subsection*{Performance}
   \begin{itemize}
-    \item Detection and Identification: The system should Continuously Detect, Identify and Record Safety Hadzards
-    \item Real Time Alerts: The system should analysis real time CCTV footage and provide real time notifications
-    \item Analysis and Insights: The system should be capable of generating reports detailing the frequency of incidents, time, location and type
+      \item The system should process video and detect safety hazards in real-time with a maximum latency of 5 seconds to allow for immediate alerts.
+      \item The AI model shall achieve hazard detection at a minimum rate of 5 frames per second.
+      \item The models that the system uses shall be optimized to maintain minimal GPU usage to enable efficient resource allocation and better latency. 
   \end{itemize}
+  
+  \subsection*{Security}
+  \begin{itemize}
+      \item All data transmitted between CCTV cameras, the server, and the dashboard shall be done through robust API's to ensure data security and privacy.
+      \item User authentication shall be required for dashboard access, with role-based access controls to restrict unauthorized actions (e.g., viewing, managing system settings).
+      \item The system shall log all access and modification events in a secure log file to maintain an audit trail of user activities.
+  \end{itemize}
+  
+  \subsection*{Reliability}
+  \begin{itemize}
+      \item The system shall maintain an uptime of at least 90\%, providing continuous monitoring 24/7 for hazard detection.
+      \item The system shall ensure a hazard detection accuracy rate of at least 85\% under standard lighting and visibility conditions.
+      \item In the event of system failure or downtime, the system shall automatically restart within 60 seconds to resume monitoring.
+      \item A fallback alert mechanism shall be in place to notify administrators if the system encounters a critical error, ensuring timely intervention.
+  \end{itemize}
+  
+  \subsection*{Scalability}
+  \begin{itemize}
+      \item The system shall support integration of up to 2 additional CCTV cameras to monitor multiple factory zones as required.
+      \item The architecture shall be modular to allow deployment in different industrial environments with minimal configuration changes.
+      \item The system shall scale horizontally to support additional processing nodes in case of increased demand for real-time analysis across multiple sites.
+  \end{itemize}
+  
+  \subsection*{Usability}
+  \begin{itemize}
+      \item The web dashboard shall be intuitive, with clear visualization of alerts and hazards, requiring minimal training for floor supervisors.
+      \item Real-time alerts shall be designed to minimize false positives, ensuring only critical events trigger notifications. The alerts will be separated into different levels as well.
+      \item The system interface shall provide feedback on all actions (e.g., alerts sent, hazard status updates), and include accessible instructions for navigating the interface.
+  \end{itemize}
+  
+  \subsection*{Compliance}
+  \begin{itemize}
+      \item The system shall comply with Pakistan’s labor and safety regulations, including data protection requirements relevant to employee monitoring.
+      \item Video data and personal information shall be stored and managed following data protection standards, with access strictly controlled to authorized personnel.
+      \item System usage and data retention policies shall be reviewed periodically to align with any updates to industry safety and privacy regulations.
+  \end{itemize}
+  
+  \subsection*{Data Integrity and Backup}
+  \begin{itemize}
+      \item All detected hazard events and alerts shall be saved in a tamper-proof database with regular validation checks to ensure data accuracy.
+      \item The system shall implement a backup protocol to save video footage, detected events, and user interactions daily, with weekly backups stored securely offsite.
+      \item Backup data shall be retained for a minimum of 90 days, after which it shall be securely deleted unless required for compliance or analysis.
+      \item In case of data corruption or system failure, backup files shall allow restoration of data within a maximum downtime of 60 minutes.
+  \end{itemize}
+  
 
-  \subsection{Functional Requirements}
 
-  \subsection{Use Case Diagram}
+  \begin{figure}[h]
+      \centering
+      \includegraphics[width=1\textwidth]{usecase.jpg} % Adjust width as needed
+      \caption{Use Case Diagram for Real-Time Safety Monitoring System}
+      \label{fig:use_case_diagram}
+  \end{figure}
+  
+  
+
+
+
 
   \subsection{Data Flow Diagram}
 
@@ -161,24 +325,23 @@ This increasing trend in more frequent exposure to workplace safety hazards is a
 \vspace{5cm}
 
 \begin{thebibliography}{ieetr}
-
-    \bibitem{b1} Government Of Pakistan, ``Pakistan Labour Force Survey 20-21,'' \textit{Pakistan Bureau of Statistics}, 2021. [Online]. Available: \url{https://www.pbs.gov.pk/sites/default/files/labour_force/publications/lfs2020_21/LFS_2020-21_Report.pdf}.
-    \bibitem{b3} Center for Labour Research, ``The Whistlers: Do you want to report a rights violation?,'' \textit{CLR}, [Online]. Available: \url{https://clr.org.pk/}. [Accessed: Sep. 19, 2024].
-    \bibitem{muzz8} W. Fang et al., “Computer vision applications in construction safety assurance,” Automation in Construction, vol. 110, p. 103013, Feb. 2020, doi: 10.1016/j.autcon.2019.103013.
-    \bibitem{muzz7} P. Khandelwal, A. Khandelwal, and S. Agarwal, Using Computer Vision to Enhance Safety of Workforce in Manufacturing in a Post COVID World, May 2020. DOI: 10.48550/arXiv.2005.05287
-    \bibitem{muzz6} J. Seo, S. Han, S. Lee, and H. Kim, "Computer vision techniques for construction safety and health monitoring," Advanced Engineering Informatics, vol. 29, no. 2, pp. 239–251, 2015. DOI: 10.1016/j.aei.2015.02.001. [Online]. Available: https://www.sciencedirect.com/science/article/pii/S1474034615000269. 
-    \bibitem{a1} S. G et al., “Measuring Best Practices for Workplace Safety, Health, and Well-Being: The Workplace Integrated Safety and Health Assessment,” Journal of occupational and environmental medicine, vol. 60, no. 5, May 2018, doi: 10.1097/JOM.0000000000001286.
-    \bibitem{a3} T. M. Mutegi, P. M. Joshua, and J. M. Kinyua, “Workplace Safety and Employee Productivity of Manufacturing Firms in Kenya,” Cogent Business \& Management, vol. 10, no. 2, p. 2215569, Dec. 2023, doi: 10.1080/23311975.2023.2215569.
-    \bibitem{a5}J. C. Wallace, J. B. Paul, R. S. Landis, and S. J. Vodanovich, "Occupational safety," in The Oxford Handbook of Personnel Assessment and Selection, N. Schmitt, Ed. New York, NY: Oxford University Press, 2012, pp. 614–628.
-    \bibitem{a4} J. M. Beus, M. A. McCord, and D. Zohar, “Workplace safety: A review and research synthesis,” Organizational Psychology Review, vol. 6, no. 4, pp. 352–381, Nov. 2016, doi: 10.1177/2041386615626243.
-    \bibitem{a9} K. Kim, K. Kim, and S. Jeong, “Application of YOLO v5 and v8 for Recognition of Safety Risk Factors at Construction Sites,” Sustainability, vol. 15, no. 20, Art. no. 20, Jan. 2023, doi: 10.3390/su152015179.
-    \bibitem{a10} A. Barlybayev et al., “Personal protective equipment detection using YOLOv8 architecture on object detection benchmark datasets: a comparative study,” Cogent Engineering, vol. 11, no. 1, p. 2333209, Dec. 2024, doi: 10.1080/23311916.2024.2333209.
-    \bibitem{h1} D. Thakur, P. Pal, A. Jadhav, N. Kable, B. V. Bhagyalakshmi, and S. Deshpande, ``YOLOv8-Based Helmet and Vest Detection System for Safety Assessment,'' in \textit{2023 International Conference on Network, Multimedia and Information Technology (NMITCON)}, Navi Mumbai, India, 2023, pp. 1-6. [Online]. Available: \url{https://ieeexplore.ieee.org/document/10275958/} % Replace with actual DOI or URL.
-    \bibitem{h2} N. D. Nath, A. H. Behzadan, and S. G. Paal, ``Deep learning for site safety: Real-time detection of personal protective equipment,'' \textit{Automation in Construction}, Texas A\&M University, College Station, TX, USA. [Online]. Available: \url{https://www.sciencedirect.com/science/article/pii/S0926580519308325} % Replace with the actual DOI or link.
-    \bibitem{h3} Q. Fang, H. Li, X. Luo, L. Ding, H. Luo, T. M. Rose, and W. An, ``Detecting non-hardhat-use by a deep learning method from far-field surveillance videos,'' \textit{Automation in Construction}, vol. 85, pp. 1-9, 2018. [Online]. Available: \url{https://www.elsevier.com/locate/autcon}
-    \bibitem{h4} ``Faster R-CNN vs YOLOv5,'' \textit{Roboflow}, [Online]. Available: \url{https://roboflow.com/compare/faster-r-cnn-vs-yolov5}.
-    \bibitem{h5} B. H. W. Guo, Y. Zou, Y. Fang, Y. M. Goh, P. X. W. Zou, ``Computer vision technologies for safety science and management in construction: A critical review and future research directions,'' \textit{Safety Science}, vol. 112, p. 103085, 2020. [Online]. Available: \url{https://www.elsevier.com/locate/safety}
-    \bibitem{h6} A. Redmon, S. Divvala, R. Girshick, and D. Farhadi, ``You Only Look Once: Unified, Real-Time Object Detection,'' \textit{arXiv}, 2015. [Online]. Available: \url{https://arxiv.org/abs/1506.02640}
+  \bibitem{b1} Government Of Pakistan, ``Pakistan Labour Force Survey 20-21,'' \textit{Pakistan Bureau of Statistics}, 2021. [Online]. Available: \url{https://www.pbs.gov.pk/sites/default/files/labour_force/publications/lfs2020_21/LFS_2020-21_Report.pdf}.
+  \bibitem{b3} Center for Labour Research, ``The Whistlers: Do you want to report a rights violation?,'' \textit{CLR}, [Online]. Available: \url{https://clr.org.pk/}. [Accessed: Sep. 19, 2024].
+  \bibitem{muzz8} W. Fang et al., “Computer vision applications in construction safety assurance,” Automation in Construction, vol. 110, p. 103013, Feb. 2020, doi: 10.1016/j.autcon.2019.103013.
+  \bibitem{muzz7} P. Khandelwal, A. Khandelwal, and S. Agarwal, Using Computer Vision to Enhance Safety of Workforce in Manufacturing in a Post COVID World, May 2020. DOI: 10.48550/arXiv.2005.05287
+  \bibitem{muzz6} J. Seo, S. Han, S. Lee, and H. Kim, "Computer vision techniques for construction safety and health monitoring," Advanced Engineering Informatics, vol. 29, no. 2, pp. 239–251, 2015. DOI: 10.1016/j.aei.2015.02.001. [Online]. Available: https://www.sciencedirect.com/science/article/pii/S1474034615000269. 
+  \bibitem{a1} S. G et al., “Measuring Best Practices for Workplace Safety, Health, and Well-Being: The Workplace Integrated Safety and Health Assessment,” Journal of occupational and environmental medicine, vol. 60, no. 5, May 2018, doi: 10.1097/JOM.0000000000001286.
+  \bibitem{a3} T. M. Mutegi, P. M. Joshua, and J. M. Kinyua, “Workplace Safety and Employee Productivity of Manufacturing Firms in Kenya,” Cogent Business \& Management, vol. 10, no. 2, p. 2215569, Dec. 2023, doi: 10.1080/23311975.2023.2215569.
+  \bibitem{a5}J. C. Wallace, J. B. Paul, R. S. Landis, and S. J. Vodanovich, "Occupational safety," in The Oxford Handbook of Personnel Assessment and Selection, N. Schmitt, Ed. New York, NY: Oxford University Press, 2012, pp. 614–628.
+  \bibitem{a4} J. M. Beus, M. A. McCord, and D. Zohar, “Workplace safety: A review and research synthesis,” Organizational Psychology Review, vol. 6, no. 4, pp. 352–381, Nov. 2016, doi: 10.1177/2041386615626243.
+  \bibitem{a9} K. Kim, K. Kim, and S. Jeong, “Application of YOLO v5 and v8 for Recognition of Safety Risk Factors at Construction Sites,” Sustainability, vol. 15, no. 20, Art. no. 20, Jan. 2023, doi: 10.3390/su152015179.
+  \bibitem{a10} A. Barlybayev et al., “Personal protective equipment detection using YOLOv8 architecture on object detection benchmark datasets: a comparative study,” Cogent Engineering, vol. 11, no. 1, p. 2333209, Dec. 2024, doi: 10.1080/23311916.2024.2333209.
+  \bibitem{h1} D. Thakur, P. Pal, A. Jadhav, N. Kable, B. V. Bhagyalakshmi, and S. Deshpande, ``YOLOv8-Based Helmet and Vest Detection System for Safety Assessment,'' in \textit{2023 International Conference on Network, Multimedia and Information Technology (NMITCON)}, Navi Mumbai, India, 2023, pp. 1-6. [Online]. Available: \url{https://ieeexplore.ieee.org/document/10275958/} % Replace with actual DOI or URL.
+  \bibitem{h2} N. D. Nath, A. H. Behzadan, and S. G. Paal, ``Deep learning for site safety: Real-time detection of personal protective equipment,'' \textit{Automation in Construction}, Texas A\&M University, College Station, TX, USA. [Online]. Available: \url{https://www.sciencedirect.com/science/article/pii/S0926580519308325} % Replace with the actual DOI or link.
+  \bibitem{h3} Q. Fang, H. Li, X. Luo, L. Ding, H. Luo, T. M. Rose, and W. An, ``Detecting non-hardhat-use by a deep learning method from far-field surveillance videos,'' \textit{Automation in Construction}, vol. 85, pp. 1-9, 2018. [Online]. Available: \url{https://www.elsevier.com/locate/autcon}
+  \bibitem{h4} ``Faster R-CNN vs YOLOv5,'' \textit{Roboflow}, [Online]. Available: \url{https://roboflow.com/compare/faster-r-cnn-vs-yolov5}.
+  \bibitem{h5} B. H. W. Guo, Y. Zou, Y. Fang, Y. M. Goh, P. X. W. Zou, ``Computer vision technologies for safety science and management in construction: A critical review and future research directions,'' \textit{Safety Science}, vol. 112, p. 103085, 2020. [Online]. Available: \url{https://www.elsevier.com/locate/safety}
+  \bibitem{h6} A. Redmon, S. Divvala, R. Girshick, and D. Farhadi, ``You Only Look Once: Unified, Real-Time Object Detection,'' \textit{arXiv}, 2015. [Online]. Available: \url{https://arxiv.org/abs/1506.02640}
 
 \end{thebibliography}
     
