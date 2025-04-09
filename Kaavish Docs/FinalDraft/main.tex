@@ -7,7 +7,11 @@
 \usepackage{soul}
 \usepackage{titling}
 \usepackage{url}
-
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{tikz}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BEGIN METADATA: Edit the following as appropriate
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -53,6 +57,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Abstract}
+Add after writing report
 
 \section{Introduction}
 
@@ -151,7 +156,6 @@ The system will use computer vision and deep learning techniques to analyze vide
               \item Workers avoid active machinery or other restricted areas by monitoring restricted zones.
               \item Workers are not in close proximity to moving machinery, such as forklifts.
               \item Forklifts are not being operated unsafely or in an unapproved manner, which may result in harm.
-              \item Machinery is not being operated unsafely or in an unapproved manner, which may result in harm.
               \item Safe distance is present between forklifts and workers.
           \end{itemize}
       \end{itemize}
@@ -250,10 +254,9 @@ The system will use computer vision and deep learning techniques to analyze vide
   \end{itemize}
   
 
-
   \begin{figure}[h]
       \centering
-      \includegraphics[width=1\textwidth]{usecase.jpg} % Adjust width as needed
+      \includegraphics[width=1\textwidth]{usecase.png} % Adjust width as needed
       \caption{Use Case Diagram for Real-Time Safety Monitoring System}
       \label{fig:use_case_diagram}
   \end{figure}
@@ -261,9 +264,65 @@ The system will use computer vision and deep learning techniques to analyze vide
   
 
 
-
-
+  \section{Data Pipeline}
   \subsection{Data Flow Diagram}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{system_flow.png}
+    \caption{System Flow Diagram}
+\end{figure}
+
+
+  \subsection{Training Data Pipeline}
+  \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.75\textwidth]{training_pipeline.png}
+      \caption{Training data pipeline diagram}
+      \label{fig:pipeline1}
+  \end{figure}
+  
+  \begin{enumerate}
+      \item \textbf{Data Collection:} CCTV footage and publicly available datasets. Publicly available datasets may need to be preprocessed and/or re-annotated.
+      \item \textbf{Preprocessing:} Frame extraction, resizing, and augmentation.
+      \item \textbf{Data annotation:} Annotate frames manually.
+      \item \textbf{YOLO Model Training:} Transfer learning on annotated datasets.    
+      \item \textbf{Post-Processing algorithms testing:} Contextual filtering to detect hazards based on relationship of detecteions. Experiment with different methods to find most accurate for our purpose.
+      \item \textbf{Storage:} Privately stored recording of CCTV clips, annotated frames and associated data.
+  \end{enumerate}
+  
+  \subsection{Live Data Pipeline}
+  \begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{yolo_module.png}
+      \caption{YOLO module: $\leq4$ YOLO models running in parallel}
+      \label{fig:yolo}
+  \end{figure}
+  
+  \begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{complete_pipeline.png}
+      \caption{Live Data pipeline diagram}
+      \label{fig:pipeline2}
+  \end{figure}
+  
+  \begin{enumerate}
+      \item \textbf{CCTV cameras}: Live video stream from CCTV cameras.
+      \item \textbf{YOLO module}: $\leq$4 YOLO models running in parallel, each finetuned for a detection of safety-relevant objects.
+      \item \textbf{Post Processing}: Heuristic and non-heuristic algorithms to recognize hazards via relationships of detected objects.
+      \item \textbf{Database}: Relational database for statistics and records.
+      \item \textbf{Hard drive}: Clips stored locally on server machine.
+      \item \textbf{Frontend Web App}: An admin dashboard to look at annotated camera footage and statistics.
+  \end{enumerate}
+
+  \subsection{Entity-Relationship Diagram}
+\begin{figure}[H] % Use [H] to force exact placement
+    \centering
+    \includegraphics[width=\textwidth]{erd.png}
+    \caption{Entity-Relationship Diagram for Data Management}
+    \label{fig:er_diagram}
+\end{figure}
+
+
 
 \section{Methodology}
 
@@ -271,7 +330,7 @@ The system will use computer vision and deep learning techniques to analyze vide
 
   \subsubsection{Database Strcuture}
 
-  \subsubsection{}
+
 
   \subsubsection{UML: Class Diagram}
     To be made
