@@ -332,7 +332,14 @@ The system will use computer vision and deep learning techniques to analyze vide
 
 
     \subsubsection{UML: Class Diagram}
-        To be made
+\begin{figure}[H] % Use [H] to force exact placement
+\centering
+\includegraphics[width=0.8\textwidth]{UML.jpg}
+\caption{Class Diagram for Data Management}
+\label{fig:class_diagram}
+\end{figure}
+
+
 
 \subsection{Camera Installation}
 
@@ -486,41 +493,244 @@ The results after testing the model was as follows:
 
   \subsubsection{Hyperparitamization: Overcoming Overfitting}
 
-\subsection{Hadzard Logic and Function Implementation}
+\subsection{Hazard Logic and Function Implementation}
 
-  \subsubsection{Hadzard Zone Implementation}
+  \subsubsection{Hazard Zone Implementation}
+  The hazard zone entry logic is primarily implemented within the \texttt{\_\_processHazardZone} method of the \texttt{Camera} class and the \texttt{HazardZone} and \texttt{Person} classes. We achieved it through the following steps:
+
+    \begin{enumerate}
+        \item \textbf{Hazard Zone Definition:} The \texttt{HazardZone} class is initialized with an \texttt{id}, a list of \texttt{roi\_image\_points} defining the polygonal hazard zone in image coordinates, and the \texttt{homography\_matrix} to transform image coordinates to real-world coordinates.
+        
+        \item \textbf{Person Tracking:} The \texttt{\_\_processHazardZone} method iterates through detected persons (\texttt{r.cls == 6}). For each detected person, a \texttt{Person} object is either created (if it's a new detection) or its coordinates are updated (if it's an existing tracked person) using the \texttt{\_\_update\_tracked\_people} method.
+        
+        \item \textbf{Zone Containment Check:} The \texttt{IsInZone} method of the \texttt{HazardZone} class uses \texttt{cv2.pointPolygonTest} to determine if the person's feet midpoint lies within the defined image coordinates of the hazard zone.
+        
+        \item \textbf{Notification:} The \texttt{SetInZone(True)} method of the \texttt{Person} object is called if the person is in the zone. The \texttt{ZoneEntry} method of the \texttt{Person} class checks if the person's state has changed from outside the zone to inside. If so, a notification is generated. \texttt{SetInZone(False)} is called upon the person leaving.
+    \end{enumerate}
+
+    \textbf{Distances from Zone:} This is calculated using the \texttt{DistanceFromZone} method of the \texttt{HazardZone} class. It calculates the real-world distance between the person's feet and the closest point on the hazard zone boundary.
+
+    All detections and annotations are then visualized on the frame and added to the \texttt{Queue}.
+
 
   \subsubsection{PPE Implementation}
+  The PPE (Personal Protective Equipment) detection logic is implemented in the \texttt{\_\_processPPEDetection} method of the \texttt{Camera} class. We have implemented its functionality as follows:
+
+    \begin{enumerate}
+        \item \textbf{Detection:} The method iterates through the detection results (\texttt{results[0].boxes}). If the class label is 2 (gloves) or 4 (hand), a bounding box is drawn around the detected object on the frame. If a hand is detected, a notification is generated.
+
+        \item \textbf{Preventing Multiple Notifications:} Hand IDs are added to or removed from the \texttt{\_\_tracked\_hands} set to prevent notifications from being sent in every frame. Since our model may not continuously detect hands in each frame, the \texttt{\_\_tracked\_hands} set is updated by taking the intersection with \texttt{current\_frame\_hands\_ids} to ensure the same hand isn’t added twice.
+    \end{enumerate}
 
   \subsubsection{Forklift Safety}
+  The forklift safety features are implemented in the \texttt{\_\_processForklifts} method of the \texttt{Camera} class and the \texttt{Forklift} class. The following functionality has been implemented:
+
+    \begin{enumerate}
+        \item \textbf{Forklift Tracking:} The \texttt{\_\_processForklifts} method iterates through detected forklifts (\texttt{r.cls == 1}). For each detected forklift, a \texttt{Forklift} object is created or updated using the \texttt{\_\_update\_tracked\_forklifts} method.
+        
+        \item \textbf{Person-Forklift Distance:} For each tracked forklift, the method iterates through all currently tracked \texttt{Person} objects. It checks if a person's feet are within the bounding box of the forklift using \texttt{cv2.pointPolygonTest}. If they are, the distance is 0; otherwise, the distance is calculated using \texttt{DistanceBetweenPeopleForklift}, which uses the \texttt{homography\_matrix}.
+        
+        \item \textbf{Notification:} If this distance is below a predefined threshold (\texttt{config.FORKLIFTPERSONDISTANCE}) and the person is not already in the \texttt{\_\_people\_close\_to\_forklift} list, then a notification is generated and sent. The person is added or removed from the list to ensure that the notification isn't sent on every frame.
+        
+        \item \textbf{Forklift Speeding:} The \texttt{CalculateSpeedForklift} method calculates the speed based on the position of its bottom midpoint over the last few frames (using previous points \texttt{\_\_prev\_points}) and the frame rate (FPS). If it exceeds a predefined maximum speed (\texttt{config.LIFTMAXSPEED}), then a notification is generated. The forklift is added or removed from the \texttt{\_\_forklifts\_speeding} list to ensure that a notification isn't sent on every frame.
+    \end{enumerate}
 
   \subsubsection{Fall Detection}
+  The fall detection system was implemented using MediaPipe Pose for real-time human posture analysis. This implementation provides a critical safety feature for identifying potential injuries in the workplace. The system works through the following approach:
+
+    \begin{enumerate}
+        \item \textbf{Skeletal Tracking}: The system utilizes MediaPipe's 33-point skeletal tracking framework to identify and monitor human body positions with high precision.
+        
+        \item \textbf{Posture Analysis}: Our algorithm continuously analyzes posture transitions, specifically looking for abnormal movements from upright to horizontal positions that might indicate a fall.
+        
+        \item \textbf{Angular Calculation}: By calculating angles and orientations between key body landmarks (particularly focusing on the relationship between shoulders, hips, and knees), the system can differentiate between normal movements and potential falls.
+        
+        \item \textbf{Alert Generation}: When a fall is detected, the system immediately generates an alert through the notification system to ensure rapid response.
+    \end{enumerate}
+
+    The current implementation of the fall detection system has been tested in staged scenarios with promising results. However, several challenges remain under active development:
+
+    \begin{itemize}
+        \item \textbf{False Positives}: The system occasionally misinterprets certain movements such as squatting or stretching as potential falls.
+        
+        \item \textbf{Edge Case Handling}: Unusual postures or partially occluded individuals can reduce detection accuracy.
+        
+        \item \textbf{Signal Smoothing}: We are implementing temporal smoothing algorithms to reduce jitter in the detection process and improve reliability.
+        
+        \item \textbf{Confidence Filtering}: A confidence-based filtering mechanism is being developed to reduce false alarms by considering the certainty levels of the detected poses.
+    \end{itemize}
+
+    This fall detection capability represents a significant enhancement to the overall safety monitoring system, addressing one of the most serious workplace safety concerns with a real-time detection and alert mechanism.
 
 \subsection{Web Application}
 
-  \subsubsection{User Interface}
-  Include Protyping and Iterative Design Methology for example consulting Sabhi about things like being able to toggle hazards on and off
+    \subsubsection{Development Approach Overview}
 
-  \subsection{Analytics and Reports}
+    Our team adopted an iterative development approach for the web application, using GitHub as our version control system to track changes, manage feature implementations, and facilitate collaborative development. This approach allowed us to incrementally build and refine the application based on continuous testing and feedback. We organized our development across five main branches, with the main branch accumulating over 90 commits throughout the project lifecycle.
 
-  \subsection{Broadcasting of Notifications}
+    \subsubsection{Initial Wireframes and Prototyping}
 
-\subsection{Parrallel CCTV Camera Processing}
-  Discuss about the Race Condition. About the limitations of Python's Threads. How we finally implemented it using
-  multiple processes instead of multiple threads, to ensure better FPS.
+    The UI design process began with low-fidelity wireframes to establish the basic layout and functionality requirements. These wireframes focused on:
+
+    \begin{enumerate}
+        \item Dashboard layout with critical safety metrics
+        \item Video feed integration from multiple CCTV cameras
+        \item YOLO model output visualization on those video feeds
+    \end{enumerate}
+
+    How they looked like:
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{InitialWebApp1.png}
+        \caption{Initial Wireframe of the Web Application Part 1}
+        \label{fig:wireframe1}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{InitialWebApp2.png}
+        \caption{Initial Wireframe of the Web Application Part 2}
+        \label{fig:wireframe2}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{InitialWebApp3.png}
+        \caption{Initial Wireframe of the Web Application Part 3}
+        \label{fig:wireframe3}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{InitialWebApp4.png}
+        \caption{Initial Wireframe of the Web Application Part 4}
+        \label{fig:wireframe4}
+    \end{figure}
+
+    \subsubsection{Web Application Development Achievements}
+    \textbf{Development and Setup:}
+    Our web application development began with establishing a solid foundation, starting with a frontend and backend separation approach. The initial commit established the repository, followed by implementing basic login functionality. Early efforts focused on:
+    \begin{itemize}
+        \item Setting up the application architecture with separate frontend and backend components
+        \item Implementing React for the frontend with initial streaming capabilities for Camera 1
+        \item Establishing a color scheme and design system for consistent UI
+        \item Setting up websocket initialization for real-time communication
+    \end{itemize}
+
+    \textbf{Core Safety Monitoring Features:}
+    The development progressed to implementing the core safety monitoring functionality:
+    \begin{itemize}
+        \item Camera integration with streaming of annotated video feeds showing YOLO model output
+        \item Implementation of hazard detection algorithms for PPE (gloves, helmets), restricted zones, forklift safety monitoring, and fall detection
+        \item Creation of a notification system to alert supervisors about safety violations
+        \item Development of detailed dashboard widgets showing safety analytics and metrics
+    \end{itemize}
+
+    \textbf{Database and Backend Architecture:}
+    A significant portion of development focused on database implementation and backend architecture:
+    \begin{itemize}
+        \item Migration from SQLite to MSSQL for more robust data storage
+        \item Implementation of user authentication and authorization with role-based access control
+        \item Database integration for cameras, restricted zones, and hazard detection events
+        \item Creation of data persistence layers for all system components
+    \end{itemize}
+
+    \textbf{Interface and User Experience:}
+    The team made considerable progress in developing an intuitive user interface:
+    \begin{itemize}
+        \item Implementation of a comprehensive dashboard showing critical safety metrics
+        \item Addition of real-time video feeds with object detection overlays
+        \item Development of user management interfaces with role-based permissions
+        \item Creation of notification systems for safety alerts
+        \item Implementation of search and filtering functionality for detection events and user management
+    \end{itemize}
+
+    \textbf{System Optimization:}
+    Toward later development stages, the focus shifted to performance optimization:
+
+    \begin{itemize}
+        \item Implementation of multiprocessing to improve system performance over multithreading
+        \item Synchronization of multiple camera streams for consistent monitoring
+        \item Optimization of GPU utilization for model inference
+        \item Refactoring of code structure for better maintainability and performance
+    \end{itemize}
+
+    \textbf{Advanced Features:}
+    Several advanced features were successfully implemented:
+
+    \begin{itemize}
+        \item Dynamic camera management allowing addition and configuration of new cameras
+        \item Restricted zone creation and management through the user interface
+        \item Session history tracking for audit purposes
+        \item Comprehensive filtering and search capabilities across the application
+        \item Detailed logging and notification systems for safety violations
+    \end{itemize}
+
+\subsection{Parallel CCTV Camera Processing}
+ The problem of slow video stream processing in the web application was identified, with the video stream stuck at 2 FPS. The YOLO model and DeepSORT tracking were overloading the system. To address this, we implemented several optimization steps:
+
+    
+        \begin{itemize}
+            \item Switched from Model.track to Model.predict for more efficient tracking.
+            \item Reduced frame resolution to 720p, balancing quality and speed.
+            \item Replaced DeepSORT with ByteTrack, which is lighter and faster for tracking.
+        \end{itemize}
+    
+        The benchmark results showed significant improvements:
+        \begin{itemize}
+            \item testYOLO1.py achieved 31 FPS.
+            \item The web application, now running three YOLO instances, stabilized at 15 FPS.
+        \end{itemize}
+
 
 \subsection{On-Site Deployment}
 
-  \subsubsection{Hardware Requirements}
+  \subsubsection{Hardware Requirements:}
 
-  \subsubsection{CPU and GPU Useage}
+  \begin{longtable}{|p{3.5cm}|p{1.5cm}|p{5.5cm}|p{3.5cm}|}
+    \hline
+    \textbf{Component} & \textbf{Quantity} & \textbf{Why it’s needed} & \textbf{Price and Link} \\
+    \hline
+    \endfirsthead
+    \hline
+    \textbf{Component} & \textbf{Quantity} & \textbf{Why it’s needed} & \textbf{Price and Link} \\
+    \hline
+    \endhead
+    Hikvision DS-2CD2043G2-IU & 2 & Two static cameras are needed on opposite ends of the Steel Sheet Workshop. They offer sufficient range (130ft x 20ft) and additional useful features. & PKR 21,000\\
+     & & & \href{https://www.mbcommunication.com.pk/pro-series/2189-hikvision-ds-2cd2043g2-iu}{Product Link} \\
+     & & & \href{https://youtu.be/fBqhAzrhlJ8?si=Tuh-v2NR1OJ2b-KV}{Sample Footage} \\
+    \hline
+    ZOTAC RTX 3060 GPU & 1 & Required for real-time inferencing of detection models, analyzing each video frame. & PKR 96,990\\
+     & & & \href{https://zahcomputers.pk/product/zotac-gaming-geforce-rtx-3060-twin-edge-12gb-gddr6-192-bit-15-gbps-pcie-4-0-gaming-graphics-card/}{Product Link} \\
+    \hline
+    \end{longtable}
+
+    \textbf{PC Specifications}
+
+    \begin{itemize}
+        \item \textbf{Processor:} Intel i7 12th Gen or AMD Ryzen 7 equivalent or better\\
+        Minimum 8 cores / 16 threads, Base frequency: 3.6 GHz or higher
+        \item \textbf{RAM:} 32GB DDR4 or DDR5
+        \item \textbf{Secondary Storage:}
+        \begin{itemize}
+            \item 2TB HDD (for acting as a server)
+            \item 256GB SSD
+        \end{itemize}
+        \item \textbf{Miscellaneous:}
+        \begin{itemize}
+            \item Proper cooling system and PSU for RTX 3060
+            \item Compatible motherboard slot for GPU
+        \end{itemize}
+    \end{itemize}
+
+    \textbf{Note}
+    We assume that the infrastructure to install and connect the Hikvision cameras to the workstation PC will be available onsite.
+
+
+  \subsubsection{CPU and GPU Usage:}
+  Tentative: Benchmarks will be uploaded in the final draft.
 
 \section{Testing}
-
-  \subsection{Model Testing Comparision}
-
-  Compare YOLO Base Model with our Model. Highlight how base YOLO wasn't suited to the Dawlance environment because it couldn't 
-  pick up on Women Worker espically those wearing a Red Hijab. Include Testing Results of YOLO Base Model and 
 
   \subsection{Creation of Hazard Testing Dataset}
 
