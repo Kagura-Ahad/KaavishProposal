@@ -337,6 +337,28 @@ The system will use computer vision and deep learning techniques to analyze vide
 
 \subsection{Data Annotations}
 
+The Dawlance Factory environment posed several problems for both the base YOLOv9 and other pretrained models including:
+\begin{enumerate}
+    \item \textbf{Occlusions}
+    \item \textbf{CCTV Camera Perspective} Most pretrained models exclusively have eye-level images as their training data. This caused the models to preform poorly on CCTV video footage from a high angle. For example, a Pretrained Model for Forklifts would often mistake a large area of machinery as a forklifts.
+    \item \textbf{Absence of Forklift Class} The base YOLOv9 Model did not include a Forklift Class. 
+    \item \textbf{Women Workers} Most noteably women workers were being detected considerably less than male workers. This is attributed to the Dawlance Uniform for women workers which included a red Hijab (covering). Pretrained Models would only detect female workers (with very low confidence) when they were facing towards the camera and did not identify them when they faced away from the camera.
+\end{enumerate}
+
+To create the Annotations we used a local version of LabelStudios (to compile with our NDA and ensure Data Protection) and setup the following Annotations PipeLine:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{AnnotationsPipeLine.png}
+    \caption{Annotations Pipeline}
+    \label{fig:AnnotationPipeline_diagram}
+\end{figure}
+
+For the inital round of annotations we took factory footage from Monday 8am - 4pm (8 hours) from 3 Camera Streams resulting in 24 hours of video footage, from which we extracted several frames.
+In the first round of training, 269 Frames were annotated by hand resulting in 4716 Annotated instances across all classes. 201 Frames were used for training and 68 Frames were used for testing.
+The breakdown of Annotations by class were as follows:
+
+
+
 \subsection{Model Training}
 
   \subsubsection{Hyperparitamization: Overcoming Overfitting}
