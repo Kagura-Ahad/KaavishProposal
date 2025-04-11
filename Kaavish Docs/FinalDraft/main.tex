@@ -12,6 +12,9 @@
 \usepackage{longtable}
 \usepackage{float}
 \usepackage{tikz}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\geometry{margin=1in}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BEGIN METADATA: Edit the following as appropriate
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -314,32 +317,55 @@ The system will use computer vision and deep learning techniques to analyze vide
       \item \textbf{Frontend Web App}: An admin dashboard to look at annotated camera footage and statistics.
   \end{enumerate}
 
-  \subsection{Entity-Relationship Diagram}
-\begin{figure}[H] % Use [H] to force exact placement
-    \centering
-    \includegraphics[width=\textwidth]{erd.png}
-    \caption{Entity-Relationship Diagram for Data Management}
-    \label{fig:er_diagram}
-\end{figure}
-
-
 
 \section{Methodology}
 
 \subsection{Software Solution Design}
 
-  \subsubsection{Database Strcuture}
+    \subsection{Entity-Relationship Diagram}
+    \begin{figure}[H] % Use [H] to force exact placement
+        \centering
+        \includegraphics[width=\textwidth]{erd.png}
+        \caption{Entity-Relationship Diagram for Data Management}
+        \label{fig:er_diagram}
+    \end{figure}
 
 
+    \subsubsection{UML: Class Diagram}
+        To be made
 
-  \subsubsection{UML: Class Diagram}
-    To be made
+\subsection{Camera Installation}
 
+    Three CCTV Camera's were setup at the Steel Making Workshop at the Dawlance Factory. In total, the CCTV Camera's cover an area of 6,300 square feet (140 ft x 45 ft). The Camera's have been placed to strategically cover the following sections of the Steel Making Workshop:
+    \begin{enumerate}
+        \item \textbf{Camera A} Views one half of the main forklift path + Half of the Robotic Arm Hazard Zone
+        \item \textbf{Camera B} Views the other half of the main forklift path and focuses on two Hydraulic Press Machines
+        \item \textbf{Camera C} Views the Sheet Metal Zone (where gloves are necessary) and the turn of the Forklift Path 
+    \end{enumerate}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{CameraA.jpg}
+        \caption{Camera A Footage and Location}
+    \end{figure}[H]
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{CameraB.jpg}
+        \caption{Camera B Footage and Location}
+    \end{figure}[H]
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{CameraC.jpg}
+        \caption{Camera C Footage and Location}
+    \end{figure}[H]
+    
 \subsection{Data Annotations}
 
 The Dawlance Factory environment posed several problems for both the base YOLOv9 and other pretrained models including:
 \begin{enumerate}
-    \item \textbf{Occlusions}
+    \item \textbf{Occlusions} YOLOv9 would not be able to detect people when they were obscured by machienary and other obstacles in the frame
     \item \textbf{CCTV Camera Perspective} Most pretrained models exclusively have eye-level images as their training data. This caused the models to preform poorly on CCTV video footage from a high angle. For example, a Pretrained Model for Forklifts would often mistake a large area of machinery as a forklifts.
     \item \textbf{Absence of Forklift Class} The base YOLOv9 Model did not include a Forklift Class. 
     \item \textbf{Women Workers} Most noteably women workers were being detected considerably less than male workers. This is attributed to the Dawlance Uniform for women workers which included a red Hijab (covering). Pretrained Models would only detect female workers (with very low confidence) when they were facing towards the camera and did not identify them when they faced away from the camera.
@@ -353,9 +379,106 @@ To create the Annotations we used a local version of LabelStudios (to compile wi
     \label{fig:AnnotationPipeline_diagram}
 \end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Capture.PNG}
+    \caption{Sample Annotated Image}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Capture2.png}
+    \caption{Another Sample Annotated Image}
+\end{figure}
+
+\subsubsection{Round 1 Annotations}
+
 For the inital round of annotations we took factory footage from Monday 8am - 4pm (8 hours) from 3 Camera Streams resulting in 24 hours of video footage, from which we extracted several frames.
 In the first round of training, 269 Frames were annotated by hand resulting in 4716 Annotated instances across all classes. 201 Frames were used for training and 68 Frames were used for testing.
 The breakdown of Annotations by class were as follows:
+
+\begin{table}[h!]
+    \centering
+    \caption{Instances Per Class}
+    \begin{tabular}{lc}
+    \toprule
+    \textbf{Class} & \textbf{Instances} \\
+    \midrule
+    forklift & 102 \\
+    gloves   & 568 \\
+    hands    & 497 \\
+    head     & 1310 \\
+    helmet   & 83 \\
+    person   & 1713 \\
+    shoes    & 443 \\
+    \bottomrule
+    \end{tabular}
+\end{table}
+
+The results after testing the model was as follows:
+
+\begin{table}[h!]
+    \centering
+    \caption{Detection Performance Metrics}
+    \begin{tabular}{lcccccc}
+    \toprule
+    \textbf{Class} & \textbf{Image} & \textbf{Instance} & \textbf{Precis} & \textbf{Recall} & \textbf{mAP50} & \textbf{mAP50--95} \\
+    \midrule
+    all      & 68  & 1159 & 0.667 & 0.552 & 0.570 & 0.307 \\
+    forklift & 18  & 20   & 0.931 & 0.950 & 0.961 & 0.801 \\
+    gloves   & 41  & 135  & 0.388 & 0.244 & 0.169 & 0.033 \\
+    hands    & 41  & 130  & 0.480 & 0.177 & 0.216 & 0.054 \\
+    head     & 66  & 321  & 0.740 & 0.729 & 0.722 & 0.304 \\
+    helmet   & 13  & 13   & 0.763 & 0.615 & 0.703 & 0.414 \\
+    person   & 67  & 438  & 0.828 & 0.833 & 0.861 & 0.433 \\
+    shoes    & 41  & 102  & 0.539 & 0.314 & 0.359 & 0.112 \\
+    \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsubsection{Round 2 Annotations}
+
+For the second round of training a total of 562 annotated frames were used, from which 421 frames were used for training and 141 frames were used for validation. In total we had 12,904 instances in total. The class-wise breakdown is as follows:
+
+\begin{table}[h!]
+    \centering
+    \caption{Instances Per Class}
+    \begin{tabular}{lc}
+    \toprule
+    \textbf{Class} & \textbf{Instances} \\
+    \midrule
+    forklift & 221 \\
+    gloves   & 1516 \\
+    hands    & 1288 \\
+    head     & 3779 \\
+    helmet   & 139 \\
+    person   & 4236 \\
+    shoes    & 1725 \\
+    \bottomrule
+    \end{tabular}
+\end{table}
+
+The results after testing the model was as follows:
+
+\begin{table}[h!]
+    \centering
+    \caption{Detection Performance Metrics}
+    \begin{tabular}{lcccccc}
+    \toprule
+    \textbf{Class} & \textbf{Image} & \textbf{Precis} & \textbf{Recall} & \textbf{mAP50}  &  \textbf{mAP50--95}\\
+    \midrule
+    all      & 141  & 3144 & 0.743 & 0.606 & 0.643 \\
+    forklift & 50  & 55   & 0.951 & 0.927 & 0.942 \\
+    gloves   & 87  & 354  & 0.583 & 0.472 & 0.468 \\
+    hands    & 97  & 313  & 0.502 & 0.284 & 0.27 \\
+    head     & 139  & 919  & 0.836 & 0.726 & 0.775 \\
+    helmet   & 35  & 35   & 0.897 & 0.5 & 0.668 \\
+    person   & 140  & 1036  & 0.883 & 0.901 & 0.927 \\
+    shoes    & 104  & 432  & 0.581 & 0.431 & 0.455 \\
+    \bottomrule
+    \end{tabular}
+\end{table}
+
 
 
 
