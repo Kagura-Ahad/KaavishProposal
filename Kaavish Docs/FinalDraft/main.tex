@@ -60,7 +60,21 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Abstract}
-Add after writing report
+This paper presents the design, development, and deployment of a real-time, scalable industrial safety monitoring system, developed in collaboration with Dawlence Pakistan, to address critical challenges in workplace safety compliance and hazard detection. The system employs advanced computer vision techniques and deep learning models—specifically the YOLOv8 object detection architecture—to identify unsafe behaviors such as missing personal protective equipment (PPE), hazardous postures, and unauthorized zone entries, directly from live CCTV footage.
+\\
+\\
+A major contribution of this work lies in its system-level engineering: the platform is built as an ASGI-based web application that asynchronously transmits real-time safety alerts to clients using WebSockets, ensuring low-latency communication and uninterrupted user experience. The backend architecture is optimized to simultaneously run multiple models on multiple camera streams, using GPU-level parallelism and dynamic resource allocation for maximum throughput. To handle concurrent workloads efficiently, the system employs Python-based multiprocessing to offload tasks such as frame decoding, inference, and result broadcasting into isolated parallel processes, achieving seamless CPU-GPU coordination.
+\\
+\\
+To enhance model performance in real-world local conditions, we collected over 6 hours of surveillance footage from three different CCTV cameras across Dawlence’s Karachi facility and manually annotated the data, resulting in approximately 13,000 labeled instances for each safety-critical class. This annotated dataset included culturally and contextually specific examples, such as women workers wearing red hijabs as part of their protective uniforms. Fine-tuning was performed on top of an already pre-trained SH17(a research to improve YOLOs accuracy in detecting factory related images)-based model. Our fine-tuning significantly improved model accuracy across multiple classes—raising overall mAP50 from 0.119 to 0.643, and improving person detection precision from 0.39 to 0.883.
+\\
+\\
+Further, the application enables real-time video stream ingestion and synchronization from multiple camera sources, supporting live footage streaming and cross-camera event correlation. Designed with horizontal scalability in mind, the architecture allows the integration of an arbitrary number of CCTV feeds without significant performance degradation, making it suitable for large-scale industrial environments.
+\\
+\\
+The development pipeline spans five phases: (1) data collection and annotation from Dawlence’s Karachi facility, (2) deep learning model training and benchmarking, (3) dashboard and backend architecture design, (4) live system integration with on-premise CCTV infrastructure, and (5) rigorous field testing and iterative deployment. Performance evaluations demonstrate high precision in detecting safety violations and effective real-time feedback under production conditions.
+
+This work not only introduces a practical AI-powered safety compliance solution tailored for Pakistan’s industrial sector but also contributes to the broader vision of Industry 4.0 by demonstrating how cost-effective, intelligent, and scalable safety systems can be deployed within existing industrial workflows with minimal infrastructure overhaul.
 
 \section{Introduction}
 
@@ -497,6 +511,14 @@ The results after testing the model was as follows:
 \subsection{Model Training}
 
   \subsubsection{Hyperparitamization: Overcoming Overfitting}
+  We used our University's HPC machine powered by an NVIDIA TITAN RTX GPU to train our models. The training was done using the YOLOv9 framework. We used the following hyperparameters to train our models:
+\begin{itemize}
+    \item /itemize{Batch Size:} 16
+    \item /itemize{Epochs:} 300
+    \item /itemize{Learning Rate:} 0.001
+    \item /itemize{Optimizer:} AdamW
+    \item /itemize{Model:} YOLOv9m (20M Parameters)
+\end{itemize}
 
 \subsection{Hazard Logic and Function Implementation}
 
@@ -622,6 +644,14 @@ The results after testing the model was as follows:
         \item Setting up websocket initialization for real-time communication
     \end{itemize}
 
+    %Image containing the initialisation of frontend and backend seperately to show how the web app was developed in the beginning
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{seperateFrontendAndBackend.png}
+        \caption{Initial Web Application Setup}
+        \label{fig:initial_setup}
+    \end{figure}
+
     \textbf{Core Safety Monitoring Features:}
     The development progressed to implementing the core safety monitoring functionality:
     \begin{itemize}
@@ -630,6 +660,13 @@ The results after testing the model was as follows:
         \item Creation of a notification system to alert supervisors about safety violations
         \item Development of detailed dashboard widgets showing safety analytics and metrics
     \end{itemize}
+    %Image that contains a snapshot of the running webapplication with a few notifications and the dashboard showing the safety metrics
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{dashboardAndNotifications.jpg}
+        \caption{Web Application Running with Notifications and Dashboard}
+        \label{fig:web_app_running}
+    \end{figure}
 
     \textbf{Database and Backend Architecture:}
     A significant portion of development focused on database implementation and backend architecture:
@@ -640,6 +677,21 @@ The results after testing the model was as follows:
         \item Creation of data persistence layers for all system components
     \end{itemize}
 
+    %Images that contains a snapshot of the migration of database and another snapshot of RBAC features implemented.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{databaseMigration.PNG}
+        \caption{Database Migration to MSSQL}
+        \label{fig:database_migration}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{RBAC_features.PNG}
+        \caption{Role-Based Access Control Implementation}
+        \label{fig:RBAC}
+    \end{figure}
+
     \textbf{Interface and User Experience:}
     The team made considerable progress in developing an intuitive user interface:
     \begin{itemize}
@@ -649,6 +701,13 @@ The results after testing the model was as follows:
         \item Creation of notification systems for safety alerts
         \item Implementation of search and filtering functionality for detection events and user management
     \end{itemize}
+    %Snapshot of search functionality implemented
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{searchFunctionality.PNG}
+        \caption{Search Functionality in the Web Application}
+        \label{fig:search_functionality}
+    \end{figure}
 
     \textbf{System Optimization:}
     Toward later development stages, the focus shifted to performance optimization:
