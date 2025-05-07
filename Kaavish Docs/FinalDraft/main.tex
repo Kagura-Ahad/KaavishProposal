@@ -196,23 +196,31 @@ The system will use computer vision and deep learning techniques to analyze vide
   \begin{enumerate}
       \item \textbf{Forklift Proximity Detection:} Relevant manager(s) should be notified via email and on web application if any worker is standing too close to a forklift.
       \item \textbf{Forklift Speed Estimation:} Relevant manager(s) should be notified via email and on web application if speed of any forklift goes above the company limit.
-      \item \textbf{PPE Detection:} Relevant manager(s) should be notified via email and on web application if any worker is not wearing the appropriate safety equipment. Currently, the equipment is limited to gloves and shoes.
+      \item \textbf{PPE Detection:} 
       \begin{enumerate}
-          \item \textbf{Hazardous Area Entry Detection:} Relevant manager(s) should be notified via email and on web application if any worker is entering a hazardous area.
-          \item Some areas are only considered hazardous if a certain machine in that area is operating. Thus, notifying should only take place if all the conditions are met including the operation of a machine.
+        \item Relevant manager(s) should be able to define Glove Zones by selecting points on a live view
+        \item Relevant manager(s) should be notified via email and on web application if any worker is not wearing gloves while working in a glove zone.
       \end{enumerate}
-      \item \textbf{Fall Detection:} Relevant manager(s) should be notified via email and on web application if any worker has fallen.
-     
+      \item \textbf{Hazardous Area Entry Detection:} 
+        \begin{enumerate}
+            \item Users should be able to define Hazard Zones by selecting points on a live view
+            \item Users should have the ability to activate/deactivate Hazard Zones
+            \item Relevant manager(s) should be notified via email and on web application if any worker is entering a hazardous area when activated
+      \end{enumerate}
       \item \textbf{Statistics:} The dashboard of the web application should include data visualization of hazard detections made by the system:
       \begin{enumerate}
           \item Total detections made today and total detections made over the course of the month must be displayed.
           \item A pie chart must be displayed to illustrate the distribution of detected hazard types by percentage.
       \end{enumerate}
-      \item \textbf{Video Feed:} The real-time annotated footage resulted from the hazard detection model(s) must be viewable for both cameras in the web application.
-      \item \textbf{Notification System} The system will send real-time alerts through the dashboard to the supervisor about detected hazard and a textual description. The notification system shall support alerts via email, and web app notifications.
+      \item \textbf{Video Feed:} The real-time annotated footage resulted from the hazard detection model(s) must be viewable for all cameras in the web application.
+      \item \textbf{Notification System:} 
+      \begin{itemize}
+        \item The system will send real-time alerts through the dashboard to the supervisor about detected hazard and a textual description. The notification system shall support alerts via email, and web app notifications.
+        \item Users will have the ability to toogle notifications on and off for specific hazards
+      \end{itemize}
       \item \textbf{User Management:} The web application should include a user management system with the following features:
       \begin{itemize}
-          \item \textbf{User Roles and Permissions:} Different levels of access for managers, supervisors, and regular users.
+          \item \textbf{User Roles and Permissions:} Allow for different users to be added
           \item \textbf{User Authentication:} Secure login process with multi-factor authentication.
       \end{itemize}
   \end{enumerate}
@@ -283,11 +291,11 @@ The system will use computer vision and deep learning techniques to analyze vide
 
   \section{Data Pipeline}
   \subsection{Data Flow Diagram}
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\textwidth]{system_flow.png}
-    \caption{Inputs and Outputs at a Glance}
-\end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{System_Flow_Diagram.PNG}
+        \caption{Data Flow Diagram}
+    \end{figure}
 
 
   \subsection{Training Data Pipeline}
@@ -562,33 +570,6 @@ The results after testing the model was as follows:
         \item \textbf{Forklift Speeding:} The \texttt{CalculateSpeedForklift} method calculates the speed based on the position of its bottom midpoint over the last few frames (using previous points \texttt{\_\_prev\_points}) and the frame rate (FPS). If it exceeds a predefined maximum speed (\texttt{config.LIFTMAXSPEED}), then a notification is generated. The forklift is added or removed from the \texttt{\_\_forklifts\_speeding} list to ensure that a notification isn't sent on every frame.
     \end{enumerate}
 
-  \subsubsection{Fall Detection}
-  The fall detection system was implemented using MediaPipe Pose for real-time human posture analysis. This implementation provides a critical safety feature for identifying potential injuries in the workplace. The system works through the following approach:
-
-    \begin{enumerate}
-        \item \textbf{Skeletal Tracking}: The system utilizes MediaPipe's 33-point skeletal tracking framework to identify and monitor human body positions with high precision.
-        
-        \item \textbf{Posture Analysis}: Our algorithm continuously analyzes posture transitions, specifically looking for abnormal movements from upright to horizontal positions that might indicate a fall.
-        
-        \item \textbf{Angular Calculation}: By calculating angles and orientations between key body landmarks (particularly focusing on the relationship between shoulders, hips, and knees), the system can differentiate between normal movements and potential falls.
-        
-        \item \textbf{Alert Generation}: When a fall is detected, the system immediately generates an alert through the notification system to ensure rapid response.
-    \end{enumerate}
-
-    The current implementation of the fall detection system has been tested in staged scenarios with promising results. However, several challenges remain under active development:
-
-    \begin{itemize}
-        \item \textbf{False Positives}: The system occasionally misinterprets certain movements such as squatting or stretching as potential falls.
-        
-        \item \textbf{Edge Case Handling}: Unusual postures or partially occluded individuals can reduce detection accuracy.
-        
-        \item \textbf{Signal Smoothing}: We are implementing temporal smoothing algorithms to reduce jitter in the detection process and improve reliability.
-        
-        \item \textbf{Confidence Filtering}: A confidence-based filtering mechanism is being developed to reduce false alarms by considering the certainty levels of the detected poses.
-    \end{itemize}
-
-    This fall detection capability represents a significant enhancement to the overall safety monitoring system, addressing one of the most serious workplace safety concerns with a real-time detection and alert mechanism.
-
 \subsection{Web Application}
 
     \subsubsection{Development Approach Overview}
@@ -704,7 +685,7 @@ The results after testing the model was as follows:
     %Snapshot of search functionality implemented
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.8\textwidth]{searchFunctionality.PNG}
+        \includegraphics[width=0.8\textwidth]{serarchFunctionality.PNG}
         \caption{Search Functionality in the Web Application}
         \label{fig:search_functionality}
     \end{figure}
