@@ -55,6 +55,10 @@
 
 % Cover page.
 \input{cover}
+\tableofcontents      % Table of Contents
+\listoffigures        % List of Figures
+\listoftables         % List of Tables
+\newpage              % Start a new page for the main content
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DATA: Populate the rest of the document as instructed.
@@ -340,12 +344,19 @@ The system will use computer vision and deep learning techniques to analyze vide
       \item \textbf{Frontend Web App}: An admin dashboard to look at annotated camera footage and statistics.
   \end{enumerate}
 
+  \section{Gantt Chart}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Gannt Chart.jpeg}
+    \caption{Live Data pipeline diagram}
+    \label{fig:Gantt Chart}
+    \end{figure}
 
 \section{Development}
 
-\subsection{Software Solution Design}
+\subsection{Software Design Specifications}
 
-    \subsection{Entity-Relationship Diagram}
+    \subsubsection{Entity-Relationship Diagram}
     \begin{figure}[H] % Use [H] to force exact placement
         \centering
         \includegraphics[width=\textwidth]{erd.png}
@@ -362,7 +373,7 @@ The system will use computer vision and deep learning techniques to analyze vide
     \label{fig:class_diagram}
     \end{figure}
 
-    \subsection{System Diagram}
+    \subsubsection{System Diagram}
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\textwidth]{System_Diagram.jpg}
@@ -432,9 +443,9 @@ For the inital round of annotations we took factory footage from Monday 8am - 4p
 In the first round of training, 269 Frames were annotated by hand resulting in 4716 Annotated instances across all classes. 201 Frames were used for training and 68 Frames were used for testing.
 The breakdown of Annotations by class were as follows:
 
-\begin{table}[h!]
+\begin{table}[H]
     \centering
-    \caption{Instances Per Class}
+    \caption{Instances Per Class - Round 1}
     \begin{tabular}{lc}
     \toprule
     \textbf{Class} & \textbf{Instances} \\
@@ -452,9 +463,9 @@ The breakdown of Annotations by class were as follows:
 
 The results after testing the model was as follows:
 
-\begin{table}[h!]
+\begin{table}[H]
     \centering
-    \caption{Detection Performance Metrics}
+    \caption{Detection Performance Metrics - Round 1}
     \begin{tabular}{lcccccc}
     \toprule
     \textbf{Class} & \textbf{Image} & \textbf{Instance} & \textbf{Precis} & \textbf{Recall} & \textbf{mAP50} & \textbf{mAP50--95} \\
@@ -475,9 +486,9 @@ The results after testing the model was as follows:
 
 For the second round of training a total of 562 annotated frames were used, from which 421 frames were used for training and 141 frames were used for validation. In total we had 12,904 instances in total. The class-wise breakdown is as follows:
 
-\begin{table}[h!]
+\begin{table}[H]
     \centering
-    \caption{Instances Per Class}
+    \caption{Instances Per Class - Round 2}
     \begin{tabular}{lc}
     \toprule
     \textbf{Class} & \textbf{Instances} \\
@@ -495,9 +506,9 @@ For the second round of training a total of 562 annotated frames were used, from
 
 The results after testing the model was as follows:
 
-\begin{table}[h!]
+\begin{table}[H]
     \centering
-    \caption{Detection Performance Metrics}
+    \caption{Detection Performance Metrics - Round 2}
     \begin{tabular}{lcccccc}
     \toprule
     \textbf{Class} & \textbf{Image} & \textbf{Precis} & \textbf{Recall} & \textbf{mAP50}  &  \textbf{mAP50--95}\\
@@ -518,7 +529,7 @@ The results after testing the model was as follows:
 The following table is the result of a manual annotation effort on 726 additional images brining us to 18,000 total object instances. Notably, the forklift category yields the highest scores due to its large and obvious pictorial characteristics.
 \begin{table}[H]
     \centering
-    \caption{Initial Results}
+    \caption{Final Results}
     \begin{tabular}{lcccc}
     \hline
     \textbf{Class} & \textbf{Instances} & \textbf{Precision (\%)} & \textbf{Recall (\%)} & \textbf{MAP@50 (\%)} \\
@@ -536,7 +547,6 @@ The following table is the result of a manual annotation effort on 726 additiona
     \label{tab:Final-Results}
 \end{table}
     
-
 \subsection{Model Training}
 
   \subsubsection{Hyperparitamization: Overcoming Overfitting}
@@ -764,8 +774,6 @@ We further optimized the system by Inferencing through Nvidia TensorRT backend i
     \label{tab:backend-comparison}
 \end{table}
 
-
-
 \subsection{On-Site Deployment}
 
   \subsubsection{Hardware Requirements:}
@@ -810,18 +818,52 @@ We further optimized the system by Inferencing through Nvidia TensorRT backend i
     We assume that the infrastructure to install and connect the Hikvision cameras to the workstation PC will be available onsite.
 
 
-  \subsubsection{CPU and GPU Usage:}
-  Tentative: Benchmarks will be uploaded in the final draft.
+%   \subsubsection{CPU and GPU Usage:}
+%   Tentative: Benchmarks will be uploaded in the final draft.
 
 \section{Testing}
+The model achieved an overall accuracy of 88.6\%, with a high recall of 94.9\% indicating it rarely misses true hazards, though its precision of 75.0\% shows some false alarms. On a per‐hazard basis, detection of \texttt{bare\_hands} was excellent (F$_1$=0.99), while \texttt{restricted\_zone} and \texttt{close\_to\_forklift} performed moderately (F$_1$\,$\approx$\,0.65), and the speeding classes (\texttt{forklift\_speeding} and \texttt{person\_speeding}) were not detected in this test set. Overall, 51 clips were analyzed and
 
-  \subsection{Creation of Hazard Testing Dataset}
 
-\section{Discussion and Further Work}
+    \begin{table}[H]
+        \centering
+        \caption{Overall Performance Metrics}
+        \begin{tabular}{lcccc}
+        \toprule
+        & Accuracy & Precision & Recall & F$_1$ Score \\
+        \midrule
+        Value & 0.8863 & 0.7500 & 0.9494 & 0.8380 \\
+        \bottomrule
+        \end{tabular}
+    \end{table}
+
+    \begin{table}[H]
+        \centering
+        \caption{Per‐Hazard‐Type Metrics}
+        \begin{tabular}{lccccccc}
+        \toprule
+        Hazard Type & Prec. & Rec. & F$_1$ & TP & FP & FN & TN \\
+        \midrule
+        restricted\_zone   & 0.4815 & 1.0000 & 0.6500 & 13 & 14 & 0 & 24 \\
+        forklift\_speeding & 0.0000 & 0.0000 & 0.0000 &  0 &  0 & 1 & 50 \\
+        person\_speeding   & 0.0000 & 0.0000 & 0.0000 &  0 &  0 & 0 & 51 \\
+        close\_to\_forklift& 0.5217 & 0.8571 & 0.6486 & 12 & 11 & 2 & 26 \\
+        bare\_hands        & 1.0000 & 0.9804 & 0.9901 & 50 &  0 & 1 &  0 \\
+        \bottomrule
+        \end{tabular}
+    \end{table}
+
+\section{Conclusion and Further Work}
+
+In conclusion the Safety Mangment System deployed at Dawlance has shown to be capable of analysizing real-time CCTV footage to identify poeple, forklifts and personal safety equipment, while also being able to display real-time annotated CCTV footage at a high enough frame rate.
+This application was developed using footage from and deployed at the Steel Making Workshop at Dawlance's Factory. While our model is better suited to the regional context of the Dawlance factory (and therefore is able to outpreform other pre-trained models) the model still needs to be tested
+in other parts of the factory. The system was developed with functionality and scalability in mind. The system provides managers with the ability to connect more than 3 camera streams, however the preformance of the model in other factory enviroments would need to be investigated and evaulated.
+
+\section{Reflections}
 
 \section{Appendix: Classes}
 
-\begin{lstlisting}[language=Python, caption=Hello World in Python, label=lst:CameraClass]
+\begin{lstlisting}[language=Python, caption=Camera Class, label=lst:CameraClass]
     class Camera():
 
     def __init__(self, 
@@ -1106,7 +1148,7 @@ We further optimized the system by Inferencing through Nvidia TensorRT backend i
             print(f"Error processing camera {e}")            
 \end{lstlisting}
 
-\begin{lstlisting}[language=Python, caption=Hello World in Python, label=lst:ForkliftClass]
+\begin{lstlisting}[language=Python, caption=Forklift Class, label=lst:ForkliftClass]
     class Forklift:
     def __init__(self, scene_id, coordinates):
         self.__scene_id = scene_id
@@ -1146,7 +1188,7 @@ We further optimized the system by Inferencing through Nvidia TensorRT backend i
             return speed
 \end{lstlisting}
 
-\begin{lstlisting}[language=Python, caption=Hello World in Python, label=lst:HazardZoneClass]
+\begin{lstlisting}[language=Python, caption=Hazard Zone Class, label=lst:HazardZoneClass]
     class HazardZone:
     def __init__(self, id: int, roi_image_points, homography_matrix):
         self.id = id
@@ -1197,7 +1239,7 @@ We further optimized the system by Inferencing through Nvidia TensorRT backend i
         return self.__homography_matrix
 \end{lstlisting}
 
-\begin{lstlisting}[language=Python, caption=Hello World in Python, label=lst:PersonClass]
+\begin{lstlisting}[language=Python, caption=Person Class, label=lst:PersonClass]
     class Person:
     def __init__(self, scene_id, coordinates):
         #Scene_id is the id that YOLO gives to track objects in a scene
