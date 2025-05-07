@@ -515,7 +515,8 @@ The results after testing the model was as follows:
 \end{table}
 
 \subsubsection{Final Round of Annotaions}
-\begin{table}[ht]
+The following table is the result of a manual annotation effort on 726 additional images brining us to 18,000 total object instances. Notably, the forklift category yields the highest scores due to its large and obvious pictorial characteristics.
+\begin{table}[H]
     \centering
     \caption{Initial Results}
     \begin{tabular}{lcccc}
@@ -532,7 +533,7 @@ The results after testing the model was as follows:
     Shoes     & 488  & 86.6 & 84.8 & 87.1 \\
     \hline
     \end{tabular}
-    \label{tab:initial-results}
+    \label{tab:Final-Results}
 \end{table}
     
 
@@ -541,11 +542,11 @@ The results after testing the model was as follows:
   \subsubsection{Hyperparitamization: Overcoming Overfitting}
   We used our University's HPC machine powered by an NVIDIA TITAN RTX GPU to train our models. The training was done using the YOLOv9 framework. We used the following hyperparameters to train our models:
 \begin{itemize}
-    \item /itemize{Batch Size:} 16
-    \item /itemize{Epochs:} 300
-    \item /itemize{Learning Rate:} 0.001
-    \item /itemize{Optimizer:} AdamW
-    \item /itemize{Model:} YOLOv9m (20M Parameters)
+    \item {Batch Size:} 16
+    \item {Epochs:} 300
+    \item {Learning Rate:} 0.001
+    \item {Optimizer:} AdamW
+    \item {Model:} YOLOv9m (20M Parameters)
 \end{itemize}
 
 \subsection{Hazard Logic and Function Implementation}
@@ -816,7 +817,7 @@ We further optimized the system by Inferencing through Nvidia TensorRT backend i
 
   \subsection{Creation of Hazard Testing Dataset}
 
-\section{Conclusion and Discussion}
+\section{Discussion and Further Work}
 
 \section{Appendix: Classes}
 
