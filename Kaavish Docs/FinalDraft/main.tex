@@ -822,7 +822,7 @@ We further optimized the system by Inferencing through Nvidia TensorRT backend i
 %   Tentative: Benchmarks will be uploaded in the final draft.
 
 \section{Testing}
-The model achieved an overall accuracy of 88.6\%, with a high recall of 94.9\% indicating it rarely misses true hazards, though its precision of 75.0\% shows some false alarms. On a per‐hazard basis, detection of \texttt{bare\_hands} was excellent (F$_1$=0.99), while \texttt{restricted\_zone} and \texttt{close\_to\_forklift} performed moderately (F$_1$\,$\approx$\,0.65), and the speeding classes (\texttt{forklift\_speeding} and \texttt{person\_speeding}) were not detected in this test set. Overall, 51 clips were analyzed and
+The model achieved an overall accuracy of 88.6\%, with a high recall of 94.9\% indicating it rarely misses true hazards, though its precision of 75.0\% shows some false alarms. On a per‐hazard basis, detection of \texttt{bare\_hands} was excellent (F$_1$=0.99), while \texttt{restricted\_zone} and \texttt{close\_to\_forklift} performed moderately (F$_1$\,$\approx$\,0.65), and the speeding classes (\texttt{forklift\_speeding} and \texttt{person\_speeding}) were not detected in this test set. Overall, 51 clips were analyzed and 26 (51\%) had perfectly matched hazard annotations.
 
 
     \begin{table}[H]
@@ -860,6 +860,113 @@ This application was developed using footage from and deployed at the Steel Maki
 in other parts of the factory. The system was developed with functionality and scalability in mind. The system provides managers with the ability to connect more than 3 camera streams, however the preformance of the model in other factory enviroments would need to be investigated and evaulated.
 
 \section{Reflections}
+
+\subsection{Individual Reflections}
+
+\subsubsection{Asad Ullah Chaudhry}
+
+This project was a deep dive into backend development and real-time logic systems, and I can confidently say it helped me grow as both a developer and a collaborator. I focused a lot on backend infrastructure and the Hazard Detection Logic, and as requirements changed, I found myself frequently adapting our database and refactoring parts of the logic. What I really enjoyed was the space to experiment—I was constantly trying out new approaches and figuring out how to make things work better, faster, and smarter. I also helped manage and delegate tasks across the team, making sure we stayed aligned and on track. It was exciting to take theory into practice, especially when I could apply concepts from my studies in reinforcement learning and data science. I’m walking away from this project not just with technical skills, but with confidence in my ability to take initiative in complex systems.
+
+\subsubsection{Muhammad Arsalan Hussain}
+
+Looking back on this project, I’m proud of how far I’ve come—not just as a developer, but as someone who understands how to create systems that scale and serve real-world needs. My main focus was on frontend development, where I worked to make sure the user experience was seamless and intuitive. Connecting the frontend to the backend was a challenging task, but immensely rewarding once everything clicked. One of my favorite contributions was implementing the Hazard Zone definition feature, which allowed the system to be adaptable to different environments. I also delved into hyperparameter tuning to improve model performance. It was a great learning experience that pushed me to think beyond just building—toward optimizing and sustaining. This project gave me the chance to bring together my technical knowledge and my love for solving meaningful problems.
+
+\subsubsection{Muzzammil Kamran Sattar}
+
+When I think back on this project, I see a journey of adaptability, systems thinking, and meaningful communication. My role spanned across system design, backend logic, hazard detection, and communicating with Dawlance to make sure we stayed in sync with their evolving needs. I spent a lot of time annotating data frames to ensure that our models had accurate and relevant inputs. One of the most challenging—but ultimately rewarding—parts of my work was refactoring the backend. Incorporating major class structures gave the system the modularity it needed to evolve. I also researched and implemented the Homography Matrix, which allowed us to accurately map camera views to real-world hazard zones—an essential breakthrough. Drawing from my background in Software Engineering and Human-Computer Interaction, I always tried to balance functionality with usability. This project wasn't just a technical milestone for me—it was a reminder of why I’m passionate about building systems that make a difference.
+
+\subsubsection{Syed Ahad Ali}
+
+Reflecting on this project, I realize how much I’ve grown in terms of understanding system optimization and performance tuning. From the start, I took ownership of ensuring the system ran smoothly—even under the load of three simultaneous camera feeds. I dug deep into inference optimization and found that TensorRT significantly outperformed PyTorch in real-time scenarios. Switching from DeepSort to ByteTrack was another breakthrough that helped us achieve faster and more efficient tracking. I also worked on the internal APIs that allowed different system components to communicate effectively. It was incredibly fulfilling to see the system maintain a stable 24 FPS after weeks of testing and iteration. This experience taught me the power of going beyond just making things work—to making them work well.
+
+\subsection{Team Reflection}
+
+We believe that communication and coordination between team members was one aspect that went well in this project. In particular we were able
+to leverage each others strengthts, which enabled us to learn from each other. The very first part of this project was submitting a cover letter
+to Dawlance. Below, we have included this cover letter as it is perhaps the best artifact to showcase our team dyanmic:
+
+"We are a dynamic team of Computer Science undergraduates from Habib University, Karachi,
+eager to bring our technical expertise to Dawlance Pvt Ltds Intenseye AI Computer Vision
+project. Having collectively worked on several Deep Learning, AI, and Software Engineering
+projects, we are well-versed in the technologies this project may require. Furthermore, this
+projects goal of introducing AI-driven injury detection into the Pakistani context aligns with our
+mission. It reflects our passion for using technology to tackle critical challenges in the local
+environment. I am excited to introduce to you my team:
+
+Muhammad Arsalan Hussain possesses a broad knowledge base across multiple domains
+within computer science, with a core focus on deep learning. His expertise includes extensive
+work in dataset creation, augmentation, and fine-tuning large sequence-to-sequence models,
+which he applied to achieve high accuracy in his Automated Urdu Grammar Correction project
+for his Deep Learning Course. Beyond technical skills, Arsalan has consistently demonstrated
+strong leadership capabilities in his projects and is currently the lead developer for an employee
+management software at Nasfia Pvt Ltd. His experience in creating datasets, optimizing AI
+models and leading development teams will be undoubtedly a great asset to your project.
+
+Syed Ahad Ali specializes in training LLMs, machine learning models, and computer vision. He
+has worked on several freelance projects which have required these skills such that he was able
+to polish them quite well. Apart from that he has significant experience in developing 3D models
+in Unity and have created web pages which use webGL library to display the models, giving him
+insight into how to handle MERN stack.
+
+Asad Ullah Chaudhry brings a robust background in Data Science, Artificial Neural Networks
+and Reinforcement Learning. His familiarity with Deep Learning and Reinforcement Learning
+would play a key role in this project, helping finetune and deploy the YOLOV8 model for
+compliance monitoring. He has a robust amount of experience in Data Science and Network
+Analysis and is currently in the process of publishing his own Research Paper. This experience
+will be vital in creating a custom dataset and acquiring data-driven insights for the intenseye
+project.
+
+I, Muzzammil Sattar, have extensive experience in Software Engineering, Human-Computer
+Interaction, and Computer Graphics. My work in Computer Graphics includes developing
+efficient algorithms and data structures for managing large datasets, which will be valuable in
+optimizing real-time data processing for this project. Additionally, my knowledge in Software
+Engineering will assist me in helping my team effectively manage requirements, changes, and
+constraints. My expertise in Human-Computer Interaction will also contribute to creating a
+user-friendly, easy-to-understand system for managers at Dawlance to use.
+
+Given the opportunity we are confident that we would be able to set up an efficient real-time
+monitoring system in both of Dawlences workshops which would provide alerts for various safety
+hazards and behaviours including entering restricted areas while machinery is being operated
+and not wearing protective equipment. We look forward to the possibility of working together to
+create safer and more efficient workplaces.
+
+Sincerely,
+Muhammad Arsalan Hussain, Syed Ahad Ali, Asad Ullah Chaudhry, and Muzzammil Sattar
+Habib University, Karachi."
+
+It feels humbling looking back at this cover letter and seeing how our individual abilities have made this project possible.
+Asad's ability to research and experiment in particular helped particularly in the initial stages when we were designing 
+the sfotware and its architecture while also experimenting on simulated processes. Muzzammils focus on Human Computer Interaction 
+and Software Engineering helped us focus on and expand upon the most important safety hazards and provided quality of life improvements into the
+system with a focus on scalability. Arsalan and Ahad's extensive hands on approach allowed us to implement several different techniques and methods
+to Optimize the systems preformance.
+
+While there were some lows the team always presisted. Instead of focusing on the issuse the team always tried to solve it or come up
+with a new approach. We were always ready for contingecies and prepared for the worse even though it felt as though we hit a dead end. 
+But we, just like the models tracking feature, presisted.
+
+\subsection{Process Reflection}
+
+Our initial setup, testing and development was not done on the installed and later deployed hardware. This was because the requested hardware
+was provided to us towards the second half of the project timeline. Initially we had simulated CCTV footage and used existing pretrained models
+to test the feasibility of the project and develop initial Hazard Logic. We believe that this was a good approach, however, our lack
+of understanding of the factory environement (Uniforms, Lightings, Space, Height of the Camera) prevented us from creating truly meaningful
+simulated CCTV footage. 
+
+Likewise initially we focused on a breath of hazards ranging from Fall Detection, to Obstacles in a Forklifts Path, to Improper Machine Useage. 
+Later discussions with project safety managers revealed that they preffered customizability (the ability to define and edit Zones for example) for a 
+select few Hazards rather than focusing on every possible Hazards. We beleive that this project would have benefitted from some aspects of a 
+Rapid Application Development (RAD) model where the clinet is heavily involved in the process rather than just given updates. This was
+the type of developnment strategy that was established towards the middle of the project.
+
+\subsection{Plan Versus Achievements}
+
+We believe that we were able to complete almost all critical functionality and Hazard Detections that were required by the factory.
+As mentioned in the Process Reflection our initial plan was to cover a breath of requirements but afterwards our focused shifted towards 
+providing functional depth and scalability for a handful of critical functions. 
+
+
+
 
 \section{Appendix: Classes}
 
@@ -1087,7 +1194,7 @@ in other parts of the factory. The system was developed with functionality and s
     6: person
     7: shoes
     """
-    #remind me the logic for PPE detection
+
     def __processPPEDetection(self, results, frame):
         #loop through the results and draw the bounding boxes for gloves and heads
         current_frame_hands_ids = set()
