@@ -9,6 +9,8 @@ ProposalTemplate/main.fdb_latexmk
 *.synctex.gz
 *.bbl
 *.blg
+*.lof
+*.lot
 .DS_Store
 auto/
 

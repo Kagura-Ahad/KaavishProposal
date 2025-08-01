@@ -94,7 +94,7 @@ Pakistan has nearly 517 labour inspectors which means one inspector for more tha
 
 Furthermore, given these stats, it is not surprising that the construction industry is one of the most dangerous industries to work in.
 Although the construction industry accounts for 7\% of all workers, people are employed in the construction industry worldwide. However, 30-40\% of workplace fatalities happen in this Industry. Occupational Safety and Health Administration (OSHA)
-in the United States has reported 991 loss of levis in the construction industry since 2006 \cite{muzz8}. Another statistic claims that even though the industrial sector constitutes about 5\% of the workforce in the U.S., fatal injuries in construction 
+in the United States has reported 991 loss of lives in the construction industry since 2006 \cite{muzz8}. Another statistic claims that even though the industrial sector constitutes about 5\% of the workforce in the U.S., fatal injuries in construction 
 accounts for about 18\% of all occupational deaths, with the incident rate for nonfatal occupational injuries and illness in construction is 30\% higher than average industries. \cite{muzz8}
 \\ 
 Similarly, in China 3843 fatal injuries were recorded in 2017 making the construction industry one of the most fatal. Whereas in the United Kingdom, fatalities are also a problem in construction accounting for a total of 29.86\% of all workplace accidents. 
@@ -105,7 +105,8 @@ This increasing trend in more frequent exposure to workplace safety hazards is a
 \section{The Need for a Solution}
 From the number of injuries reported to the worker to inspector ratio, it is clear that workplace 
 safety needs to be revamped in Pakistan. Answering how to improve workplace safety (and thus minimize risk and injuries) in an industrial setting, 
-we see a multi-prong approach many of which Dawlence (our industrial partner) implements already. \\
+we see a multi-prong approach many of which Dawlence (our industrial partner) implements already.\\
+
 Research has found that industries should implement policies and practices that create a supportive environment for safety. This includes proper training, access to personal protective equipment (PPE), 
 and clear communication of safety protocols \cite{a1} and collaboration between departments ensures that health promotion and injury prevention efforts are aligned, maximizing their effectiveness \cite{a1}. \\
 
@@ -324,7 +325,7 @@ The system will use computer vision and deep learning techniques to analyze vide
   \begin{figure}[H]
       \centering
       \includegraphics[width=\textwidth]{yolo_module.png}
-      \caption{YOLO module: $\leq4$ YOLO models running in parallel}
+      \caption{YOLO module: $\leq4$ YOLO models running in parallel.}
       \label{fig:yolo}
   \end{figure}
   
@@ -337,7 +338,7 @@ The system will use computer vision and deep learning techniques to analyze vide
   
   \begin{enumerate}
       \item \textbf{CCTV cameras}: Live video stream from CCTV cameras.
-      \item \textbf{YOLO module}: $\leq$4 YOLO models running in parallel, each finetuned for a detection of safety-relevant objects.
+      \item \textbf{YOLO module}: $\leq$4 YOLO models running in parallel, each finetuned for a detection of safety-relevant objects.  In the final product, we used one consolidated model instead of multiple models.
       \item \textbf{Post Processing}: Heuristic and non-heuristic algorithms to recognize hazards via relationships of detected objects.
       \item \textbf{Database}: Relational database for statistics and records.
       \item \textbf{Hard drive}: Clips stored locally on server machine.
@@ -681,10 +682,11 @@ The following table is the result of a manual annotation effort on 726 additiona
     \end{figure}
 
     \textbf{Database and Backend Architecture:}
-    A significant portion of development focused on database implementation and backend architecture:
-    \begin{itemize}
-        \item Migration from SQLite to MSSQL for more robust data storage
+    A significant portion of development focused on database implementation and backend architecture. We used Python with FastAPI as our backend framework after initial experiments with Flask and Django. The robust ASGI server provided by FastAPI allowed for far more efficient and simpler handling of real-time data streams. For our database, we initially selected Microsoft SQL Server. However, later on we extended the target platform of our application from just Windows to Ubuntu and more generally Debian based systems as well for platform-specific performance reasons. Thus, we ended up with SQLLite as our database mainly because of its universal support but also because it boasts the fastest read and write times in all SQL database technologies (given that concurrent CRUD operations are limited). Our backend further entails:
+    \begin{itemize}        
         \item Implementation of user authentication and authorization with role-based access control
+        \item Multiprocessing architecture to handle multiple camera streams efficiently
+        \item WebSockets for live notification broadcast from the backend to the frontend
         \item Database integration for cameras, restricted zones, and hazard detection events
         \item Creation of data persistence layers for all system components
     \end{itemize}
@@ -705,11 +707,13 @@ The following table is the result of a manual annotation effort on 726 additiona
     \end{figure}
 
     \textbf{Interface and User Experience:}
-    The team made considerable progress in developing an intuitive user interface:
+    The team spent a significant amount of effort on making the user interface as intuitive as possible for non-tech savvy, day-to-day, safety managers. We utilized React along with tailwind CSS to create a responsive and user-friendly interface. Key features included:
     \begin{itemize}
         \item Implementation of a comprehensive dashboard showing critical safety metrics
         \item Addition of real-time video feeds with object detection overlays
         \item Development of user management interfaces with role-based permissions
+        \item A plug and play camera management system allowing easy addition and configuration of cameras
+        \item Intuitive camera management system which included Restricted zone and ROI management per camera with a simple point and click interface.
         \item Creation of notification systems for safety alerts
         \item Implementation of search and filtering functionality for detection events and user management
     \end{itemize}
@@ -719,46 +723,22 @@ The following table is the result of a manual annotation effort on 726 additiona
         \includegraphics[width=0.8\textwidth]{serarchFunctionality.PNG}
         \caption{Search Functionality in the Web Application}
         \label{fig:search_functionality}
-    \end{figure}
-
-    \textbf{System Optimization:}
-    Toward later development stages, the focus shifted to performance optimization:
-
-    \begin{itemize}
-        \item Implementation of multiprocessing to improve system performance over multithreading
-        \item Synchronization of multiple camera streams for consistent monitoring
-        \item Optimization of GPU utilization for model inference
-        \item Refactoring of code structure for better maintainability and performance
-    \end{itemize}
+    \end{figure}    
 
     \textbf{Advanced Features:}
     Several advanced features were successfully implemented:
 
     \begin{itemize}
-        \item Dynamic camera management allowing addition and configuration of new cameras
-        \item Restricted zone creation and management through the user interface
+        \item Dynamic camera management allowing addition and configuration of new cameras        
         \item Session history tracking for audit purposes
         \item Comprehensive filtering and search capabilities across the application
         \item Detailed logging and notification systems for safety violations
     \end{itemize}
 
 \subsection{Parallel CCTV Camera Processing}
- The problem of slow video stream processing in the web application was identified, with the video stream stuck at 2 FPS. The YOLO model and DeepSORT tracking were overloading the system. To address this, we implemented several optimization steps:
+The problem of slow video stream processing in the web application was identified, with the video stream stuck at 2 FPS. The YOLO model and BotSORT tracking were overloading the system. To address this, we implemented several optimization steps. We switched from BotSORT to ByteTrack, which is more efficient and lightweight for tracking. We also initially reduced frame resolution to 720p to balance quality and speed, though we later revoked this change as it was not worth the fall in accuracy. The benchmark results showed significant improvements, achieving 24+ fps on three concurrent streams, far surpassing the requirement of 5+ fps.
 
-    
-        \begin{itemize}
-            \item Switched from Model.track to Model.predict for more efficient tracking.
-            \item Reduced frame resolution to 720p, balancing quality and speed.
-            \item Replaced DeepSORT with ByteTrack, which is lighter and faster for tracking.
-        \end{itemize}
-    
-        The benchmark results showed significant improvements:
-        \begin{itemize}
-            \item testYOLO1.py achieved 31 FPS.
-            \item The web application, now running three YOLO instances, stabilized at 15 FPS.
-        \end{itemize}
-
-We further optimized the system by Inferencing through Nvidia TensorRT backend implemented by Ultralytics library which doubled our overall FPS by achieving around 2x speedup on the core inference task. Our final system can currently reliably process 24+ frames per second. The analytics are as follows:
+We further optimized the system by inferencing through Nvidia TensorRT backend implemented by Ultralytics library which doubled our overall FPS by achieving around 2x speedup on the core inference task. Our final system can currently reliably process 24+ frames per second. The analytics are as follows:
 \begin{table}[ht]
     \centering
     \caption{Performance Comparison of PyTorch and TensorRT Backends}
@@ -852,6 +832,8 @@ The model achieved an overall accuracy of 88.6\%, with a high recall of 94.9\% i
         \bottomrule
         \end{tabular}
     \end{table}
+
+For software testing, we created a total of 38 user stories and went through a rigorous manual test-develop cycles until all the user stories were implemented and all bugs, inconsistencies and inconveniences were resolved.
 
 \section{Conclusion and Further Work}
 
