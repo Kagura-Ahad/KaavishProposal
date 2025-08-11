@@ -65,10 +65,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Abstract}
-This paper presents the design, development, and deployment of a real-time, scalable industrial safety monitoring system, developed in collaboration with Dawlence Pakistan, to address critical challenges in workplace safety compliance and hazard detection. The system employs advanced computer vision techniques and deep learning models—specifically the YOLOv8 object detection architecture—to identify unsafe behaviors such as missing personal protective equipment (PPE), hazardous postures, and unauthorized zone entries, directly from live CCTV footage.
+This paper presents the design, development, and deployment of a real-time, scalable industrial safety monitoring system, developed in collaboration with Dawlence Pakistan, to address critical challenges in workplace safety compliance and hazard detection. The system employs advanced computer vision techniques and deep learning models—specifically the YOLOv11 object detection architecture—to identify unsafe behaviors such as missing personal protective equipment (PPE), hazardous postures, and unauthorized zone entries, directly from live CCTV footage.
 \\
 \\
-A major contribution of this work lies in its system-level engineering: the platform is built as an ASGI-based web application that asynchronously transmits real-time safety alerts to clients using WebSockets, ensuring low-latency communication and uninterrupted user experience. The backend architecture is optimized to simultaneously run multiple models on multiple camera streams, using GPU-level parallelism and dynamic resource allocation for maximum throughput. To handle concurrent workloads efficiently, the system employs Python-based multiprocessing to offload tasks such as frame decoding, inference, and result broadcasting into isolated parallel processes, achieving seamless CPU-GPU coordination.
+A major contribution of this work lies in its system-level engineering: the platform is built as an ASGI-based FastAPI web application that asynchronously transmits real-time safety alerts to clients using WebSockets, ensuring low-latency communication and uninterrupted user experience. The backend architecture is optimized to simultaneously run multiple models on multiple camera streams, using GPU-level parallelism and dynamic resource allocation for maximum throughput. To handle concurrent workloads efficiently, the system employs Python-based multiprocessing to offload tasks such as frame capture, post-processing and result broadcasting into isolated parallel processes, achieving seamless CPU-GPU coordination.
 \\
 \\
 To enhance model performance in real-world local conditions, we collected over 6 hours of surveillance footage from three different CCTV cameras across Dawlence’s Karachi facility and manually annotated the data, resulting in approximately 13,000 labeled instances for each safety-critical class. This annotated dataset included culturally and contextually specific examples, such as women workers wearing red hijabs as part of their protective uniforms. Fine-tuning was performed on top of an already pre-trained SH17(a research to improve YOLOs accuracy in detecting factory related images)-based model. Our fine-tuning significantly improved model accuracy across multiple classes—raising overall mAP50 from 0.119 to 0.643, and improving person detection precision from 0.39 to 0.883.
@@ -139,8 +139,8 @@ The system will use computer vision and deep learning techniques to analyze vide
   A persistent challenge lies in the scarcity of suitable training data for dynamic construction environments. While advanced implementations like \cite{muzz8} utilize over 100,000 images from 25 construction projects, typical datasets remain limited in scale and diversity. For instance, \cite{h1} uses only 700 samples from a single webcam, and \cite{h3} employs 1,472 crowd-sourced images. These datasets often lack critical characteristics of construction sites, including spatial conflicts, occlusions, multi-scale objects in cluttered backgrounds, and diverse worker poses. To address data scarcity, researchers employ augmentation strategies such as geometric transformations (flips, rotations), photometric variations (hue/saturation adjustments), and synthetic data generation \cite{h2}. Larger datasets like the SHEL5K (5,000 helmet images) and proprietary collections from \cite{a10} (13,300 PPE images) demonstrate improved model generalization.
   
   \subsection{Evolution of Object Detection Architectures}
-  YOLO (You Only Look Once) variants have emerged as the dominant architecture for real-time safety monitoring. Comparative studies reveal progressive performance improvements across versions:
-  
+  YOLO (You Only Look Once) variants have emerged as the dominant architecture due to their high accuracy and single-shot (resulting in high speed) capabilities for real-time safety monitoring. Comparative studies reveal progressive performance improvements across versions:
+
 
   \begin{table}[h]
     \centering
@@ -236,7 +236,7 @@ The system will use computer vision and deep learning techniques to analyze vide
   \subsection*{Performance}
   \begin{itemize}
       \item The system should process video and detect safety hazards in real-time with a maximum latency of 5 seconds to allow for immediate alerts.
-      \item The AI model shall achieve hazard detection at a minimum rate of 5 frames per second.
+      \item The AI model shall achieve hazard detection at a minimum rate of 5 frames per second. The hazards being detected (PPE violations, proximity to forklifts, entering restricted zones) are typically not instantaneous events but occur over several seconds, making 5 FPS adequate to capture these safety violations.
       \item The models that the system uses shall be optimized to maintain minimal GPU usage to enable efficient resource allocation and better latency. 
   \end{itemize}
   
@@ -325,7 +325,7 @@ The system will use computer vision and deep learning techniques to analyze vide
   \begin{figure}[H]
       \centering
       \includegraphics[width=\textwidth]{yolo_module.png}
-      \caption{YOLO module: $\leq4$ YOLO models running in parallel.}
+      \caption{YOLO module: Designed with multiple YOLO models running in parallel but ultimately using a single consolidated model for efficiency.}
       \label{fig:yolo}
   \end{figure}
   
@@ -410,12 +410,12 @@ The system will use computer vision and deep learning techniques to analyze vide
     
 \subsection{Data Annotations}
 
-The Dawlance Factory environment posed several problems for both the base YOLOv9 and other pretrained models including:
+The Dawlance Factory environment posed several problems for both the base YOLOv11 and other pretrained models including:
 \begin{enumerate}
-    \item \textbf{Occlusions} YOLOv9 would not be able to detect people when they were obscured by machienary and other obstacles in the frame
-    \item \textbf{CCTV Camera Perspective} Most pretrained models exclusively have eye-level images as their training data. This caused the models to preform poorly on CCTV video footage from a high angle. For example, a Pretrained Model for Forklifts would often mistake a large area of machinery as a forklifts.
-    \item \textbf{Absence of Forklift Class} The base YOLOv9 Model did not include a Forklift Class. 
-    \item \textbf{Women Workers} Most noteably women workers were being detected considerably less than male workers. This is attributed to the Dawlance Uniform for women workers which included a red Hijab (covering). Pretrained Models would only detect female workers (with very low confidence) when they were facing towards the camera and did not identify them when they faced away from the camera.
+    \item \textbf{Occlusions} YOLOv11 would not be able to detect people when they were obscured by machinery and other obstacles in the frame
+    \item \textbf{CCTV Camera Perspective} Most pretrained models exclusively have eye-level images as their training data. This caused the models to perform poorly on CCTV video footage from a high angle. For example, a Pretrained Model for Forklifts would often mistake a large area of machinery as a forklifts.
+    \item \textbf{Absence of Forklift Class} The base YOLOv11 Model did not include a Forklift Class.
+    \item \textbf{Women Workers} Most notably women workers were being detected considerably less than male workers. This is attributed to the Dawlance Uniform for women workers which included a red Hijab (covering). Pretrained Models would only detect female workers (with very low confidence) when they were facing towards the camera and did not identify them when they faced away from the camera.
 \end{enumerate}
 
 To create the Annotations we used a local version of LabelStudios (to compile with our NDA and ensure Data Protection) and setup the following Annotations PipeLine:
@@ -652,7 +652,7 @@ The following table is the result of a manual annotation effort on 726 additiona
     Our web application development began with establishing a solid foundation, starting with a frontend and backend separation approach. The initial commit established the repository, followed by implementing basic login functionality. Early efforts focused on:
     \begin{itemize}
         \item Setting up the application architecture with separate frontend and backend components
-        \item Implementing React for the frontend with initial streaming capabilities for Camera 1
+        \item Implementing React with vite for the frontend with initial streaming capabilities for Camera 1
         \item Establishing a color scheme and design system for consistent UI
         \item Setting up websocket initialization for real-time communication
     \end{itemize}
@@ -668,7 +668,7 @@ The following table is the result of a manual annotation effort on 726 additiona
     \textbf{Core Safety Monitoring Features:}
     The development progressed to implementing the core safety monitoring functionality:
     \begin{itemize}
-        \item Camera integration with streaming of annotated video feeds showing YOLO model output
+        \item Camera stream of annotated video feeds showing YOLO model output through RTSP via OpenCV integration.
         \item Implementation of hazard detection algorithms for PPE (gloves, helmets), restricted zones, forklift safety monitoring, and fall detection
         \item Creation of a notification system to alert supervisors about safety violations
         \item Development of detailed dashboard widgets showing safety analytics and metrics
@@ -682,9 +682,11 @@ The following table is the result of a manual annotation effort on 726 additiona
     \end{figure}
 
     \textbf{Database and Backend Architecture:}
-    A significant portion of development focused on database implementation and backend architecture. We used Python with FastAPI as our backend framework after initial experiments with Flask and Django. The robust ASGI server provided by FastAPI allowed for far more efficient and simpler handling of real-time data streams. For our database, we initially selected Microsoft SQL Server. However, later on we extended the target platform of our application from just Windows to Ubuntu and more generally Debian based systems as well for platform-specific performance reasons. Thus, we ended up with SQLLite as our database mainly because of its universal support but also because it boasts the fastest read and write times in all SQL database technologies (given that concurrent CRUD operations are limited). Our backend further entails:
+    A significant portion of development focused on database implementation and backend architecture. We used Python with FastAPI as our backend framework after initial experiments with Flask and Django. The robust ASGI server provided by FastAPI allowed for far more efficient and simpler handling of real-time data streams. We used Pydantic for all model validation and serialization, ensuring data integrity and type safety across the application.
+    
+    For our database, we initially selected Microsoft SQL Server. However, later on we extended the target platform of our application from just Windows to Ubuntu and more generally Debian based systems as well for platform-specific performance reasons. Thus, we ended up with SQLLite as our database mainly because of its universal support but also because it boasts the fastest read and write times in all SQL database technologies (given that concurrent CRUD operations are limited). Our backend further entails:
     \begin{itemize}        
-        \item Implementation of user authentication and authorization with role-based access control
+        \item Implementation of OAuth JWTBearer user authentication via PyJWT and authorization with role-based access control. 
         \item Multiprocessing architecture to handle multiple camera streams efficiently
         \item WebSockets for live notification broadcast from the backend to the frontend
         \item Database integration for cameras, restricted zones, and hazard detection events
