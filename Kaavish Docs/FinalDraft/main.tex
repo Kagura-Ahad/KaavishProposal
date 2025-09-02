@@ -68,10 +68,10 @@
 This paper presents the design, development, and deployment of a real-time, scalable industrial safety monitoring system, developed in collaboration with Dawlence Pakistan, to address critical challenges in workplace safety compliance and hazard detection. The system employs advanced computer vision techniques and deep learning models—specifically the YOLOv11 object detection architecture—to identify unsafe behaviors such as missing personal protective equipment (PPE), hazardous postures, and unauthorized zone entries, directly from live CCTV footage.
 \\
 \\
-A major contribution of this work lies in its system-level engineering: the platform is built as an ASGI-based FastAPI web application that asynchronously transmits real-time safety alerts to clients using WebSockets, ensuring low-latency communication and uninterrupted user experience. The backend architecture is optimized to simultaneously run multiple models on multiple camera streams, using GPU-level parallelism and dynamic resource allocation for maximum throughput. To handle concurrent workloads efficiently, the system employs Python-based multiprocessing to offload tasks such as frame capture, post-processing and result broadcasting into isolated parallel processes, achieving seamless CPU-GPU coordination.
+A major contribution of this work lies in its system-level engineering: the platform is built as an ASGI-based FastAPI web application that asynchronously transmits real-time safety alerts to clients using WebSockets, ensuring low-latency communication and uninterrupted user experience. The backend architecture is optimized to simultaneously run multiple models on multiple camera streams, using GPU-level parallelism and dynamic resource allocation for maximum throughput. To handle concurrent workloads efficiently, the system employs Python-based multiprocessing where each camera operates in its own dedicated process. The processed results are then transmitted to the main FastAPI application process through inter-process queues. This architecture allows the main process to focus exclusively on WebSocket notifications, email alerts, and database insertions, while camera processes run independently and in parallel, achieving optimal CPU-GPU coordination across multiple video streams.
 \\
 \\
-To enhance model performance in real-world local conditions, we collected over 6 hours of surveillance footage from three different CCTV cameras across Dawlence’s Karachi facility and manually annotated the data, resulting in approximately 13,000 labeled instances for each safety-critical class. This annotated dataset included culturally and contextually specific examples, such as women workers wearing red hijabs as part of their protective uniforms. Fine-tuning was performed on top of an already pre-trained SH17(a research to improve YOLOs accuracy in detecting factory related images)-based model. Our fine-tuning significantly improved model accuracy across multiple classes—raising overall mAP50 from 0.119 to 0.643, and improving person detection precision from 0.39 to 0.883.
+To enhance model performance in real-world local conditions, we collected over 16 hours of surveillance footage from three different CCTV cameras across Dawlence’s Karachi facility and manually annotated the data, resulting in approximately 13,000 labeled instances for each safety-critical class. This annotated dataset included culturally and contextually specific examples, such as women workers wearing red hijabs as part of their protective uniforms. Fine-tuning was performed on top of an already pre-trained SH17(a research to improve YOLOs accuracy in detecting factory related images)-based model. Our fine-tuning significantly improved model accuracy across multiple classes—raising overall mAP50 from 0.119 to 0.898, and improving person detection precision from 0.39 to 0.965.
 \\
 \\
 Further, the application enables real-time video stream ingestion and synchronization from multiple camera sources, supporting live footage streaming and cross-camera event correlation. Designed with horizontal scalability in mind, the architecture allows the integration of an arbitrary number of CCTV feeds without significant performance degradation, making it suitable for large-scale industrial environments.
@@ -139,22 +139,27 @@ The system will use computer vision and deep learning techniques to analyze vide
   A persistent challenge lies in the scarcity of suitable training data for dynamic construction environments. While advanced implementations like \cite{muzz8} utilize over 100,000 images from 25 construction projects, typical datasets remain limited in scale and diversity. For instance, \cite{h1} uses only 700 samples from a single webcam, and \cite{h3} employs 1,472 crowd-sourced images. These datasets often lack critical characteristics of construction sites, including spatial conflicts, occlusions, multi-scale objects in cluttered backgrounds, and diverse worker poses. To address data scarcity, researchers employ augmentation strategies such as geometric transformations (flips, rotations), photometric variations (hue/saturation adjustments), and synthetic data generation \cite{h2}. Larger datasets like the SHEL5K (5,000 helmet images) and proprietary collections from \cite{a10} (13,300 PPE images) demonstrate improved model generalization.
   
   \subsection{Evolution of Object Detection Architectures}
-  YOLO (You Only Look Once) variants have emerged as the dominant architecture due to their high accuracy and single-shot (resulting in high speed) capabilities for real-time safety monitoring. Comparative studies reveal progressive performance improvements across versions:
+  YOLO (You Only Look Once) variants have emerged as the dominant architecture due to their high accuracy and single-shot (resulting in high speed) capabilities for real-time safety monitoring. Recent comparative analysis by \cite{hameed2025} demonstrates YOLOv8's superior performance against other models in real-time applications. Their evaluation showed YOLOv8 achieving approximately 90\% mAP@0.5, significantly outperforming YOLOv5 (which had 9\% lower recall), Faster R-CNN (which required more prediction time, making it inefficient for real-time applications), and SSD (which was the least accurate despite being faster and having a smaller model size).
+
+  We also evaluated YOLO, Faster R-CNN and SSD and reached the same conclusion: YOLO offers the best accuracy–speed trade-off for real-time safety monitoring. These findings reinforce the choice of YOLO(v8+) models for real-time safety monitoring applications where both accuracy and speed are critical requirements. Comparative studies reveal progressive performance improvements across its versions \cite{yolo_comparison}:
 
 
-  \begin{table}[h]
+  \begin{table}[H]
     \centering
-    \caption{Performance comparison of YOLO variants in safety applications}
+    \caption{Performance comparison of YOLO variants in safety applications \cite{yolo_comparison}}
     \begin{tabular}{|l|c|c|c|}
     \hline
-    Model & mAP50 & Precision & Recall \\ \hline
+    Model & mAP50 & Precision & Recall \\ \hline    
+    YOLO11m          & 96.0\% & 92.2\% & 90.6\% \\ \hline
+    YOLOv10m         & 94.5\% & 91.0\% & 88.0\% \\ \hline
+    YOLOv9s          & 95.6\% & 92.1\% & 89.7\% \\ \hline    
     YOLOv8x & 92.9\% & 94.5\% & 86.9\% \\ \hline
     YOLOv5 & 89.1\% & 91.2\% & 83.4\% \\ \hline
     YOLOv3 & 85.0\% & 88.7\% & 79.1\% \\ \hline
     \end{tabular}
     \end{table}
 
-  Key architectural advancements include anchor-free detection in YOLOv8 \cite{h6} and multi-class state detection (e.g., classifying workers as [W, WH, WV, WHV] in \cite{h2}). Notably, \cite{h3} achieves 95\% precision/recall in direct non-compliance detection by training models exclusively on "No Hat" annotations, bypassing traditional multi-object detection pipelines.
+  Key architectural advancements include anchor-free detection in YOLOv8 \cite{h6} and multi-class state detection (e.g., classifying workers as [W, WH, WV, WHV] in \cite{h2}). Notably, \cite{h3} achieves 95\% precision/recall in direct non-compliance detection by training models exclusively on "No Hat" annotations, bypassing traditional multi-object detection pipelines.  
   
   \subsection{Spatial Analysis and Hazard Relationship Modeling}
   Accurate spatial reasoning in 2D projections remains a critical challenge. \cite{h1} addresses this through inverse perspective mapping (IPM) with homography matrices, achieving 90\% accuracy in distance estimation. The methodology involves three steps: (1) perspective transformation using known reference points, (2) bounding box coordinate conversion, and (3) Euclidean distance computation in transformed space. For contextual hazard analysis, research diverges into three approaches: heuristic geometric checks (e.g., midpoint-in-polygon tests), probabilistic models like Bayesian networks (67.9\% mAP in \cite{h2}), and end-to-end non-compliance detection (95\% precision in \cite{h3}).
@@ -236,7 +241,7 @@ The system will use computer vision and deep learning techniques to analyze vide
   \subsection*{Performance}
   \begin{itemize}
       \item The system should process video and detect safety hazards in real-time with a maximum latency of 5 seconds to allow for immediate alerts.
-      \item The AI model shall achieve hazard detection at a minimum rate of 5 frames per second. The hazards being detected (PPE violations, proximity to forklifts, entering restricted zones) are typically not instantaneous events but occur over several seconds, making 5 FPS adequate to capture these safety violations.
+      \item The AI model shall achieve hazard detection at a minimum rate of 5 frames per second. The hazards being detected (PPE violations, proximity to forklifts, entering restricted zones) are typically not instantaneous events but occur over several seconds, making 5 FPS adequate to capture these safety violations (where 1/5th of a second is adequate amount of time during which it is impossible a hazard can occur).
       \item The models that the system uses shall be optimized to maintain minimal GPU usage to enable efficient resource allocation and better latency. 
   \end{itemize}
   
@@ -325,7 +330,7 @@ The system will use computer vision and deep learning techniques to analyze vide
   \begin{figure}[H]
       \centering
       \includegraphics[width=\textwidth]{yolo_module.png}
-      \caption{YOLO module: Designed with multiple YOLO models running in parallel but ultimately using a single consolidated model for efficiency.}
+      \caption{YOLO module: Designed with multiple YOLO models running in parallel in mind but we ultimately used a single consolidated model for all different object detections (not separate models for separate objects) such that we can have greater efficiency.}
       \label{fig:yolo}
   \end{figure}
   
@@ -526,7 +531,7 @@ The results after testing the model was as follows:
     \end{tabular}
 \end{table}
 
-\subsubsection{Final Round of Annotaions}
+\subsubsection{Final Round of Annotations}
 The following table is the result of a manual annotation effort on 726 additional images brining us to 18,000 total object instances. Notably, the forklift category yields the highest scores due to its large and obvious pictorial characteristics.
 \begin{table}[H]
     \centering
@@ -950,470 +955,468 @@ As mentioned in the Process Reflection our initial plan was to cover a breath of
 providing functional depth and scalability for a handful of critical functions. 
 
 
+% \section{Appendix: Classes}
 
+% \begin{lstlisting}[language=Python, caption=Camera Class, label=lst:CameraClass]
+%     class Camera():
 
-\section{Appendix: Classes}
+%     def __init__(self, 
+%                  id: int, 
+%                  stream: str,                  
+%                  hazard_zones: List[HazardZone], 
+%                  homography_matrix, 
+%                  queue_key : str,
+%                  model):
+%         '''Assuming that every camera must have 1 Hazard Zone
+%         If a camera had more than 1 Zone a list of Hazard Zones needs to be campaniend'''
+%         self.id = id
+%         self.model = model
+%         self.stream_url = stream        
 
-\begin{lstlisting}[language=Python, caption=Camera Class, label=lst:CameraClass]
-    class Camera():
+%         self.hazard_zones = hazard_zones
 
-    def __init__(self, 
-                 id: int, 
-                 stream: str,                  
-                 hazard_zones: List[HazardZone], 
-                 homography_matrix, 
-                 queue_key : str,
-                 model):
-        '''Assuming that every camera must have 1 Hazard Zone
-        If a camera had more than 1 Zone a list of Hazard Zones needs to be campaniend'''
-        self.id = id
-        self.model = model
-        self.stream_url = stream        
-
-        self.hazard_zones = hazard_zones
-
-        self.__queue_key = queue_key
+%         self.__queue_key = queue_key
   
-        self.__tracked_people = {}
-        self.__tracked_forklifts = {}
-        self.__tracked_hands = set()
-        self.__people_close_to_forklift = set()
-        self.__forklifts_speeding = set()
+%         self.__tracked_people = {}
+%         self.__tracked_forklifts = {}
+%         self.__tracked_hands = set()
+%         self.__people_close_to_forklift = set()
+%         self.__forklifts_speeding = set()
 
 
-    def getModel(self):
-        return self.model    
+%     def getModel(self):
+%         return self.model    
 
-    def getStream(self):
-        return self.stream_url
+%     def getStream(self):
+%         return self.stream_url
     
-    def getQueueKey(self):
-        return self.__queue_key
+%     def getQueueKey(self):
+%         return self.__queue_key
 
-    def setHomographyMatrix(self, homography_matrix):
-        self.__homography_matrix = homography_matrix
+%     def setHomographyMatrix(self, homography_matrix):
+%         self.__homography_matrix = homography_matrix
 
-    def __getFrame(self, stream):
-        success, frame = stream.read()
-        if not success:
-            stream.set(cv2.CAP_PROP_POS_FRAMES, 0)
-        return frame
+%     def __getFrame(self, stream):
+%         success, frame = stream.read()
+%         if not success:
+%             stream.set(cv2.CAP_PROP_POS_FRAMES, 0)
+%         return frame
     
-    def getKey(self):
-        return self.__queue_key
+%     def getKey(self):
+%         return self.__queue_key
 
-    def __update_tracked_people(self, person_id, r):
-        if person_id in self.__tracked_people:
-            # Update existing person's coordinates
-            self.__tracked_people[person_id].update_coordinates(r.xyxy[0])
-        else:
-            # Create a new Person object
-            self.__tracked_people[person_id] = Person(person_id, r.xyxy[0])
+%     def __update_tracked_people(self, person_id, r):
+%         if person_id in self.__tracked_people:
+%             # Update existing person's coordinates
+%             self.__tracked_people[person_id].update_coordinates(r.xyxy[0])
+%         else:
+%             # Create a new Person object
+%             self.__tracked_people[person_id] = Person(person_id, r.xyxy[0])
 
-        return self.__tracked_people[person_id]
+%         return self.__tracked_people[person_id]
 
-    def __remove__tracked_people(self, current_frame_ids):
-        for person_id in list(self.__tracked_people.keys()):
-            if person_id not in current_frame_ids:
-                del self.__tracked_people[person_id]
+%     def __remove__tracked_people(self, current_frame_ids):
+%         for person_id in list(self.__tracked_people.keys()):
+%             if person_id not in current_frame_ids:
+%                 del self.__tracked_people[person_id]
 
-    def __update_tracked_forklifts(self, forklift_id, r):
-        if forklift_id in self.__tracked_forklifts:
-            # Update existing forklift's coordinates
-            self.__tracked_forklifts[forklift_id].update_coordinates(r.xyxy[0])
-        else:
-            # Create a new Forklift object
-            self.__tracked_forklifts[forklift_id] = Forklift(forklift_id, r.xyxy[0])
+%     def __update_tracked_forklifts(self, forklift_id, r):
+%         if forklift_id in self.__tracked_forklifts:
+%             # Update existing forklift's coordinates
+%             self.__tracked_forklifts[forklift_id].update_coordinates(r.xyxy[0])
+%         else:
+%             # Create a new Forklift object
+%             self.__tracked_forklifts[forklift_id] = Forklift(forklift_id, r.xyxy[0])
 
-        return self.__tracked_forklifts[forklift_id]
+%         return self.__tracked_forklifts[forklift_id]
 
-    def __remove_tracked_forklifts(self, current_frame_ids):
-        for forklift_id in list(self.__tracked_forklifts.keys()):
-            if forklift_id not in current_frame_ids:
-                del self.__tracked_forklifts[forklift_id]
+%     def __remove_tracked_forklifts(self, current_frame_ids):
+%         for forklift_id in list(self.__tracked_forklifts.keys()):
+%             if forklift_id not in current_frame_ids:
+%                 del self.__tracked_forklifts[forklift_id]
 
 
 
-    def __display_distances(self, frame):
-        people_list = list(self.__tracked_people.values())
-        for i in range(len(people_list) - 1):
-            for j in range(i + 1, len(people_list)):
+%     def __display_distances(self, frame):
+%         people_list = list(self.__tracked_people.values())
+%         for i in range(len(people_list) - 1):
+%             for j in range(i + 1, len(people_list)):
                 
-                real_distance = people_list[i].DistanceBetweenPeople(people_list[j], self.__homography_matrix)
-                # Draw a line between the two persons
-                cv2.line(frame,  people_list[i].getFeet(),  people_list[j].getFeet(), (255, 255, 0), 2)
+%                 real_distance = people_list[i].DistanceBetweenPeople(people_list[j], self.__homography_matrix)
+%                 # Draw a line between the two persons
+%                 cv2.line(frame,  people_list[i].getFeet(),  people_list[j].getFeet(), (255, 255, 0), 2)
 
-                # Draw the distance on the frame
-                midpoint = (
-                    (people_list[i].getFeet()[0] + people_list[j].getFeet()[0]) // 2,
-                    (people_list[i].getFeet()[1] + people_list[j].getFeet()[1]) // 2,
-                )
+%                 # Draw the distance on the frame
+%                 midpoint = (
+%                     (people_list[i].getFeet()[0] + people_list[j].getFeet()[0]) // 2,
+%                     (people_list[i].getFeet()[1] + people_list[j].getFeet()[1]) // 2,
+%                 )
 
-                cv2.putText(frame, f"P2P: {real_distance:.2f}m", midpoint,
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 0), 2)
+%                 cv2.putText(frame, f"P2P: {real_distance:.2f}m", midpoint,
+%                             cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 0), 2)
 
 
-    def __processHazardZone(self, results, frame):
-        #print(f"In processHazardZone : {self.__queue_key}")
-        current_frame_ids = set()
-        messages = []
-        for r in results[0].boxes:
-            if r.cls == 6:  # Class 6 corresponds to 'person'
-                # Skip if the person is not available or if confidence is low
-                if r.id is None or r.conf < 0.3:
-                    continue
+%     def __processHazardZone(self, results, frame):
+%         #print(f"In processHazardZone : {self.__queue_key}")
+%         current_frame_ids = set()
+%         messages = []
+%         for r in results[0].boxes:
+%             if r.cls == 6:  # Class 6 corresponds to 'person'
+%                 # Skip if the person is not available or if confidence is low
+%                 if r.id is None or r.conf < 0.3:
+%                     continue
 
-                #draw person
-                x_min, y_min, x_max, y_max = map(int, r.xyxy[0])
-                cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 255), 2)
-                cv2.putText(frame, f"Person {r.conf}", (x_min, y_min - 10),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
+%                 #draw person
+%                 x_min, y_min, x_max, y_max = map(int, r.xyxy[0])
+%                 cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 255), 2)
+%                 cv2.putText(frame, f"Person {r.conf}", (x_min, y_min - 10),
+%                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
 
-                person_id = int(r.id[0])
-                current_frame_ids.add(person_id)
-                person = self.__update_tracked_people(person_id, r)
+%                 person_id = int(r.id[0])
+%                 current_frame_ids.add(person_id)
+%                 person = self.__update_tracked_people(person_id, r)
 
-                #Processing for person being in the zone
-                person_in_zone = False
-                for hazard_zone in self.hazard_zones:
-                    if hazard_zone.IsInZone(person):
-                        person_in_zone = True
-                        person.SetInZone(True)
-                        notification_message = person.ZoneEntry(hazard_zone.id, self.id)
-                        if notification_message != None:
-                            messages.append(notification_message)                    
+%                 #Processing for person being in the zone
+%                 person_in_zone = False
+%                 for hazard_zone in self.hazard_zones:
+%                     if hazard_zone.IsInZone(person):
+%                         person_in_zone = True
+%                         person.SetInZone(True)
+%                         notification_message = person.ZoneEntry(hazard_zone.id, self.id)
+%                         if notification_message != None:
+%                             messages.append(notification_message)                    
                 
-                person.SetInZone(person_in_zone)
+%                 person.SetInZone(person_in_zone)
 
-                for hazard_zone in self.hazard_zones:
-                #Processing Distances for people
-                    distance_to_zone, closest_point = hazard_zone.DistanceFromZone(person.getFeet())
-                    if person.isInZone:
-                        distance_to_zone = -distance_to_zone
-                    # Display distance and line to the restricted zone
-                    cv2.line(frame, person.getFeet(), closest_point, (0, 255, 255), 2) # Draw line to the closest point on the polygon
-                    cv2.putText(frame, f"P2Zone: {distance_to_zone:.2f}m", (person.getFeet()[0], person.getFeet()[1] - 10), 
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)  
+%                 for hazard_zone in self.hazard_zones:
+%                 #Processing Distances for people
+%                     distance_to_zone, closest_point = hazard_zone.DistanceFromZone(person.getFeet())
+%                     if person.isInZone:
+%                         distance_to_zone = -distance_to_zone
+%                     # Display distance and line to the restricted zone
+%                     cv2.line(frame, person.getFeet(), closest_point, (0, 255, 255), 2) # Draw line to the closest point on the polygon
+%                     cv2.putText(frame, f"P2Zone: {distance_to_zone:.2f}m", (person.getFeet()[0], person.getFeet()[1] - 10), 
+%                                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)  
                 
-                # Calculate and display speed
-                speed = person.CalculateSpeed(self.__homography_matrix, 25)
-                if speed > config.PERSONMAXSPEED:
-                    messages.append({"person_id": person_id, "message": f"Person {person_id} is moving too fast: {speed:.2f}m/s", "CameraID": self.id})
-                cv2.putText(frame, f"Speed: {speed:.2f}m/s", (person.getFeet()[0], person.getFeet()[1] + 10),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
+%                 # Calculate and display speed
+%                 speed = person.CalculateSpeed(self.__homography_matrix, 25)
+%                 if speed > config.PERSONMAXSPEED:
+%                     messages.append({"person_id": person_id, "message": f"Person {person_id} is moving too fast: {speed:.2f}m/s", "CameraID": self.id})
+%                 cv2.putText(frame, f"Speed: {speed:.2f}m/s", (person.getFeet()[0], person.getFeet()[1] + 10),
+%                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
 
 
-        # Remove persons that are NOT in the current frame i.e have left the frame
-        self.__remove__tracked_people(current_frame_ids)
+%         # Remove persons that are NOT in the current frame i.e have left the frame
+%         self.__remove__tracked_people(current_frame_ids)
 
 
-        return messages
+%         return messages
     
-    def __processForklifts(self, results, frame):
-        # print("In processForklifts")
-        current_frame_ids = set()
-        messages = []
-        for r in results[0].boxes:
-            if r.cls == 1:  # Class 1 corresponds to 'forklift'
-                # Skip if the forklift is not available or if confidence is low
-                if r.id is None or r.conf < 0.3:
-                    continue
+%     def __processForklifts(self, results, frame):
+%         # print("In processForklifts")
+%         current_frame_ids = set()
+%         messages = []
+%         for r in results[0].boxes:
+%             if r.cls == 1:  # Class 1 corresponds to 'forklift'
+%                 # Skip if the forklift is not available or if confidence is low
+%                 if r.id is None or r.conf < 0.3:
+%                     continue
 
-                #draw forklift
-                x_min, y_min, x_max, y_max = map(int, r.xyxy[0])
-                cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 255), 2)
-                cv2.putText(frame, f"Forklift {r.conf}", (x_min, y_min - 10),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
+%                 #draw forklift
+%                 x_min, y_min, x_max, y_max = map(int, r.xyxy[0])
+%                 cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 255), 2)
+%                 cv2.putText(frame, f"Forklift {r.conf}", (x_min, y_min - 10),
+%                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
 
-                forklift_id = int(r.id[0])
-                current_frame_ids.add(forklift_id)
-                forklift = self.__update_tracked_forklifts(forklift_id, r)
+%                 forklift_id = int(r.id[0])
+%                 current_frame_ids.add(forklift_id)
+%                 forklift = self.__update_tracked_forklifts(forklift_id, r)
 
-                #Processing Distances for forklifts
-                for person in self.__tracked_people.values():
-                    person_id = person.getID()
-                    #check if person is inside the bounding box of the forklift using cv2.pointPolygonTest
-                    bounding_box = np.array([(x_min, y_min), (x_max, y_min), (x_max, y_max), (x_min, y_max)])  # Format corners
-                    flag = cv2.pointPolygonTest(bounding_box, person.getFeet(), False) >= 0
-                    if flag:
-                        distance = 0
-                    else:
-                        distance = forklift.DistanceBetweenPeopleForklift(person, self.__homography_matrix)
+%                 #Processing Distances for forklifts
+%                 for person in self.__tracked_people.values():
+%                     person_id = person.getID()
+%                     #check if person is inside the bounding box of the forklift using cv2.pointPolygonTest
+%                     bounding_box = np.array([(x_min, y_min), (x_max, y_min), (x_max, y_max), (x_min, y_max)])  # Format corners
+%                     flag = cv2.pointPolygonTest(bounding_box, person.getFeet(), False) >= 0
+%                     if flag:
+%                         distance = 0
+%                     else:
+%                         distance = forklift.DistanceBetweenPeopleForklift(person, self.__homography_matrix)
 
-                    """if the person is not in the bounding box of the forklift and is too close to the forklift
-                    and not already in the set of people already identified as being too close to the forklift
-                    then add the person to the set and issue a warning"""
+%                     """if the person is not in the bounding box of the forklift and is too close to the forklift
+%                     and not already in the set of people already identified as being too close to the forklift
+%                     then add the person to the set and issue a warning"""
 
-                    if distance < config.FORKLIFTPERSONDISTANCE and person_id not in self.__people_close_to_forklift and not flag: 
-                        self.__people_close_to_forklift.add(person_id)
-                        messages.append({"person_id": person_id, "message": f"Person {person_id} is too close to forklift {forklift_id}: {distance:.2f}m",  "CameraID": self.id})
-                    elif distance >= config.FORKLIFTPERSONDISTANCE and person_id in self.__people_close_to_forklift:
-                        self.__people_close_to_forklift.remove(person_id)
+%                     if distance < config.FORKLIFTPERSONDISTANCE and person_id not in self.__people_close_to_forklift and not flag: 
+%                         self.__people_close_to_forklift.add(person_id)
+%                         messages.append({"person_id": person_id, "message": f"Person {person_id} is too close to forklift {forklift_id}: {distance:.2f}m",  "CameraID": self.id})
+%                     elif distance >= config.FORKLIFTPERSONDISTANCE and person_id in self.__people_close_to_forklift:
+%                         self.__people_close_to_forklift.remove(person_id)
                     
-                    # Display distance between forklift and person
-                    cv2.line(frame, forklift.getBottom(), person.getFeet(), (0, 255, 255), 2)
-                    cv2.putText(frame, f"F2P: {distance:.2f}m", forklift.getBottom(),
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
-                # Calculate and display speed
-                speed = forklift.CalculateSpeedForklift(self.__homography_matrix, self.__fps)
-                if speed > config.LIFTMAXSPEED and forklift_id not in self.__forklifts_speeding:
-                    messages.append({"forklift_id": forklift_id, "message": f"Forklift {forklift_id} is moving too fast: {speed:.2f}m/s" , "CameraID": self.id})
-                    self.__forklifts_speeding.add(forklift_id)
-                elif speed <= config.LIFTMAXSPEED and forklift_id in self.__forklifts_speeding:
-                    self.__forklifts_speeding.remove(forklift_id)
-                cv2.putText(frame, f"Speed: {speed:.2f}m/s", forklift.getBottom(),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
+%                     # Display distance between forklift and person
+%                     cv2.line(frame, forklift.getBottom(), person.getFeet(), (0, 255, 255), 2)
+%                     cv2.putText(frame, f"F2P: {distance:.2f}m", forklift.getBottom(),
+%                                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
+%                 # Calculate and display speed
+%                 speed = forklift.CalculateSpeedForklift(self.__homography_matrix, self.__fps)
+%                 if speed > config.LIFTMAXSPEED and forklift_id not in self.__forklifts_speeding:
+%                     messages.append({"forklift_id": forklift_id, "message": f"Forklift {forklift_id} is moving too fast: {speed:.2f}m/s" , "CameraID": self.id})
+%                     self.__forklifts_speeding.add(forklift_id)
+%                 elif speed <= config.LIFTMAXSPEED and forklift_id in self.__forklifts_speeding:
+%                     self.__forklifts_speeding.remove(forklift_id)
+%                 cv2.putText(frame, f"Speed: {speed:.2f}m/s", forklift.getBottom(),
+%                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
         
-        # Remove forklifts that are NOT in the current frame i.e have left the frame
-        self.__remove_tracked_forklifts(current_frame_ids)
-        return messages
+%         # Remove forklifts that are NOT in the current frame i.e have left the frame
+%         self.__remove_tracked_forklifts(current_frame_ids)
+%         return messages
     
-    """
-    0: foot
-    1: forklift
-    2: gloves
-    3: hands
-    4: head
-    5: helmet
-    6: person
-    7: shoes
-    """
+%     """
+%     0: foot
+%     1: forklift
+%     2: gloves
+%     3: hands
+%     4: head
+%     5: helmet
+%     6: person
+%     7: shoes
+%     """
 
-    def __processPPEDetection(self, results, frame):
-        #loop through the results and draw the bounding boxes for gloves and heads
-        current_frame_hands_ids = set()
-        messages = []
-        for r in results[0].boxes:
-            if r.id is None or r.conf < 0.3:
-                    continue
-            if r.cls == 2:  # Class 2 corresponds to 'gloves'
-                x_min, y_min, x_max, y_max = map(int, r.xyxy[0])
-                cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 255), 2)
-                cv2.putText(frame, "Gloves", (x_min, y_min - 10),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
-            elif r.cls == 4:  # Class 4 corresponds to 'head'
-                x_min, y_min, x_max, y_max = map(int, r.xyxy[0])
-                cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 255), 2)
-                cv2.putText(frame, f"Head", (x_min, y_min - 10),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
-            elif r.cls == 3:
-                x_min, y_min, x_max, y_max = map(int, r.xyxy[0])
-                cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 255), 2)
-                cv2.putText(frame, f"Hands", (x_min, y_min - 10),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
-                hand_id = int(r.id[0])
-                current_frame_hands_ids.add(hand_id)
-                if hand_id in self.__tracked_hands:
-                    continue
-                else:
-                    self.__tracked_hands.add(hand_id)
-                    messages.append({"hand_id": hand_id, "message": f"Bare Hand {hand_id} detected.", "CameraID": self.id})
-        #remove hands that are not in the current frame
-        self.__tracked_hands = self.__tracked_hands.intersection(current_frame_hands_ids)
+%     def __processPPEDetection(self, results, frame):
+%         #loop through the results and draw the bounding boxes for gloves and heads
+%         current_frame_hands_ids = set()
+%         messages = []
+%         for r in results[0].boxes:
+%             if r.id is None or r.conf < 0.3:
+%                     continue
+%             if r.cls == 2:  # Class 2 corresponds to 'gloves'
+%                 x_min, y_min, x_max, y_max = map(int, r.xyxy[0])
+%                 cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 255), 2)
+%                 cv2.putText(frame, "Gloves", (x_min, y_min - 10),
+%                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
+%             elif r.cls == 4:  # Class 4 corresponds to 'head'
+%                 x_min, y_min, x_max, y_max = map(int, r.xyxy[0])
+%                 cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 255), 2)
+%                 cv2.putText(frame, f"Head", (x_min, y_min - 10),
+%                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
+%             elif r.cls == 3:
+%                 x_min, y_min, x_max, y_max = map(int, r.xyxy[0])
+%                 cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 255), 2)
+%                 cv2.putText(frame, f"Hands", (x_min, y_min - 10),
+%                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
+%                 hand_id = int(r.id[0])
+%                 current_frame_hands_ids.add(hand_id)
+%                 if hand_id in self.__tracked_hands:
+%                     continue
+%                 else:
+%                     self.__tracked_hands.add(hand_id)
+%                     messages.append({"hand_id": hand_id, "message": f"Bare Hand {hand_id} detected.", "CameraID": self.id})
+%         #remove hands that are not in the current frame
+%         self.__tracked_hands = self.__tracked_hands.intersection(current_frame_hands_ids)
                 
 
-        return messages
+%         return messages
         
                 
 
-    def processCamera(self, frame):
-        try:
-            # frame = self.__getFrame(stream)
-            if frame is None:
-                print(f"Frame for {self.__queue_key} is None. Skipping.")
-                return []  
+%     def processCamera(self, frame):
+%         try:
+%             # frame = self.__getFrame(stream)
+%             if frame is None:
+%                 print(f"Frame for {self.__queue_key} is None. Skipping.")
+%                 return []  
 
-            results = self.model.track(frame, persist=True, verbose=False)
-            # Process the hazard zone
-            messages = self.__processHazardZone(results, frame)
-            messages2 = self.__processForklifts(results, frame)
-            messages3 = self.__processPPEDetection(results, frame)
-            messages.extend(messages2)
-            messages.extend(messages3)
-            # Draw the ROI polygon
-            for hazard_zone in self.hazard_zones:
-                cv2.polylines(frame,[hazard_zone.gethazardZone()], isClosed=True, color=(255, 105, 180), thickness=6)
-            #self.__push_frame(frame)
-            return frame, messages
-        except Exception as e:
-            print(f"Error processing camera {e}")            
-\end{lstlisting}
+%             results = self.model.track(frame, persist=True, verbose=False)
+%             # Process the hazard zone
+%             messages = self.__processHazardZone(results, frame)
+%             messages2 = self.__processForklifts(results, frame)
+%             messages3 = self.__processPPEDetection(results, frame)
+%             messages.extend(messages2)
+%             messages.extend(messages3)
+%             # Draw the ROI polygon
+%             for hazard_zone in self.hazard_zones:
+%                 cv2.polylines(frame,[hazard_zone.gethazardZone()], isClosed=True, color=(255, 105, 180), thickness=6)
+%             #self.__push_frame(frame)
+%             return frame, messages
+%         except Exception as e:
+%             print(f"Error processing camera {e}")            
+% \end{lstlisting}
 
-\begin{lstlisting}[language=Python, caption=Forklift Class, label=lst:ForkliftClass]
-    class Forklift:
-    def __init__(self, scene_id, coordinates):
-        self.__scene_id = scene_id
-        self.__x1, self.__y1, self.__x2, self.__y2 = map(int, coordinates)
-        self.__bottom_midpoint = ((self.__x1 + self.__x2) // 2, self.__y2)
-        self.__prev_points = []
+% \begin{lstlisting}[language=Python, caption=Forklift Class, label=lst:ForkliftClass]
+%     class Forklift:
+%     def __init__(self, scene_id, coordinates):
+%         self.__scene_id = scene_id
+%         self.__x1, self.__y1, self.__x2, self.__y2 = map(int, coordinates)
+%         self.__bottom_midpoint = ((self.__x1 + self.__x2) // 2, self.__y2)
+%         self.__prev_points = []
 
-    def getBottom(self):
-        return self.__bottom_midpoint
+%     def getBottom(self):
+%         return self.__bottom_midpoint
     
-    def update_coordinates(self, coordinates):
-        if len(self.__prev_points) == 5:
-            self.__prev_points.pop(0)
-        self.__prev_points.append(self.__bottom_midpoint) 
-        self.__x1, self.__y1, self.__x2, self.__y2 = map(int, coordinates)
-        self.__bottom_midpoint = ((self.__x1 + self.__x2) // 2, self.__y2)
+%     def update_coordinates(self, coordinates):
+%         if len(self.__prev_points) == 5:
+%             self.__prev_points.pop(0)
+%         self.__prev_points.append(self.__bottom_midpoint) 
+%         self.__x1, self.__y1, self.__x2, self.__y2 = map(int, coordinates)
+%         self.__bottom_midpoint = ((self.__x1 + self.__x2) // 2, self.__y2)
 
-    def __calculate_real_distance(self, point1, point2, M):
-        point1 = np.array([point1], dtype=np.float32).reshape(-1, 1, 2)  # Shape (1, 1, 2)
-        point2 = np.array([point2], dtype=np.float32).reshape(-1, 1, 2)  # Shape (1, 1, 2)
-        point_1_real = cv2.perspectiveTransform(point1, M)
-        point_2_real= cv2.perspectiveTransform(point2, M)
-        distance = np.linalg.norm(point_1_real[0][0] -  point_2_real[0][0])
-        return distance
+%     def __calculate_real_distance(self, point1, point2, M):
+%         point1 = np.array([point1], dtype=np.float32).reshape(-1, 1, 2)  # Shape (1, 1, 2)
+%         point2 = np.array([point2], dtype=np.float32).reshape(-1, 1, 2)  # Shape (1, 1, 2)
+%         point_1_real = cv2.perspectiveTransform(point1, M)
+%         point_2_real= cv2.perspectiveTransform(point2, M)
+%         distance = np.linalg.norm(point_1_real[0][0] -  point_2_real[0][0])
+%         return distance
     
-    def DistanceBetweenPeopleForklift(self, person1, M):
-        return self.__calculate_real_distance(self.getBottom(), person1.getFeet(), M)
+%     def DistanceBetweenPeopleForklift(self, person1, M):
+%         return self.__calculate_real_distance(self.getBottom(), person1.getFeet(), M)
     
-    def CalculateSpeedForklift(self, M, FPS):
-        if len(self.__prev_points) <= 3:
-            return 0
-        else:
-            # Calculate the displacement between the current and the third last point
-            displacement = self.__calculate_real_distance(self.__bottom_midpoint, self.__prev_points[-3], M)
-            time_interval = (1/FPS) * 3
-            speed = displacement/time_interval
-            return speed
-\end{lstlisting}
+%     def CalculateSpeedForklift(self, M, FPS):
+%         if len(self.__prev_points) <= 3:
+%             return 0
+%         else:
+%             # Calculate the displacement between the current and the third last point
+%             displacement = self.__calculate_real_distance(self.__bottom_midpoint, self.__prev_points[-3], M)
+%             time_interval = (1/FPS) * 3
+%             speed = displacement/time_interval
+%             return speed
+% \end{lstlisting}
 
-\begin{lstlisting}[language=Python, caption=Hazard Zone Class, label=lst:HazardZoneClass]
-    class HazardZone:
-    def __init__(self, id: int, roi_image_points, homography_matrix):
-        self.id = id
-        self.__roi_image_points = np.array(roi_image_points, np.int32)
-        self.__homography_matrix = homography_matrix
+% \begin{lstlisting}[language=Python, caption=Hazard Zone Class, label=lst:HazardZoneClass]
+%     class HazardZone:
+%     def __init__(self, id: int, roi_image_points, homography_matrix):
+%         self.id = id
+%         self.__roi_image_points = np.array(roi_image_points, np.int32)
+%         self.__homography_matrix = homography_matrix
 
-    def IsInZone(self, person):
-        return cv2.pointPolygonTest(self.__roi_image_points, person.getFeet(), False) >= 0
+%     def IsInZone(self, person):
+%         return cv2.pointPolygonTest(self.__roi_image_points, person.getFeet(), False) >= 0
     
-    def gethazardZone(self):
-        return self.__roi_image_points
+%     def gethazardZone(self):
+%         return self.__roi_image_points
     
-    # Function to calculate the distance of a point from a polygon
-    def __point_to_polygon_distance(self, point, polygon, M):
-        min_dist = float('inf')
-        closest_point = None
-        for i in range(len(polygon)):
-            # Line segment endpoints
-            p1 = polygon[i]
-            p2 = polygon[(i + 1) % len(polygon)]
+%     # Function to calculate the distance of a point from a polygon
+%     def __point_to_polygon_distance(self, point, polygon, M):
+%         min_dist = float('inf')
+%         closest_point = None
+%         for i in range(len(polygon)):
+%             # Line segment endpoints
+%             p1 = polygon[i]
+%             p2 = polygon[(i + 1) % len(polygon)]
 
-            # Find the closest point on the line segment to the point
-            line_vec = np.array(p2) - np.array(p1)
-            point_vec = np.array(point) - np.array(p1)
-            line_len = np.dot(line_vec, line_vec)
-            t = max(0, min(1, np.dot(point_vec, line_vec) / line_len))
-            proj_point = np.array(p1) + t * line_vec
+%             # Find the closest point on the line segment to the point
+%             line_vec = np.array(p2) - np.array(p1)
+%             point_vec = np.array(point) - np.array(p1)
+%             line_len = np.dot(line_vec, line_vec)
+%             t = max(0, min(1, np.dot(point_vec, line_vec) / line_len))
+%             proj_point = np.array(p1) + t * line_vec
 
-            # Calculate the pixel distance to the closest point
-            dist = np.linalg.norm(proj_point - np.array(point))
-            if dist < min_dist:
-                min_dist = dist
-                closest_point = proj_point
+%             # Calculate the pixel distance to the closest point
+%             dist = np.linalg.norm(proj_point - np.array(point))
+%             if dist < min_dist:
+%                 min_dist = dist
+%                 closest_point = proj_point
 
-        closest_point_to_return = tuple(closest_point.astype(int))
-        point = np.array([point], dtype=np.float32).reshape(-1, 1, 2)  
-        closest_point = np.array([closest_point], dtype=np.float32).reshape(-1, 1, 2)  
+%         closest_point_to_return = tuple(closest_point.astype(int))
+%         point = np.array([point], dtype=np.float32).reshape(-1, 1, 2)  
+%         closest_point = np.array([closest_point], dtype=np.float32).reshape(-1, 1, 2)  
         
-        # Transform the point from which distance is to be found and the point on the polygon closest to the point to the real world
-        point_world = cv2.perspectiveTransform(point, M)
-        closest_point_world = cv2.perspectiveTransform(closest_point, M)
-        distance = np.linalg.norm(point_world[0][0] - closest_point_world[0][0])
-        return distance, closest_point_to_return
+%         # Transform the point from which distance is to be found and the point on the polygon closest to the point to the real world
+%         point_world = cv2.perspectiveTransform(point, M)
+%         closest_point_world = cv2.perspectiveTransform(closest_point, M)
+%         distance = np.linalg.norm(point_world[0][0] - closest_point_world[0][0])
+%         return distance, closest_point_to_return
     
-    def DistanceFromZone(self, point):
-            return self.__point_to_polygon_distance(point, self.__roi_image_points, self.__homography_matrix)
-    def get_homography_matrix(self):
-        return self.__homography_matrix
-\end{lstlisting}
+%     def DistanceFromZone(self, point):
+%             return self.__point_to_polygon_distance(point, self.__roi_image_points, self.__homography_matrix)
+%     def get_homography_matrix(self):
+%         return self.__homography_matrix
+% \end{lstlisting}
 
-\begin{lstlisting}[language=Python, caption=Person Class, label=lst:PersonClass]
-    class Person:
-    def __init__(self, scene_id, coordinates):
-        #Scene_id is the id that YOLO gives to track objects in a scene
-        self.__scene_id = scene_id
-        self.__x1, self.__y1, self.__x2, self.__y2 = map(int, coordinates)
-        self.__feet_midpoint = ((self.__x1 + self.__x2) // 2, self.__y2)
-        self.__prev_points = []
-        self.__state = False #Used to track if the person is in the zone or not
-        self.isInZone = False
-        self.video_writer = None
+% \begin{lstlisting}[language=Python, caption=Person Class, label=lst:PersonClass]
+%     class Person:
+%     def __init__(self, scene_id, coordinates):
+%         #Scene_id is the id that YOLO gives to track objects in a scene
+%         self.__scene_id = scene_id
+%         self.__x1, self.__y1, self.__x2, self.__y2 = map(int, coordinates)
+%         self.__feet_midpoint = ((self.__x1 + self.__x2) // 2, self.__y2)
+%         self.__prev_points = []
+%         self.__state = False #Used to track if the person is in the zone or not
+%         self.isInZone = False
+%         self.video_writer = None
 
-    def getFeet(self):
-        return self.__feet_midpoint
+%     def getFeet(self):
+%         return self.__feet_midpoint
     
-    def stop_recording(self):
-        if self.video_writer is not None:
-            self.video_writer.release()  # Stop and save the video
-            self.video_writer = None
-            print("Hazard Clip saved")
+%     def stop_recording(self):
+%         if self.video_writer is not None:
+%             self.video_writer.release()  # Stop and save the video
+%             self.video_writer = None
+%             print("Hazard Clip saved")
     
-    def ZoneEntry(self, zone_id: int, cam : int, frame):
-        if not self.__state:
-            if self.video_writer is not None:
-                self.video_writer.release()  # Stop and save the video
-                self.video_writer = None
-                print("Hazard Clip saved")
-            self.__state = True
-            fileName = config.HAZARD_CLIP_PATH+str(uuid.uuid4())+".mp4"
-            fourcc = cv2.VideoWriter_fourcc(*'avc1')  # MP4 codec
-            fps = 24  # Adjust as needed
-            height, width, _ = frame.shape  # Get frame size from input frame
-            frameSize = (width, height)
+%     def ZoneEntry(self, zone_id: int, cam : int, frame):
+%         if not self.__state:
+%             if self.video_writer is not None:
+%                 self.video_writer.release()  # Stop and save the video
+%                 self.video_writer = None
+%                 print("Hazard Clip saved")
+%             self.__state = True
+%             fileName = config.HAZARD_CLIP_PATH+str(uuid.uuid4())+".mp4"
+%             fourcc = cv2.VideoWriter_fourcc(*'avc1')  # MP4 codec
+%             fps = 24  # Adjust as needed
+%             height, width, _ = frame.shape  # Get frame size from input frame
+%             frameSize = (width, height)
 
-            self.video_writer = cv2.VideoWriter(
-                fileName,
-                fourcc,
-                fps,
-                frameSize
-            )
-            self.video_writer.write(frame)  # Write frame to video
-            return {"person_id": self.__scene_id, "message": f"Person {self.__scene_id} entered the restricted zone number {zone_id}.", "CameraID": cam, "FileName": fileName}
-        else:
-            self.video_writer.write(frame)
-            return None
-    def getID(self):
-        return self.__scene_id
-    def update_coordinates(self, coordinates):
-        if len(self.__prev_points) == 5:
-            self.__prev_points.pop(0)
-        self.__prev_points.append(self.__feet_midpoint) 
-        self.__x1, self.__y1, self.__x2, self.__y2 = map(int, coordinates)
-        self.__feet_midpoint = ((self.__x1 + self.__x2) // 2, self.__y2)
+%             self.video_writer = cv2.VideoWriter(
+%                 fileName,
+%                 fourcc,
+%                 fps,
+%                 frameSize
+%             )
+%             self.video_writer.write(frame)  # Write frame to video
+%             return {"person_id": self.__scene_id, "message": f"Person {self.__scene_id} entered the restricted zone number {zone_id}.", "CameraID": cam, "FileName": fileName}
+%         else:
+%             self.video_writer.write(frame)
+%             return None
+%     def getID(self):
+%         return self.__scene_id
+%     def update_coordinates(self, coordinates):
+%         if len(self.__prev_points) == 5:
+%             self.__prev_points.pop(0)
+%         self.__prev_points.append(self.__feet_midpoint) 
+%         self.__x1, self.__y1, self.__x2, self.__y2 = map(int, coordinates)
+%         self.__feet_midpoint = ((self.__x1 + self.__x2) // 2, self.__y2)
 
-    def SetInZone(self, state):
-        self.isInZone = state
-        if(state == False and self.video_writer != None):
-            self.__state = False
-            self.video_writer.release()  # Stop and save the video            
-            self.video_writer = None
-            print("Hazard Clip saved")
-            pass
+%     def SetInZone(self, state):
+%         self.isInZone = state
+%         if(state == False and self.video_writer != None):
+%             self.__state = False
+%             self.video_writer.release()  # Stop and save the video            
+%             self.video_writer = None
+%             print("Hazard Clip saved")
+%             pass
 
-    # Function to calculate real-world distance between two points
-    def __calculate_real_distance(self, point1, point2, M):
-        point1 = np.array([point1], dtype=np.float32).reshape(-1, 1, 2)  # Shape (1, 1, 2)
-        point2 = np.array([point2], dtype=np.float32).reshape(-1, 1, 2)  # Shape (1, 1, 2)
-        point_1_real = cv2.perspectiveTransform(point1, M)
-        point_2_real= cv2.perspectiveTransform(point2, M)
-        distance = np.linalg.norm(point_1_real[0][0] -  point_2_real[0][0])
-        return distance
+%     # Function to calculate real-world distance between two points
+%     def __calculate_real_distance(self, point1, point2, M):
+%         point1 = np.array([point1], dtype=np.float32).reshape(-1, 1, 2)  # Shape (1, 1, 2)
+%         point2 = np.array([point2], dtype=np.float32).reshape(-1, 1, 2)  # Shape (1, 1, 2)
+%         point_1_real = cv2.perspectiveTransform(point1, M)
+%         point_2_real= cv2.perspectiveTransform(point2, M)
+%         distance = np.linalg.norm(point_1_real[0][0] -  point_2_real[0][0])
+%         return distance
     
-    def DistanceBetweenPeople(self, person1, M):
-        return self.__calculate_real_distance(self.getFeet(), person1.getFeet(), M)
+%     def DistanceBetweenPeople(self, person1, M):
+%         return self.__calculate_real_distance(self.getFeet(), person1.getFeet(), M)
     
-    def CalculateSpeed(self, M, FPS):
-        if len(self.__prev_points) <= 3:
-            return 0
-        else:
-            displacement = self.__calculate_real_distance(self.__feet_midpoint, self.__prev_points[-3], M)
-            time_interval = 1/FPS * 3
-            speed = displacement/time_interval
-            return speed
-\end{lstlisting}
+%     def CalculateSpeed(self, M, FPS):
+%         if len(self.__prev_points) <= 3:
+%             return 0
+%         else:
+%             displacement = self.__calculate_real_distance(self.__feet_midpoint, self.__prev_points[-3], M)
+%             time_interval = 1/FPS * 3
+%             speed = displacement/time_interval
+%             return speed
+% \end{lstlisting}
 
 \vspace{5cm}
 
@@ -1435,6 +1438,8 @@ providing functional depth and scalability for a handful of critical functions.
   \bibitem{h4} ``Faster R-CNN vs YOLOv5,'' \textit{Roboflow}, [Online]. Available: \url{https://roboflow.com/compare/faster-r-cnn-vs-yolov5}.
   \bibitem{h5} B. H. W. Guo, Y. Zou, Y. Fang, Y. M. Goh, P. X. W. Zou, ``Computer vision technologies for safety science and management in construction: A critical review and future research directions,'' \textit{Safety Science}, vol. 112, p. 103085, 2020. [Online]. Available: \url{https://www.elsevier.com/locate/safety}
   \bibitem{h6} A. Redmon, S. Divvala, R. Girshick, and D. Farhadi, ``You Only Look Once: Unified, Real-Time Object Detection,'' \textit{arXiv}, 2015. [Online]. Available: \url{https://arxiv.org/abs/1506.02640}
+  \bibitem{hameed2025} A. S. Hameed, T. M. Hasan, and R. Khaji, ``Real time classification of retail theft utilizing YOLO algorithm,'' \textit{Ingénierie des Systèmes d'Information}, vol. 30, no. 6, pp. 1517-1522, 2025, doi: 10.18280/isi.300610.
+  \bibitem{yolo_comparison} ``YOLOv11 vs YOLOv10 vs YOLOv9 vs YOLOv8: A Comprehensive Comparison,'' \textit{arXiv preprint}, 2024. [Online]. Available: \url{https://arxiv.org/html/2411.00201v1}
 
 \end{thebibliography}
     
